@@ -11,3 +11,7 @@
 /ToNinetyOne.Domain/bin/
 /ToNinetyOne.Application/bin/
 /ToNinetyOne.Application/obj/
+/ToNinetyOne.WebApi/app.db-shm
+/ToNinetyOne.WebApi/app.db-wal
+/ToNinetyOne.WebApi/users.db-shm
+/ToNinetyOne.WebApi/users.db-wal
