@@ -1,0 +1,13 @@
+/.idea/
+/ToNinetyOne.WebApi/bin/
+/ToNinetyOne.WebApi/app.db
+/ToNinetyOne.WebApi/users.db
+/ToNinetyOne.WebApi/obj/
+/ToNinetyOne.UserPersistence/bin/
+/ToNinetyOne.UserPersistence/obj/
+/ToNinetyOne.Persistence/obj/
+/ToNinetyOne.Persistence/bin/
+/ToNinetyOne.Domain/obj/
+/ToNinetyOne.Domain/bin/
+/ToNinetyOne.Application/bin/
+/ToNinetyOne.Application/obj/
