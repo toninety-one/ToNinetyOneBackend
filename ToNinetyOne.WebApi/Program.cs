@@ -49,7 +49,7 @@ builder.Services.AddAuthentication(config =>
     {
         OnTokenValidated = context =>
         {
-            if (context.SecurityToken is JwtSecurityToken accessToken && context.Principal.Identity is ClaimsIdentity identity)
+            if (context is { SecurityToken: JwtSecurityToken accessToken, Principal.Identity: ClaimsIdentity identity })
             {
                 identity.AddClaim(new Claim("access_token", accessToken.RawData));
             }
@@ -90,7 +90,7 @@ app.UseAuthentication();
 
 app.UseAuthorization();
 
-app.UseEndpoints(endpoints => { endpoints.MapControllers(); });
+app.MapControllers();
 
 using (var scope = app.Services.CreateScope())
 {
@@ -101,8 +101,8 @@ using (var scope = app.Services.CreateScope())
         var context = serviceProvider.GetService<ToNinetyOneDbContext>();
         var userContext = serviceProvider.GetService<ToNinetyOneUserDbContext>();
         
-        DbInitializer.Initialize(context);
-        UserDbInitializer.Initialize(userContext);
+        DbInitializer.Initialize(context ?? throw new NullReferenceException(nameof(context)));
+        UserDbInitializer.Initialize(userContext ?? throw new NullReferenceException(nameof(userContext)));
     }
     catch (Exception ex)
     {

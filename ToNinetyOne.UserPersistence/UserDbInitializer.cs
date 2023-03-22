@@ -1,3 +1,4 @@
+using ToNinetyOne.Domain;
 using ToNinetyOne.Domain.Auth;
 using ToNinetyOne.Domain.Static;
 
@@ -14,6 +15,15 @@ public static class UserDbInitializer
                 context.Roles.Add(new Role() { Id = Guid.NewGuid(), Title = role });
             }
         }
+
+        context.SaveChanges();
+    }
+
+    private static void CreateDefaultUsers(ToNinetyOneUserDbContext context)
+    {
+        
+        
+        context.SaveChanges();
     }
 
     public static void Initialize(ToNinetyOneUserDbContext context)
@@ -21,5 +31,7 @@ public static class UserDbInitializer
         context.Database.EnsureCreated();
 
         CreateRoles(context);
+        
+        CreateDefaultUsers(context);
     }
 }
