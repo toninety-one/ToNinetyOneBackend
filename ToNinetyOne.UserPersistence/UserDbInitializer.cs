@@ -1,6 +1,6 @@
 namespace ToNinetyOne.UserPersistence;
 
-public class UserDbInitializer
+public static class UserDbInitializer
 {
     public static void Initialize(ToNinetyOneUserDbContext context)
     {

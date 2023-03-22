@@ -20,8 +20,9 @@ builder.Services.AddAutoMapper(config =>
 builder.Services.AddApplication();
 
 
-// TODO edit persistence configuration
 builder.Services.AddPersistence(builder.Configuration);
+
+builder.Services.AddUserPersistence(builder.Configuration);
 
 builder.Services.AddControllers();
 
