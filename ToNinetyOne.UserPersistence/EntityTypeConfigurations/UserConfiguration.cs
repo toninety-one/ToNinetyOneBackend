@@ -1,6 +1,6 @@
 using Microsoft.EntityFrameworkCore;
 using Microsoft.EntityFrameworkCore.Metadata.Builders;
-using ToNinetyOne.Domain;
+using ToNinetyOne.IdentityDomain;
 
 namespace ToNinetyOne.UserPersistence.EntityTypeConfigurations;
 

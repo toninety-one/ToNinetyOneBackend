@@ -1,4 +1,4 @@
-namespace ToNinetyOne.Domain.Auth;
+namespace ToNinetyOne.IdentityDomain;
 
 public class Role
 {

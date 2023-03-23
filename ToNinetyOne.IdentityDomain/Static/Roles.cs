@@ -1,7 +1,6 @@
 using System.Reflection;
-using ToNinetyOne.Domain.Auth;
 
-namespace ToNinetyOne.Domain.Static;
+namespace ToNinetyOne.IdentityDomain.Static;
 
 public class Roles
 {

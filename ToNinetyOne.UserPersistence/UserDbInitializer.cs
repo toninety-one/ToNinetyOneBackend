@@ -1,6 +1,5 @@
-using ToNinetyOne.Domain;
-using ToNinetyOne.Domain.Auth;
-using ToNinetyOne.Domain.Static;
+using ToNinetyOne.IdentityDomain;
+using ToNinetyOne.IdentityDomain.Static;
 
 namespace ToNinetyOne.UserPersistence;
 
@@ -8,21 +7,14 @@ public static class UserDbInitializer
 {
     private static void CreateRoles(ToNinetyOneUserDbContext context)
     {
-        foreach (var role in Roles.Fields)
-        {
-            if (context.Roles.FirstOrDefault(r=>r.Title == role) == null)
-            {
-                context.Roles.Add(new Role() { Id = Guid.NewGuid(), Title = role });
-            }
-        }
+        foreach (var role in Roles.Fields.Where(role => context.Roles.FirstOrDefault(r => r.Title == role) == null))
+            context.Roles.Add(new Role { Id = Guid.NewGuid(), Title = role });
 
         context.SaveChanges();
     }
 
     private static void CreateDefaultUsers(ToNinetyOneUserDbContext context)
     {
-        
-        
         context.SaveChanges();
     }
 
@@ -31,7 +23,7 @@ public static class UserDbInitializer
         context.Database.EnsureCreated();
 
         CreateRoles(context);
-        
+
         CreateDefaultUsers(context);
     }
 }

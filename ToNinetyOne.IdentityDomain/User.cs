@@ -1,4 +1,4 @@
-namespace ToNinetyOne.Domain;
+namespace ToNinetyOne.IdentityDomain;
 
 public class User
 {

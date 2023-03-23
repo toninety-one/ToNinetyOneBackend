@@ -18,6 +18,10 @@ Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "ToNinetyOne.WebApi", "ToNin
 EndProject
 Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "ToNinetyOne.UserPersistence", "ToNinetyOne.UserPersistence\ToNinetyOne.UserPersistence.csproj", "{BA67D5B2-03F8-408F-B170-5E074B21B34A}"
 EndProject
+Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "ToNinetyOne.IdentityDomain", "ToNinetyOne.IdentityDomain\ToNinetyOne.IdentityDomain.csproj", "{60669586-B449-4ED3-8FC9-19117623B3E7}"
+EndProject
+Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "ToNinetyOne.Identity", "ToNinetyOne.Identity\ToNinetyOne.Identity.csproj", "{2014CFC8-9D92-4ED3-AE81-126C1B0527E7}"
+EndProject
 Global
 	GlobalSection(SolutionConfigurationPlatforms) = preSolution
 		Debug|Any CPU = Debug|Any CPU
@@ -29,6 +33,8 @@ Global
 		{5A070DF7-4B39-4DBC-9EA8-AC2D688EC6C5} = {CAAA8452-05B7-46AD-97E8-AB83D9BA0331}
 		{2A68B91A-DC77-44C2-8AC8-25A316D39430} = {4DAA47B6-D0CE-4C64-8C76-01F1864015D7}
 		{BA67D5B2-03F8-408F-B170-5E074B21B34A} = {CAAA8452-05B7-46AD-97E8-AB83D9BA0331}
+		{60669586-B449-4ED3-8FC9-19117623B3E7} = {3ED6AAF3-4DFF-43DE-B108-0881A2C63182}
+		{2014CFC8-9D92-4ED3-AE81-126C1B0527E7} = {3ED6AAF3-4DFF-43DE-B108-0881A2C63182}
 	EndGlobalSection
 	GlobalSection(ProjectConfigurationPlatforms) = postSolution
 		{BBBE913A-411B-4EC0-8DB3-F5ED6DA1981B}.Debug|Any CPU.ActiveCfg = Debug|Any CPU
@@ -51,5 +57,13 @@ Global
 		{BA67D5B2-03F8-408F-B170-5E074B21B34A}.Debug|Any CPU.Build.0 = Debug|Any CPU
 		{BA67D5B2-03F8-408F-B170-5E074B21B34A}.Release|Any CPU.ActiveCfg = Release|Any CPU
 		{BA67D5B2-03F8-408F-B170-5E074B21B34A}.Release|Any CPU.Build.0 = Release|Any CPU
+		{60669586-B449-4ED3-8FC9-19117623B3E7}.Debug|Any CPU.ActiveCfg = Debug|Any CPU
+		{60669586-B449-4ED3-8FC9-19117623B3E7}.Debug|Any CPU.Build.0 = Debug|Any CPU
+		{60669586-B449-4ED3-8FC9-19117623B3E7}.Release|Any CPU.ActiveCfg = Release|Any CPU
+		{60669586-B449-4ED3-8FC9-19117623B3E7}.Release|Any CPU.Build.0 = Release|Any CPU
+		{2014CFC8-9D92-4ED3-AE81-126C1B0527E7}.Debug|Any CPU.ActiveCfg = Debug|Any CPU
+		{2014CFC8-9D92-4ED3-AE81-126C1B0527E7}.Debug|Any CPU.Build.0 = Debug|Any CPU
+		{2014CFC8-9D92-4ED3-AE81-126C1B0527E7}.Release|Any CPU.ActiveCfg = Release|Any CPU
+		{2014CFC8-9D92-4ED3-AE81-126C1B0527E7}.Release|Any CPU.Build.0 = Release|Any CPU
 	EndGlobalSection
 EndGlobal
