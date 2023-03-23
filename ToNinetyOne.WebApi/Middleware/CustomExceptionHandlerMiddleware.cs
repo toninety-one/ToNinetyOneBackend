@@ -26,7 +26,7 @@ public class CustomExceptionHandlerMiddleware
         }
     }
 
-    private Task HandleExceptionAsync(HttpContext context, Exception exception)
+    private static Task HandleExceptionAsync(HttpContext context, Exception exception)
     {
         var code = HttpStatusCode.InternalServerError;
         var result = string.Empty;
@@ -49,7 +49,7 @@ public class CustomExceptionHandlerMiddleware
         {
             result = JsonSerializer.Serialize(new {error = exception.Message});
         }
-
+        
         return context.Response.WriteAsync(result);
     }
 }

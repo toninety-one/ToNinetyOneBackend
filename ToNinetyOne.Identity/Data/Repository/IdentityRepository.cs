@@ -4,16 +4,16 @@ using ToNinetyOne.IdentityDomain;
 
 namespace ToNinetyOne.Identity.Data.Repository;
 
-public class RefreshTokenGenerator : IRefreshTokenGenerator
+public class IdentityRepository : IIdentity
 {
     private readonly IToNinetyOneUserDbContext _context;
 
-    public RefreshTokenGenerator(IToNinetyOneUserDbContext dbContext)
+    public IdentityRepository(IToNinetyOneUserDbContext dbContext)
     {
         _context = dbContext;
     }
 
-    public string GenerateToken(string username)
+    public string GenerateRefreshToken(string username)
     {
         var randomNumber = new byte[32];
         
