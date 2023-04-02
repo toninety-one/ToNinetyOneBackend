@@ -35,9 +35,7 @@ var jwtSetting = builder.Configuration.GetSection("JwtSettings");
 
 builder.Services.Configure<JwtSetting>(jwtSetting);
 
-// builder.Services.AddSingleton<IIdentity>(privider => new IdentityRepository(builder.Services.BuildServiceProvider().GetService<IToNinetyOneUserDbContext>()));
-
-var authkey = builder.Configuration.GetValue<string>("JwtSettings:SecurityKey");
+var authKey = builder.Configuration.GetValue<string>("JwtSettings:SecurityKey");
 
 builder.Services.AddAuthorization(options =>
 {
@@ -59,7 +57,7 @@ builder.Services.AddAuthentication(item =>
     item.TokenValidationParameters = new TokenValidationParameters()
     {
         ValidateIssuerSigningKey = true,
-        IssuerSigningKey = new SymmetricSecurityKey(Encoding.UTF8.GetBytes(authkey)),
+        IssuerSigningKey = new SymmetricSecurityKey(Encoding.UTF8.GetBytes(authKey)),
         ValidateIssuer = false,
         ValidateAudience = false,
         ValidateLifetime = true,
@@ -69,7 +67,13 @@ builder.Services.AddAuthentication(item =>
 builder.Services.AddEndpointsApiExplorer();
 builder.Services.AddSwaggerGen(option =>
 {
-    option.SwaggerDoc("v1", new OpenApiInfo { Title = "Demo API", Version = "v1" });
+    option.SwaggerDoc("v1", new OpenApiInfo
+    {
+        Title = "Demo API",
+        Version = "v1",
+    });
+    option.IncludeXmlComments(Path.Combine(AppContext.BaseDirectory,
+        $"{Assembly.GetExecutingAssembly().GetName().Name}.xml"));
     option.AddSecurityDefinition("Bearer", new OpenApiSecurityScheme
     {
         In = ParameterLocation.Header,
@@ -79,6 +83,7 @@ builder.Services.AddSwaggerGen(option =>
         BearerFormat = "JWT",
         Scheme = "Bearer"
     });
+
     option.AddSecurityRequirement(new OpenApiSecurityRequirement
     {
         {
@@ -105,7 +110,6 @@ app.UseSwaggerUI(config =>
     config.DocumentTitle = "ToNinetyOne Web Api";
     config.SwaggerEndpoint("swagger/v1/swagger.json", "ToNinetyOne API");
 });
-
 
 app.UseCustomExceptionHandler();
 

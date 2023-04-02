@@ -1,7 +1,6 @@
 using System.IdentityModel.Tokens.Jwt;
 using System.Security.Claims;
 using System.Text;
-using System.Text.Json;
 using AutoMapper;
 using Microsoft.AspNetCore.Authorization;
 using Microsoft.AspNetCore.Mvc;
@@ -19,7 +18,7 @@ namespace ToNinetyOne.WebApi.Controllers;
 [AllowAnonymous]
 [ApiController]
 [Produces("application/json")]
-[Route("api/[controller]")]
+[Microsoft.AspNetCore.Mvc.Route("api/[controller]")]
 public class UserController : BaseController
 {
     private readonly IMapper _mapper;
@@ -54,6 +53,11 @@ public class UserController : BaseController
         return tokenResponse;
     }
 
+    /// <summary>
+    /// 
+    /// </summary>
+    /// <param name="authenticateDto"></param>
+    /// <returns></returns>
     [Route("authenticate")]
     [HttpPost]
     public async Task<IActionResult> Authenticate([FromBody] AuthenticateDto authenticateDto)
@@ -101,6 +105,11 @@ public class UserController : BaseController
         return Ok(tokenResponse);
     }
 
+    /// <summary>
+    /// 
+    /// </summary>
+    /// <param name="token"></param>
+    /// <returns></returns>
     [HttpPost]
     [Route("refresh")]
     public async Task<IActionResult> Refresh([FromBody] Token token)
@@ -112,8 +121,8 @@ public class UserController : BaseController
         var username = securityToken.Claims.FirstOrDefault(c => c.Type == "unique_name")?.Value;
 
         var updateTokenCommand =
-            _mapper.Map<UpdateCommand>(new UpdateDto() { UserName = username, RefreshToken = token.RefreshToken});
-        
+            _mapper.Map<UpdateCommand>(new UpdateDto() { UserName = username, RefreshToken = token.RefreshToken });
+
         var refreshToken = await Mediator.Send(updateTokenCommand);
 
         if (string.IsNullOrEmpty(refreshToken))
@@ -122,12 +131,28 @@ public class UserController : BaseController
         }
 
         var result = Authenticate(username, securityToken.Claims.ToArray());
-        
+
         return Ok(result.Result);
     }
 
+    /// <summary>
+    /// Creates the account
+    /// </summary>
+    /// <remarks>
+    /// Sample request:
+    /// POST /api/User/register
+    /// {
+    ///   "userName": "string",
+    ///   "firstName": "string",
+    ///   "lastName": "string",
+    /// }
+    /// </remarks>
+    /// <param name="registrationDto">RegistrationDto object</param>
+    /// <returns>Returns id (guid)</returns>
+    /// <response code="201">Success register</response>
     [HttpPost]
     [Route("register")]
+    [ProducesResponseType(StatusCodes.Status201Created)]
     public async Task<ActionResult<Guid>> Register([FromBody] RegistrationDto registrationDto)
     {
         var command = _mapper.Map<RegistrationCommand>(registrationDto);
