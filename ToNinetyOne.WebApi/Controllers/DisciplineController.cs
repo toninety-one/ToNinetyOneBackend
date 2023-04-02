@@ -6,12 +6,11 @@ using ToNinetyOne.Application.Operations.Commands.Disciplines.DeleteDiscipline;
 using ToNinetyOne.Application.Operations.Commands.Disciplines.UpdateDiscipline;
 using ToNinetyOne.Application.Operations.Queries.Disciplines.GetDisciplineDetails;
 using ToNinetyOne.Application.Operations.Queries.Disciplines.GetDisciplineList;
-using ToNinetyOne.WebApi.Models;
 
 namespace ToNinetyOne.WebApi.Controllers;
 
-[ApiController]
 [Authorize]
+[ApiController]
 [Produces("application/json")]
 [Route("api/[controller]")]
 public class DisciplineController : BaseController

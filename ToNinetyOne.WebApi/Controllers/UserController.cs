@@ -1,39 +1,41 @@
 using System.IdentityModel.Tokens.Jwt;
 using System.Security.Claims;
 using System.Text;
+using System.Text.Json;
+using AutoMapper;
 using Microsoft.AspNetCore.Authorization;
 using Microsoft.AspNetCore.Mvc;
 using Microsoft.Extensions.Options;
 using Microsoft.IdentityModel.Tokens;
-using ToNinetyOne.Identity.Data.Interface;
+using ToNinetyOne.Identity.Operations.Commands.Registration;
+using ToNinetyOne.Identity.Operations.Commands.Token;
+using ToNinetyOne.Identity.Operations.Commands.Token.Authenticate;
+using ToNinetyOne.Identity.Operations.Commands.Token.Refresh;
+using ToNinetyOne.Identity.Operations.Commands.Token.Update;
 using ToNinetyOne.IdentityDomain;
-using ToNinetyOne.WebApi.Models;
-using ToNinetyOne.WebApi.Models.Identity;
-
 
 namespace ToNinetyOne.WebApi.Controllers;
 
+[AllowAnonymous]
 [ApiController]
-[Route("[controller]/[action]")]
-public class UserController : ControllerBase
+[Produces("application/json")]
+[Route("api/[controller]")]
+public class UserController : BaseController
 {
-    private readonly IToNinetyOneUserDbContext _context;
+    private readonly IMapper _mapper;
     private readonly JwtSetting _jwtSetting;
-    private readonly IIdentity _identity;
 
-    public UserController(IToNinetyOneUserDbContext context, IOptions<JwtSetting> options,
-        IIdentity identity)
+    public UserController(IMapper mapper, IOptions<JwtSetting> options)
     {
-        _context = context;
-        _identity = identity;
+        _mapper = mapper;
         _jwtSetting = options.Value;
     }
 
-    #region GenerateToken
-
     [NonAction]
-    private TokenResponse Authenticate(string userName, IEnumerable<Claim> claims)
+    private async Task<Token> Authenticate(string userName, IEnumerable<Claim> claims)
     {
+        var tokenResponse = new Token();
+
         var tokenKey = Encoding.UTF8.GetBytes(_jwtSetting.SecurityKey);
 
         var tokenHandler = new JwtSecurityToken(
@@ -43,34 +45,26 @@ public class UserController : ControllerBase
                 SecurityAlgorithms.HmacSha256)
         );
 
-        var tokenResponse = new TokenResponse(new JwtSecurityTokenHandler().WriteToken(tokenHandler),
-            _identity.GenerateRefreshToken(userName));
+        tokenResponse.JwtToken = new JwtSecurityTokenHandler().WriteToken(tokenHandler);
 
+        var refreshTokenCommand = _mapper.Map<RefreshCommand>(new RefreshDto() { UserName = userName });
 
-        // var cookieOptions = new CookieOptions
-        // {
-        //     Expires = DateTime.Now.AddDays(15),
-        //     Path = "/",
-        //     // HttpOnly = true,
-        //     Secure = true
-        // };
-
-        //
-        // Response.Cookies.Append("AuthToken",
-        //     _jwtSetting.Encrypt(_tokenGenerator.GenerateToken(userName)),
-        //     cookieOptions);
-
+        tokenResponse.RefreshToken = await Mediator.Send(refreshTokenCommand);
 
         return tokenResponse;
     }
-    
-    [HttpPost]
-    public IActionResult Authenticate([FromBody] LoginDto loginDto)
-    {
-        var user = _context.Users.FirstOrDefault(o =>
-            o.UserName == loginDto.UserName && o.Password == loginDto.Password);
 
-        if (user == null)
+    [Route("authenticate")]
+    [HttpPost]
+    public async Task<IActionResult> Authenticate([FromBody] AuthenticateDto authenticateDto)
+    {
+        var tokenResponse = new Token();
+
+        var command = _mapper.Map<AuthenticateCommand>(authenticateDto);
+
+        var authenticateResult = await Mediator.Send(command);
+
+        if (authenticateResult == null)
         {
             return Unauthorized();
         }
@@ -84,63 +78,62 @@ public class UserController : ControllerBase
             Subject = new ClaimsIdentity(
                 new Claim[]
                 {
-                    new(ClaimTypes.Name, user.UserName),
-                    new(ClaimTypes.Role, user.UserRole.ToString()),
-                    new(ClaimTypes.NameIdentifier, user.Id.ToString())
+                    new(ClaimTypes.Name, authenticateResult.UserName),
+                    new(ClaimTypes.Role, authenticateResult.Role.Title),
+                    new(ClaimTypes.NameIdentifier, authenticateResult.Id.ToString())
                 }
             ),
             Expires = DateTime.Now.AddMinutes(5),
             SigningCredentials =
                 new SigningCredentials(new SymmetricSecurityKey(tokenKey), SecurityAlgorithms.HmacSha256)
         };
-        
-        var finalToken = tokenHandler.WriteToken(tokenHandler.CreateToken(tokenDescriptor));
 
-        var tokenResponse = new TokenResponse(finalToken, _identity.GenerateRefreshToken(user.UserName));
+        var token = tokenHandler.CreateToken(tokenDescriptor);
+        var finalToken = tokenHandler.WriteToken(token);
 
-        // var cookieOptions = new CookieOptions
-        // {
-        //     Expires = DateTime.Now.AddDays(15),
-        //     Path = "/",
-        //     // HttpOnly = true,
-        //     Secure = true
-        // };
-        //
-        // var encryptedRefreshToken = _jwtSetting.Encrypt(_tokenGenerator.GenerateToken(user.Name));
+        tokenResponse.JwtToken = finalToken;
 
-        // Response.Cookies.Append("AuthToken", encryptedRefreshToken, cookieOptions);
+        var refreshTokenCommand =
+            _mapper.Map<RefreshCommand>(new RefreshDto() { UserName = authenticateResult.UserName });
+
+        tokenResponse.RefreshToken = await Mediator.Send(refreshTokenCommand);
 
         return Ok(tokenResponse);
     }
 
     [HttpPost]
-    public IActionResult Refresh([FromBody] TokenResponse tokenResponse)
+    [Route("refresh")]
+    public async Task<IActionResult> Refresh([FromBody] Token token)
     {
         var tokenHandler = new JwtSecurityTokenHandler();
 
-        var securityToken = (JwtSecurityToken)tokenHandler.ReadToken(tokenResponse.JwtToken);
+        var securityToken = (JwtSecurityToken)tokenHandler.ReadToken(token.JwtToken);
 
-        var userName = securityToken.Claims.FirstOrDefault(c => c.Type == "unique_name")?.Value;
+        var username = securityToken.Claims.FirstOrDefault(c => c.Type == "unique_name")?.Value;
 
-        var refreshTokenObject =
-            _context.RefreshTokens.FirstOrDefault(o =>
-                o.UserName == userName && o.Token == tokenResponse.RefreshToken);
+        var updateTokenCommand =
+            _mapper.Map<UpdateCommand>(new UpdateDto() { UserName = username, RefreshToken = token.RefreshToken});
+        
+        var refreshToken = await Mediator.Send(updateTokenCommand);
 
-        if (refreshTokenObject == null)
+        if (string.IsNullOrEmpty(refreshToken))
         {
             return Unauthorized();
         }
 
-        var result = Authenticate(userName, securityToken.Claims.ToArray());
-
-        return Ok(result);
+        var result = Authenticate(username, securityToken.Claims.ToArray());
+        
+        return Ok(result.Result);
     }
 
-    #endregion
-
     [HttpPost]
-    public IActionResult Register([FromBody] RegisterDto registerDto)
+    [Route("register")]
+    public async Task<ActionResult<Guid>> Register([FromBody] RegistrationDto registrationDto)
     {
-        return Ok(registerDto);
+        var command = _mapper.Map<RegistrationCommand>(registrationDto);
+
+        var registerId = await Mediator.Send(command);
+
+        return Ok(registerId);
     }
 }

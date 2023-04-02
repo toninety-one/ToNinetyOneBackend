@@ -12,6 +12,6 @@ public class BaseController : ControllerBase
     protected IMediator Mediator => _mediator ??= HttpContext.RequestServices.GetService<IMediator>();
 
     internal Guid UserId => !User.Identity.IsAuthenticated
-    ? Guid.Empty
-    : Guid.Parse(User.FindFirst(ClaimTypes.NameIdentifier).Value);
+        ? Guid.Empty
+        : Guid.Parse(User.FindFirst(ClaimTypes.NameIdentifier).Value);
 }

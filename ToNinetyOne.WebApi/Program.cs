@@ -1,12 +1,17 @@
-using System.IdentityModel.Tokens.Jwt;
 using System.Reflection;
 using System.Security.Claims;
+using System.Text;
 using Microsoft.AspNetCore.Authentication.JwtBearer;
-using ToNinetyOne.Application;
-using ToNinetyOne.Application.Common.Mappings;
+using Microsoft.IdentityModel.Tokens;
+using Microsoft.OpenApi.Models;
 using ToNinetyOne.Application.Interfaces;
+using ToNinetyOne.Config;
+using ToNinetyOne.Config.Common.Mappings;
+using ToNinetyOne.Identity.Interfaces;
+using ToNinetyOne.IdentityDomain;
+using ToNinetyOne.IdentityDomain.Static;
+using ToNinetyOne.IdentityPersistence;
 using ToNinetyOne.Persistence;
-using ToNinetyOne.UserPersistence;
 using ToNinetyOne.WebApi.Middleware;
 
 var builder = WebApplication.CreateBuilder(args);
@@ -15,10 +20,10 @@ builder.Services.AddAutoMapper(config =>
 {
     config.AddProfile(new AssemblyMappingProfile(Assembly.GetExecutingAssembly()));
     config.AddProfile(new AssemblyMappingProfile(typeof(IToNinetyOneDbContext).Assembly));
+    config.AddProfile(new AssemblyMappingProfile(typeof(IToNinetyOneUserDbContext).Assembly));
 });
 
 builder.Services.AddApplication();
-
 
 builder.Services.AddPersistence(builder.Configuration);
 
@@ -26,45 +31,68 @@ builder.Services.AddUserPersistence(builder.Configuration);
 
 builder.Services.AddControllers();
 
-builder.Services.AddCors(options =>
+var jwtSetting = builder.Configuration.GetSection("JwtSettings");
+
+builder.Services.Configure<JwtSetting>(jwtSetting);
+
+// builder.Services.AddSingleton<IIdentity>(privider => new IdentityRepository(builder.Services.BuildServiceProvider().GetService<IToNinetyOneUserDbContext>()));
+
+var authkey = builder.Configuration.GetValue<string>("JwtSettings:SecurityKey");
+
+builder.Services.AddAuthorization(options =>
 {
-    options.AddPolicy("AllowAll", policy =>
+    foreach (var role in Roles.Fields)
     {
-        policy.WithOrigins("http://localhost:3000");
-        policy.AllowAnyHeader();
-        policy.AllowAnyMethod();
-    });
+        options.AddPolicy(role,
+            policy => { policy.RequireClaim(ClaimTypes.Role, role); });
+    }
 });
 
-builder.Services.AddAuthentication(config =>
+builder.Services.AddAuthentication(item =>
 {
-    config.DefaultAuthenticateScheme = JwtBearerDefaults.AuthenticationScheme;
-    config.DefaultChallengeScheme = JwtBearerDefaults.AuthenticationScheme;
-}).AddJwtBearer("Bearer", options =>
+    item.DefaultAuthenticateScheme = JwtBearerDefaults.AuthenticationScheme;
+    item.DefaultChallengeScheme = JwtBearerDefaults.AuthenticationScheme;
+}).AddJwtBearer(item =>
 {
-    options.Authority = builder.Configuration["AuthServerUrl"];
-    options.Audience = "ToNinetyOneWebApi";
-    options.RequireHttpsMetadata = false;
-    options.Events = new JwtBearerEvents
+    item.RequireHttpsMetadata = true;
+    item.SaveToken = true;
+    item.TokenValidationParameters = new TokenValidationParameters()
     {
-        OnTokenValidated = context =>
-        {
-            if (context is { SecurityToken: JwtSecurityToken accessToken, Principal.Identity: ClaimsIdentity identity })
-            {
-                identity.AddClaim(new Claim("access_token", accessToken.RawData));
-            }
-
-            return Task.CompletedTask;
-        }
+        ValidateIssuerSigningKey = true,
+        IssuerSigningKey = new SymmetricSecurityKey(Encoding.UTF8.GetBytes(authkey)),
+        ValidateIssuer = false,
+        ValidateAudience = false,
+        ValidateLifetime = true,
+        ClockSkew = TimeSpan.Zero
     };
 });
-
-builder.Services.AddSwaggerGen(config =>
+builder.Services.AddEndpointsApiExplorer();
+builder.Services.AddSwaggerGen(option =>
 {
-    var xmlFile = $"{Assembly.GetExecutingAssembly().GetName().Name}.xml";
-    var xmlPath = Path.Combine(AppContext.BaseDirectory, xmlFile);
-
-    config.IncludeXmlComments(xmlPath);
+    option.SwaggerDoc("v1", new OpenApiInfo { Title = "Demo API", Version = "v1" });
+    option.AddSecurityDefinition("Bearer", new OpenApiSecurityScheme
+    {
+        In = ParameterLocation.Header,
+        Description = "Please enter a valid token",
+        Name = "Authorization",
+        Type = SecuritySchemeType.Http,
+        BearerFormat = "JWT",
+        Scheme = "Bearer"
+    });
+    option.AddSecurityRequirement(new OpenApiSecurityRequirement
+    {
+        {
+            new OpenApiSecurityScheme
+            {
+                Reference = new OpenApiReference
+                {
+                    Type = ReferenceType.SecurityScheme,
+                    Id = "Bearer"
+                }
+            },
+            new string[] { }
+        }
+    });
 });
 
 var app = builder.Build();
@@ -78,17 +106,20 @@ app.UseSwaggerUI(config =>
     config.SwaggerEndpoint("swagger/v1/swagger.json", "ToNinetyOne API");
 });
 
+
 app.UseCustomExceptionHandler();
 
-app.UseRouting();
-
 app.UseHttpsRedirection();
-
-app.UseCors("AllowAll");
 
 app.UseAuthentication();
 
 app.UseAuthorization();
+
+app.UseCors(b => b
+    .AllowAnyOrigin()
+    .AllowAnyMethod()
+    .AllowAnyHeader()
+);
 
 app.MapControllers();
 
@@ -99,9 +130,11 @@ using (var scope = app.Services.CreateScope())
     try
     {
         var context = serviceProvider.GetService<ToNinetyOneDbContext>();
-        var userContext = serviceProvider.GetService<ToNinetyOneUserDbContext>();
-        
+
         DbInitializer.Initialize(context ?? throw new NullReferenceException(nameof(context)));
+
+        var userContext = serviceProvider.GetService<ToNinetyOneUserDbContext>();
+
         UserDbInitializer.Initialize(userContext ?? throw new NullReferenceException(nameof(userContext)));
     }
     catch (Exception ex)

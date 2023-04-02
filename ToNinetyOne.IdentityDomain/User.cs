@@ -11,9 +11,9 @@ public class User
     public string MiddleName { get; set; }
     public Guid GroupId { get; set; }
     public Guid AvatarId { get; set; }
-    [ForeignKey(nameof(UserRole))]
+    // [ForeignKey(nameof(UserRole))]
     public Guid RoleId { get; set; }
-    public Role UserRole { get; set; }
+    // public Role UserRole { get; set; }
     public string Password { get; set; }
     public string Salt { get; set; }
     public DateTime RegTime { get; set; }

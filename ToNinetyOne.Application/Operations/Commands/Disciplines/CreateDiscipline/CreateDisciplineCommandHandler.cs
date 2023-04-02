@@ -1,11 +1,10 @@
 using MediatR;
 using ToNinetyOne.Application.Interfaces;
-using ToNinetyOne.Application.Operations.Commands.LabWorks.CreateLabWork;
 using ToNinetyOne.Domain;
 
 namespace ToNinetyOne.Application.Operations.Commands.Disciplines.CreateDiscipline;
 
-public class CreateDisciplineCommandHandler : IRequestHandler<CreateDisciplineCommand, Guid>
+public class  CreateDisciplineCommandHandler : IRequestHandler<CreateDisciplineCommand, Guid>
 {
     private readonly IToNinetyOneDbContext _dbContext;
 

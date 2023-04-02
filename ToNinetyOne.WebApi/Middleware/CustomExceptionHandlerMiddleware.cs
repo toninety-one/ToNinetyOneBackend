@@ -1,7 +1,6 @@
+using System.ComponentModel.DataAnnotations;
 using System.Net;
 using System.Text.Json;
-using FluentValidation;
-using ToNinetyOne.Application.Common.Exceptions;
 
 namespace ToNinetyOne.WebApi.Middleware;
 
@@ -35,9 +34,9 @@ public class CustomExceptionHandlerMiddleware
         {
             case ValidationException validationException:
                 code = HttpStatusCode.BadRequest;
-                result = JsonSerializer.Serialize(validationException.Errors);
+                result = JsonSerializer.Serialize(validationException);
                 break;
-            case NotFoundException:
+            case Exception:
                 code = HttpStatusCode.NotFound;
                 break;
         }
@@ -47,9 +46,9 @@ public class CustomExceptionHandlerMiddleware
 
         if (result == string.Empty)
         {
-            result = JsonSerializer.Serialize(new {error = exception.Message});
+            result = JsonSerializer.Serialize(new { error = exception.Message });
         }
-        
+
         return context.Response.WriteAsync(result);
     }
 }

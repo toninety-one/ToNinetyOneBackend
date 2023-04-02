@@ -1,7 +1,7 @@
 using MediatR;
 using Microsoft.EntityFrameworkCore;
-using ToNinetyOne.Application.Common.Exceptions;
 using ToNinetyOne.Application.Interfaces;
+using ToNinetyOne.Config.Common.Exceptions;
 using ToNinetyOne.Domain;
 
 namespace ToNinetyOne.Application.Operations.Commands.LabWorks.UpdateLabWork;
