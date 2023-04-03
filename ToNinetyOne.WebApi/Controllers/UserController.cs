@@ -111,6 +111,7 @@ public class UserController : BaseController
     /// <param name="token"></param>
     /// <returns></returns>
     [HttpPost]
+    [Authorize]
     [Route("refresh")]
     public async Task<IActionResult> Refresh([FromBody] Token token)
     {
@@ -145,6 +146,7 @@ public class UserController : BaseController
     ///   "userName": "string",
     ///   "firstName": "string",
     ///   "lastName": "string",
+    ///   "password" : "string"
     /// }
     /// </remarks>
     /// <param name="registrationDto">RegistrationDto object</param>

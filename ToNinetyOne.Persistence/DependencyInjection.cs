@@ -7,15 +7,23 @@ namespace ToNinetyOne.Persistence;
 
 public static class DependencyInjection
 {
-    public static IServiceCollection AddPersistence(this IServiceCollection services, IConfiguration configuration)
+    public static IServiceCollection AddPersistence(this IServiceCollection services, IConfiguration configuration,
+        bool isDevelopment)
     {
         services.AddDbContext<ToNinetyOneDbContext>(options =>
         {
-            options.UseSqlite(configuration.GetConnectionString("SqliteConnectionString"));
+            if (isDevelopment)
+            {
+                options.UseSqlite(configuration.GetConnectionString("SqliteConnectionString"));
+            }
+            else
+            {
+                options.UseNpgsql(configuration.GetConnectionString("PostgresqlConnectionString"));
+            }
         });
 
         services.AddScoped<IToNinetyOneDbContext>(provider => provider.GetService<ToNinetyOneDbContext>());
-        
+
         return services;
     }
 }

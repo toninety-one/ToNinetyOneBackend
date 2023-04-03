@@ -25,9 +25,9 @@ builder.Services.AddAutoMapper(config =>
 
 builder.Services.AddApplication();
 
-builder.Services.AddPersistence(builder.Configuration);
+builder.Services.AddPersistence(builder.Configuration, builder.Environment.IsDevelopment());
 
-builder.Services.AddUserPersistence(builder.Configuration);
+builder.Services.AddUserPersistence(builder.Configuration, builder.Environment.IsDevelopment());
 
 builder.Services.AddControllers();
 
@@ -102,14 +102,17 @@ builder.Services.AddSwaggerGen(option =>
 
 var app = builder.Build();
 
-app.UseSwagger();
-
-app.UseSwaggerUI(config =>
+if (app.Environment.IsDevelopment())
 {
-    config.RoutePrefix = string.Empty;
-    config.DocumentTitle = "ToNinetyOne Web Api";
-    config.SwaggerEndpoint("swagger/v1/swagger.json", "ToNinetyOne API");
-});
+    app.UseSwagger();
+
+    app.UseSwaggerUI(config =>
+    {
+        config.RoutePrefix = string.Empty;
+        config.DocumentTitle = "ToNinetyOne Web Api";
+        config.SwaggerEndpoint("swagger/v1/swagger.json", "ToNinetyOne API");
+    });
+}
 
 app.UseCustomExceptionHandler();
 
