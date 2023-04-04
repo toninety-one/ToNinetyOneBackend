@@ -1,10 +1,12 @@
 using MediatR;
+using Microsoft.EntityFrameworkCore;
 using ToNinetyOne.Application.Interfaces;
+using ToNinetyOne.Config.Common.Exceptions;
 using ToNinetyOne.Domain;
         
 namespace ToNinetyOne.Application.Operations.Commands.Group.DeleteGroup;
         
-public class  DeleteGroupCommandHandler : IRequestHandler<DeleteGroupCommand, Guid>
+public class  DeleteGroupCommandHandler : IRequestHandler<DeleteGroupCommand>
 {
     private readonly IToNinetyOneDbContext _dbContext;
         
@@ -13,8 +15,20 @@ public class  DeleteGroupCommandHandler : IRequestHandler<DeleteGroupCommand, Gu
         _dbContext = dbContext;
     }
         
-    public async Task<Guid> Handle(DeleteGroupCommand request, CancellationToken cancellationToken)
+    public async Task<Unit> Handle(DeleteGroupCommand request, CancellationToken cancellationToken)
     {
-        throw new NotImplementedException();
+        var entity =
+            await _dbContext.Groups.FirstOrDefaultAsync(discipline => discipline.Id == request.Id, cancellationToken);
+
+        if (entity == null)
+        {
+            throw new NotFoundException(nameof(Domain.Group), request.Id);
+        }
+
+        _dbContext.Groups.Remove(entity);
+
+        await _dbContext.SaveChangesAsync(cancellationToken);
+
+        return Unit.Value;
     }
 }

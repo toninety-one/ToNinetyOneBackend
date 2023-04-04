@@ -6,6 +6,8 @@ public class CreateGroupCommandValidator : AbstractValidator<CreateGroupCommand>
 {
     public CreateGroupCommandValidator()
     {
+        RuleFor(command => command.Title).NotEmpty();
+        RuleFor(command => command.UserId).NotEqual(Guid.Empty);
     }
 }
     

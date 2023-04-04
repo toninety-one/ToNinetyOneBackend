@@ -5,6 +5,7 @@ namespace ToNinetyOne.Application.Operations.Commands.{0}.{1};
 
 public class {1}Command : IRequest<Guid>
 {
+    public Guid UserId { get; set; }
 }
     
     """,
@@ -38,7 +39,7 @@ public class {1}CommandValidator : AbstractValidator<{1}Command>
 {
     public {1}CommandValidator()
     {
-        RuleFor(command => command);
+        RuleFor(command => command.UserId).NotEqual(Guid.Empty);
     }
 }
     
