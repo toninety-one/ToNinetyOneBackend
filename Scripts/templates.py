@@ -38,6 +38,7 @@ public class {1}CommandValidator : AbstractValidator<{1}Command>
 {
     public {1}CommandValidator()
     {
+        RuleFor(command => command);
     }
 }
     
