@@ -22,7 +22,7 @@ public class GetDisciplineListQueryHandler : IRequestHandler<GetDisciplineListQu
         var disciplineQuery = await _dbContext.Disciplines
             .Where(discipline => discipline.UserId == request.UserId)
             .ProjectTo<DisciplineLookupDto>(_mapper.ConfigurationProvider).ToListAsync(cancellationToken);
-
+        
         return new DisciplineListViewModel(disciplineQuery);
     }
 }

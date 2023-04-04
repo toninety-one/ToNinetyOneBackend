@@ -19,14 +19,9 @@ public class RegistrationCommandHandler : IRequestHandler<RegistrationCommand, G
         var user = new User
         {
             UserName = request.UserName,
-            FirstName = request.FirstName,
-            LastName = request.LastName,
-            MiddleName = request.FirstName,
             RoleId = Guid.Empty,
             Password = request.Password,
-            Salt = request.FirstName,
-            AvatarId = Guid.Empty,
-            GroupId = Guid.Empty,
+            Salt = "generatesaltpls",
         };
 
         await _dbContext.Users.AddAsync(user, cancellationToken);

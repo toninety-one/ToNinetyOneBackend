@@ -6,12 +6,14 @@ using Microsoft.AspNetCore.Authorization;
 using Microsoft.AspNetCore.Mvc;
 using Microsoft.Extensions.Options;
 using Microsoft.IdentityModel.Tokens;
+using ToNinetyOne.Application.Operations.Commands.Users;
 using ToNinetyOne.Identity.Operations.Commands.Registration;
 using ToNinetyOne.Identity.Operations.Commands.Token;
 using ToNinetyOne.Identity.Operations.Commands.Token.Authenticate;
 using ToNinetyOne.Identity.Operations.Commands.Token.Refresh;
 using ToNinetyOne.Identity.Operations.Commands.Token.Update;
 using ToNinetyOne.IdentityDomain;
+using ToNinetyOne.IdentityDomain.Static;
 
 namespace ToNinetyOne.WebApi.Controllers;
 
@@ -161,6 +163,10 @@ public class UserController : BaseController
 
         var registerId = await Mediator.Send(command);
 
-        return Ok(registerId);
+        var transferCommand = _mapper.Map<UserTransferCommand>(new UserTransferDto(registerId));
+
+        var userId = await Mediator.Send(transferCommand);
+
+        return Ok(userId);
     }
 }

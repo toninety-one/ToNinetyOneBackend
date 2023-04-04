@@ -8,6 +8,6 @@ public class GetDisciplineListQuery : IRequest<DisciplineListViewModel>
 
     public GetDisciplineListQuery(Guid userId)
     {
-        UserId = UserId;
+        UserId = userId;
     }
 }

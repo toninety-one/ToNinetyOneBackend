@@ -7,5 +7,6 @@ public interface IToNinetyOneDbContext
 {
     DbSet<Discipline> Disciplines { get; set; }
     DbSet<LabWork> LabWorks { get; set; }
+    DbSet<User> Users { get; set; }
     Task<int> SaveChangesAsync(CancellationToken cancellationToken);
 }
