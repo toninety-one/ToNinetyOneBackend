@@ -3,7 +3,7 @@ operations = {
 
 namespace ToNinetyOne.Application.Operations.Commands.{0}.{1};
 
-public class {0}Command : IRequest<Guid>
+public class {1}Command : IRequest<Guid>
 {
 }
     
