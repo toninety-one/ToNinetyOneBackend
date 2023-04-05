@@ -5,7 +5,8 @@ using Microsoft.AspNetCore.Mvc;
 namespace ToNinetyOne.WebApi.Controllers;
 
 [ApiController]
-[Route("api/[controller]/[action]")]
+[Route("api/[controller]")]
+[Produces("application/json")]
 public class BaseController : ControllerBase
 {
     private IMediator _mediator;

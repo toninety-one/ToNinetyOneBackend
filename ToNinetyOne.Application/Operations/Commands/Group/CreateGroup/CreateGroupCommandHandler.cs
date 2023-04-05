@@ -19,6 +19,7 @@ public class CreateGroupCommandHandler : IRequestHandler<CreateGroupCommand, Gui
         {
             Title = request.Title,
             Id = Guid.NewGuid(),
+            ClassRoom = ""
         };
 
         await _dbContext.Groups.AddAsync(group, cancellationToken);

@@ -9,14 +9,18 @@ using ToNinetyOne.Application.Operations.Queries.Disciplines.GetDisciplineList;
 
 namespace ToNinetyOne.WebApi.Controllers;
 
+/// <inheritdoc />
 [Authorize]
 [ApiController]
 [Produces("application/json")]
-[Route("api/[controller]")]
 public class DisciplineController : BaseController
 {
     private readonly IMapper _mapper;
 
+    /// <summary>
+    /// Constructor
+    /// </summary>
+    /// <param name="mapper">configured mapper</param>
     public DisciplineController(IMapper mapper)
     {
         _mapper = mapper;

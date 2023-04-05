@@ -13,14 +13,12 @@ using ToNinetyOne.Identity.Operations.Commands.Token.Authenticate;
 using ToNinetyOne.Identity.Operations.Commands.Token.Refresh;
 using ToNinetyOne.Identity.Operations.Commands.Token.Update;
 using ToNinetyOne.IdentityDomain;
-using ToNinetyOne.IdentityDomain.Static;
 
 namespace ToNinetyOne.WebApi.Controllers;
 
+/// <inheritdoc />
 [AllowAnonymous]
 [ApiController]
-[Produces("application/json")]
-[Microsoft.AspNetCore.Mvc.Route("api/[controller]")]
 public class UserController : BaseController
 {
     private readonly IMapper _mapper;
