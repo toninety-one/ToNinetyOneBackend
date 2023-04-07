@@ -8,7 +8,19 @@ public class UpdateDto : IMapWith<UpdateDto>
 {
     public string UserName { get; set; }
     public string RefreshToken { get; set; }
-    
+
+    public UpdateDto()
+    {
+        UserName = "";
+        RefreshToken = "";
+    }
+
+    public UpdateDto(string userName, string refreshToken)
+    {
+        UserName = userName;
+        RefreshToken = refreshToken;
+    }
+
     public void Mapping(Profile profile)
     {
         profile.CreateMap<UpdateDto, UpdateCommand>()

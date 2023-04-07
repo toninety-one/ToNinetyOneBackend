@@ -1,4 +1,6 @@
 using MediatR;
+using Microsoft.EntityFrameworkCore;
+using ToNinetyOne.Config.Common.Exceptions;
 using ToNinetyOne.Identity.Interfaces;
 using ToNinetyOne.IdentityDomain;
 using ToNinetyOne.IdentityDomain.Static;
@@ -16,11 +18,12 @@ public class AuthenticateCommandHandler : IRequestHandler<AuthenticateCommand, A
 
     public async Task<AuthenticateResult> Handle(AuthenticateCommand request, CancellationToken cancellationToken)
     {
-        var user = _dbContext.Users.FirstOrDefault(u=>u.UserName == request.UserName && u.Password == request.Password);
+        var user = await _dbContext.Users.FirstOrDefaultAsync(
+            u => u.UserName == request.UserName && u.Password == request.Password, cancellationToken);
 
         if (user == null)
         {
-            return null;
+            throw new NotAuthorizedException(nameof(User), request.UserName);
         }
 
         return new AuthenticateResult()

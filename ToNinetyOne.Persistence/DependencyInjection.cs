@@ -22,7 +22,8 @@ public static class DependencyInjection
             }
         });
 
-        services.AddScoped<IToNinetyOneDbContext>(provider => provider.GetService<ToNinetyOneDbContext>());
+        services.AddScoped<IToNinetyOneDbContext>(provider => provider.GetService<ToNinetyOneDbContext>() ?? throw new
+            InvalidOperationException());
 
         return services;
     }

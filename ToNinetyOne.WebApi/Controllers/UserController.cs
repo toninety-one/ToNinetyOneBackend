@@ -24,6 +24,7 @@ public class UserController : BaseController
     private readonly IMapper _mapper;
     private readonly JwtSetting _jwtSetting;
 
+    /// <inheritdoc />
     public UserController(IMapper mapper, IOptions<JwtSetting> options)
     {
         _mapper = mapper;
@@ -54,12 +55,24 @@ public class UserController : BaseController
     }
 
     /// <summary>
-    /// 
+    /// Identity and authenticate. Returns jwt and refresh tokens
     /// </summary>
-    /// <param name="authenticateDto"></param>
-    /// <returns></returns>
+    /// <remarks>
+    /// Sample request:
+    /// POST /api/User/authenticate
+    ///{
+    ///    "login": "string",
+    ///    "password": "string"
+    ///}
+    /// </remarks>
+    /// <param name="authenticateDto">AuthenticateDto object</param>
+    /// <returns>Returns jwt and refresh tokens</returns>
+    /// <response code="200">Success token refreshed</response>
+    /// <response code="401">If user not auth</response>
     [Route("authenticate")]
     [HttpPost]
+    [ProducesResponseType(StatusCodes.Status200OK)]
+    [ProducesResponseType(StatusCodes.Status401Unauthorized)]
     public async Task<IActionResult> Authenticate([FromBody] AuthenticateDto authenticateDto)
     {
         var tokenResponse = new Token();
@@ -106,13 +119,24 @@ public class UserController : BaseController
     }
 
     /// <summary>
-    /// 
+    /// Refresh auth token
     /// </summary>
-    /// <param name="token"></param>
-    /// <returns></returns>
+    /// <remarks>
+    /// Sample request:
+    /// POST /api/User/refresh
+    ///{
+    ///    "jwtToken": "string",
+    ///    "refreshToken": "string"
+    ///}
+    /// </remarks>
+    /// <param name="token">Token object</param>
+    /// <returns>Returns jwt and refresh tokens</returns>
+    /// <response code="200">Success token refreshed</response>
+    /// <response code="401">If user not auth</response>
     [HttpPost]
-    [Authorize]
     [Route("refresh")]
+    [ProducesResponseType(StatusCodes.Status200OK)]
+    [ProducesResponseType(StatusCodes.Status401Unauthorized)]
     public async Task<IActionResult> Refresh([FromBody] Token token)
     {
         var tokenHandler = new JwtSecurityTokenHandler();
@@ -121,6 +145,11 @@ public class UserController : BaseController
 
         var username = securityToken.Claims.FirstOrDefault(c => c.Type == "unique_name")?.Value;
 
+        if (username == null)
+        {
+            return Unauthorized();
+        }
+        
         var updateTokenCommand =
             _mapper.Map<UpdateCommand>(new UpdateDto() { UserName = username, RefreshToken = token.RefreshToken });
 

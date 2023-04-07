@@ -1,6 +1,8 @@
-using System.Security.Cryptography;
 using MediatR;
+using Microsoft.EntityFrameworkCore;
+using ToNinetyOne.Config.Common.Exceptions;
 using ToNinetyOne.Identity.Interfaces;
+using ToNinetyOne.IdentityDomain;
 
 namespace ToNinetyOne.Identity.Operations.Commands.Token.Update;
 
@@ -15,14 +17,14 @@ public class UpdateCommandHandler : IRequestHandler<UpdateCommand, string>
 
     public async Task<string> Handle(UpdateCommand request, CancellationToken cancellationToken)
     {
-        var refreshToken = _dbContext.RefreshTokens.FirstOrDefault(token =>
-            token.UserName == request.UserName && token.Token == request.RefreshToken);
+        var refreshToken = await _dbContext.RefreshTokens.FirstOrDefaultAsync(token =>
+            token.UserName == request.UserName && token.Token == request.RefreshToken, cancellationToken);
 
         if (refreshToken == null)
         {
-            return null;
+            throw new NotAuthorizedException(nameof(RefreshToken), request.RefreshToken);
         }
-        
+
         return refreshToken.Token;
     }
 }

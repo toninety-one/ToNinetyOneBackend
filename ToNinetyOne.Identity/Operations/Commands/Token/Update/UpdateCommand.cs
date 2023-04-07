@@ -6,4 +6,15 @@ public class UpdateCommand : IRequest<string>
 {
     public string UserName { get; set; }
     public string RefreshToken { get; set; }
+    public UpdateCommand()
+    {
+        UserName = "";
+        RefreshToken = "";
+    }
+    
+    public UpdateCommand(string userName, string refreshToken) : base()
+    {
+        UserName = userName;
+        RefreshToken = refreshToken;
+    }
 }

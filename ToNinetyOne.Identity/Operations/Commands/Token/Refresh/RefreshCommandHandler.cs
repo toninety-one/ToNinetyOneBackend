@@ -27,7 +27,7 @@ public class RefreshCommandHandler : IRequestHandler<RefreshCommand, string>
         if (userToken != null)
         {
             userToken.Token = refreshToken;
-            _dbContext.SaveChangesAsync(cancellationToken);
+            await _dbContext.SaveChangesAsync(cancellationToken);
         }
         else
         {
@@ -35,7 +35,7 @@ public class RefreshCommandHandler : IRequestHandler<RefreshCommand, string>
 
             _dbContext.RefreshTokens.Add(newRefreshToken);
             
-            _dbContext.SaveChangesAsync(cancellationToken);
+            await _dbContext.SaveChangesAsync(cancellationToken);
         }
 
         return refreshToken;

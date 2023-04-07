@@ -4,15 +4,26 @@ using System.Text.Json;
 
 namespace ToNinetyOne.WebApi.Middleware;
 
+/// <summary>
+/// Custom middleware handler
+/// </summary>
 public class CustomExceptionHandlerMiddleware
 {
     private readonly RequestDelegate _next;
 
+    /// <summary>
+    /// Custom middleware constructor
+    /// </summary>
+    /// <param name="next"></param>
     public CustomExceptionHandlerMiddleware(RequestDelegate next)
     {
         _next = next;
     }
 
+    /// <summary>
+    /// Custom middleware descriptor
+    /// </summary>
+    /// <param name="context"></param>
     public async Task Invoke(HttpContext context)
     {
         try
@@ -36,7 +47,7 @@ public class CustomExceptionHandlerMiddleware
                 code = HttpStatusCode.BadRequest;
                 result = JsonSerializer.Serialize(validationException);
                 break;
-            case Exception:
+            case not null:
                 code = HttpStatusCode.NotFound;
                 break;
         }
@@ -46,7 +57,7 @@ public class CustomExceptionHandlerMiddleware
 
         if (result == string.Empty)
         {
-            result = JsonSerializer.Serialize(new { error = exception.Message });
+            result = JsonSerializer.Serialize(new { error = exception?.Message ?? "Unknown exception"});
         }
 
         return context.Response.WriteAsync(result);

@@ -7,7 +7,19 @@ public class AuthenticateDto : IMapWith<AuthenticateDto>
 {
     public string UserName { get; set; }
     public string Password { get; set; }
-    
+
+    public AuthenticateDto()
+    {
+        UserName = "";
+        Password = "";
+    }
+
+    public AuthenticateDto(string userName, string password)
+    {
+        UserName = userName;
+        Password = password;
+    }
+
     public void Mapping(Profile profile)
     {
         profile.CreateMap<AuthenticateDto, AuthenticateCommand>()

@@ -6,6 +6,7 @@ namespace ToNinetyOne.Application.Operations.Commands.Group.UpdateGroup;
 
 public class UpdateGroupDto : IMapWith<UpdateGroupCommand>
 {
+    public Guid GroupId { get; set; }
     public string Title { get; set; }
 
     public void Mapping(Profile profile)
@@ -14,6 +15,9 @@ public class UpdateGroupDto : IMapWith<UpdateGroupCommand>
             .ForMember(
                 command => command.Title,
                 opt => opt.MapFrom(dto => dto.Title)
+            ).ForMember(
+                command => command.Id,
+                opt => opt.MapFrom(dto => dto.GroupId)
             );
     }
 }

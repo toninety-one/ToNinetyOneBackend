@@ -38,6 +38,12 @@ builder.Services.Configure<JwtSetting>(jwtSetting);
 
 var authKey = builder.Configuration.GetValue<string>("JwtSettings:SecurityKey");
 
+if (authKey == null)
+{
+    Console.WriteLine("missing auth key");
+    return;
+}
+
 builder.Services.AddAuthorization(options =>
 {
     foreach (var role in Roles.Fields)
@@ -55,6 +61,7 @@ builder.Services.AddAuthentication(item =>
 {
     item.RequireHttpsMetadata = true;
     item.SaveToken = true;
+
     item.TokenValidationParameters = new TokenValidationParameters()
     {
         ValidateIssuerSigningKey = true,

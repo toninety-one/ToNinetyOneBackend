@@ -8,6 +8,18 @@ public class RegistrationDto : IMapWith<RegistrationDto>
     public string UserName { get; set; }
     public string Password { get; set; }
 
+    public RegistrationDto()
+    {
+        UserName = "";
+        Password = "";
+    }
+
+    public RegistrationDto(string userName, string password)
+    {
+        UserName = userName;
+        Password = password;
+    }
+
     public void Mapping(Profile profile)
     {
         profile.CreateMap<RegistrationDto, RegistrationCommand>()

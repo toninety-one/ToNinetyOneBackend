@@ -31,7 +31,7 @@ public class DisciplineController : BaseController
     /// </summary>
     /// <remarks>
     /// Sample request:
-    /// GET /discipline
+    /// GET /api/discipline
     /// </remarks>
     /// <returns>returns DisciplineListViewModel</returns>
     /// <responce code="200">Success</responce>
@@ -53,7 +53,7 @@ public class DisciplineController : BaseController
     /// </summary>
     /// <remarks>
     /// Sample request:
-    /// GET /discipline/D34D349E-43B8-429E-BCA4-793C932FD580
+    /// GET /api/discipline/D34D349E-43B8-429E-BCA4-793C932FD580
     /// </remarks>
     /// <param name="id">Discipline id (guid)</param>
     /// <returns>Returns DisciplineDetailsViewModel</returns>
@@ -76,7 +76,7 @@ public class DisciplineController : BaseController
     /// </summary>
     /// <remarks>
     /// Sample request:
-    /// POST /discipline
+    /// POST /api/discipline
     /// {
     ///     title: "discipline title",
     ///     filePath: "file path"
@@ -102,7 +102,7 @@ public class DisciplineController : BaseController
     /// </summary>
     /// <remarks>
     /// Sample request:
-    /// PUT /discipline
+    /// PUT /api/discipline
     /// {
     ///     title: "updated discipline title",
     ///     filePath: "file path"
@@ -128,7 +128,7 @@ public class DisciplineController : BaseController
     /// </summary>
     /// <remarks>
     /// Sample request:
-    /// DELETE /discipline/88DEB432-062F-43DE-8DCD-8B6EF79073D3
+    /// DELETE /api/discipline/88DEB432-062F-43DE-8DCD-8B6EF79073D3
     /// </remarks>
     /// <param name="id">Id of the discipline (guid)</param>
     /// <returns>Returns NoContent</returns>
