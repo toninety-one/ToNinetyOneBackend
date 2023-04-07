@@ -12,6 +12,21 @@ public class DisciplineDetailsViewModel : IMapWith<Discipline>
     public DateTime CreationDate { get; set; }
     public DateTime EditDate { get; set; }
 
+    public DisciplineDetailsViewModel()
+    {
+        Title = "";
+        FilePath = "";
+    }
+
+    public DisciplineDetailsViewModel(Guid id, string title, string filePath, DateTime creationDate, DateTime editDate)
+    {
+        Id = id;
+        Title = title;
+        FilePath = filePath;
+        CreationDate = creationDate;
+        EditDate = editDate;
+    }
+
     public void Mapping(Profile profile)
     {
         profile.CreateMap<Discipline, DisciplineDetailsViewModel>()

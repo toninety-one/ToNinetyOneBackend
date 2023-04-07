@@ -8,6 +8,16 @@ public class GroupLookupDto : IMapWith<Domain.Group>
     public Guid Id { get; set; }
     public string Title { get; set; }
 
+    public GroupLookupDto()
+    {
+        Title = "";
+    }
+
+    public GroupLookupDto(string title)
+    {
+        Title = title;
+    }
+
     public void Mapping(Profile profile)
     {
         profile.CreateMap<Domain.Group, GroupLookupDto>()
