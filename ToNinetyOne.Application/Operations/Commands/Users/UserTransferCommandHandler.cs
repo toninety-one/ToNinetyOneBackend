@@ -17,7 +17,7 @@ public class UserTransferCommandHandler : IRequestHandler<UserTransferCommand, G
     {
         var user = new User()
         {
-            SelfId = request.RegisterId,
+            Id = request.RegisterId,
             FirstName = "firstname",
             AvatarId = Guid.Empty,
             LastName = "lastname",
@@ -28,6 +28,6 @@ public class UserTransferCommandHandler : IRequestHandler<UserTransferCommand, G
         
         await _dbContext.SaveChangesAsync(cancellationToken);
 
-        return user.SelfId;
+        return user.Id;
     }
 }

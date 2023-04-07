@@ -25,7 +25,7 @@ def generate_operation(operation_name: str, operation_type: str):
                 f"{folder_path}{operation}CommandValidator.cs")
 
     file_writer(str(templates.operations["dto"]).replace("{0}", operation_name).replace("{1}", operation),
-                f"{folder_path}{operation}dto.cs")
+                f"{folder_path}{operation}Dto.cs")
 
 
 def generate_folders(operation_name: str) -> int:

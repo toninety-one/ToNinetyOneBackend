@@ -11,6 +11,6 @@ public class GroupConfiguration : IEntityTypeConfiguration<Group>
         builder.HasKey(o => o.Id);
         builder
             .HasMany(o => o.Users)
-            .WithOne(o => o.Group);
+            .WithOne(o => o.UserGroup);
     }
 }

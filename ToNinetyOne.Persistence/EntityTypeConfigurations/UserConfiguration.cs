@@ -9,7 +9,9 @@ public class UserConfiguration : IEntityTypeConfiguration<User>
     public void Configure(EntityTypeBuilder<User> builder)
     {
         builder
-            .HasOne(o => o.Group)
-            .WithMany(o => o.Users);
+            .HasOne(o => o.UserGroup)
+            .WithMany(o => o.Users)
+            // .HasForeignKey(o=>o.GroupId);
+            ;
     }
 }

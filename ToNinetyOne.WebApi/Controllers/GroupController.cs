@@ -3,6 +3,7 @@ using Microsoft.AspNetCore.Authorization;
 using Microsoft.AspNetCore.Mvc;
 using ToNinetyOne.Application.Operations.Commands.Group.CreateGroup;
 using ToNinetyOne.Application.Operations.Commands.Group.DeleteGroup;
+using ToNinetyOne.Application.Operations.Commands.Group.SetUserGroup;
 using ToNinetyOne.Application.Operations.Commands.Group.UpdateGroup;
 using ToNinetyOne.Application.Operations.Queries.Group.GetGroupDetails;
 using ToNinetyOne.Application.Operations.Queries.Group.GetGroupList;
@@ -45,7 +46,7 @@ public class GroupController : BaseController
     /// </summary>
     /// <param name="id"></param>
     /// <returns></returns>
-    [HttpGet("{id}")]
+    [HttpGet("{id:guid}")]
     [ProducesResponseType(StatusCodes.Status200OK)]
     [ProducesResponseType(StatusCodes.Status401Unauthorized)]
     public async Task<ActionResult<GroupDetailsViewModel>> Get(Guid id)
@@ -73,6 +74,17 @@ public class GroupController : BaseController
         return Ok(groupId);
     }
 
+    [HttpPost]
+    [Route("[action]")]
+    public async Task<ActionResult> SetUserGroup(SetUserGroupDto setUserGroupDto)
+    {
+        var command = _mapper.Map<SetUserGroupCommand>(setUserGroupDto);
+
+        var userId = await Mediator.Send(command);
+        
+        return Ok(userId);
+    }
+
     /// <summary>
     /// 
     /// </summary>
@@ -93,7 +105,7 @@ public class GroupController : BaseController
     /// </summary>
     /// <param name="id"></param>
     /// <returns></returns>
-    [HttpDelete("{id}")]
+    [HttpDelete("{id:guid}")]
     [ProducesResponseType(StatusCodes.Status204NoContent)]
     [ProducesResponseType(StatusCodes.Status401Unauthorized)]
     public async Task<ActionResult> Delete(Guid id)

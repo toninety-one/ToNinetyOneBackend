@@ -59,7 +59,7 @@ public class DisciplineController : BaseController
     /// <returns>Returns DisciplineDetailsViewModel</returns>
     /// <response code="200">Success</response>
     /// <responce code="401">If user not auth</responce>
-    [HttpGet("{id}")]
+    [HttpGet("{id:guid}")]
     [ProducesResponseType(StatusCodes.Status200OK)]
     [ProducesResponseType(StatusCodes.Status401Unauthorized)]
     public async Task<ActionResult<DisciplineDetailsViewModel>> Get(Guid id)
@@ -134,7 +134,7 @@ public class DisciplineController : BaseController
     /// <returns>Returns NoContent</returns>
     /// <response code="204">Success</response>
     /// <responce code="401">If user not auth</responce>
-    [HttpDelete("{id}")]
+    [HttpDelete("{id:guid}")]
     [ProducesResponseType(StatusCodes.Status204NoContent)]
     [ProducesResponseType(StatusCodes.Status401Unauthorized)]
     public async Task<ActionResult> Delete(Guid id)
