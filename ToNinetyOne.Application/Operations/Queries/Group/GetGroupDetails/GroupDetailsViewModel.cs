@@ -1,5 +1,4 @@
 using AutoMapper;
-using ToNinetyOne.Application.Operations.Queries.Disciplines.GetDisciplineDetails;
 using ToNinetyOne.Config.Common.Mappings;
 using ToNinetyOne.Domain;
 

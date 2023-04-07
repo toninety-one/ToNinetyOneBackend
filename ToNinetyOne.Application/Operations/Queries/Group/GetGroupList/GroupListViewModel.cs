@@ -8,7 +8,7 @@ public class GroupListViewModel
     {
     }
 
-    public GroupListViewModel(IList<GroupLookupDto> groups) : base()
+    public GroupListViewModel(IList<GroupLookupDto> groups)
     {
         Groups = groups;
     }

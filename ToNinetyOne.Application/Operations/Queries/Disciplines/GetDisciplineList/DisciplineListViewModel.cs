@@ -8,7 +8,7 @@ public class DisciplineListViewModel
     {
     }
 
-    public DisciplineListViewModel(IList<DisciplineLookupDto> disciplines) : base()
+    public DisciplineListViewModel(IList<DisciplineLookupDto> disciplines)
     {
         Disciplines = disciplines;
     }

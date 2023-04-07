@@ -1,4 +1,3 @@
-using AutoMapper.QueryableExtensions;
 using MediatR;
 using ToNinetyOne.Identity.Interfaces;
 using ToNinetyOne.IdentityDomain;

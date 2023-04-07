@@ -1,6 +1,7 @@
 using System.Security.Cryptography;
 using MediatR;
 using ToNinetyOne.Identity.Interfaces;
+using ToNinetyOne.IdentityDomain;
 
 namespace ToNinetyOne.Identity.Operations.Commands.Token.Refresh;
 
@@ -31,7 +32,7 @@ public class RefreshCommandHandler : IRequestHandler<RefreshCommand, string>
         }
         else
         {
-            var newRefreshToken = new IdentityDomain.RefreshToken(request.UserName, refreshToken);
+            var newRefreshToken = new RefreshToken(request.UserName, refreshToken);
 
             _dbContext.RefreshTokens.Add(newRefreshToken);
             

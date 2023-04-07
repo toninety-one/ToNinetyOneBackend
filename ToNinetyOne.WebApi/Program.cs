@@ -1,4 +1,3 @@
-using System.Diagnostics;
 using System.Reflection;
 using System.Security.Claims;
 using System.Text;
@@ -62,7 +61,7 @@ builder.Services.AddAuthentication(item =>
     item.RequireHttpsMetadata = true;
     item.SaveToken = true;
 
-    item.TokenValidationParameters = new TokenValidationParameters()
+    item.TokenValidationParameters = new TokenValidationParameters
     {
         ValidateIssuerSigningKey = true,
         IssuerSigningKey = new SymmetricSecurityKey(Encoding.UTF8.GetBytes(authKey)),

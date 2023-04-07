@@ -11,7 +11,7 @@ public class RefreshCommand : IRequest<string>
         UserName = "";
     }
 
-    public RefreshCommand(string userName) : base()
+    public RefreshCommand(string userName)
     {
         UserName = userName;
     }

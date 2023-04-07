@@ -47,7 +47,7 @@ public class UserController : BaseController
 
         tokenResponse.JwtToken = new JwtSecurityTokenHandler().WriteToken(tokenHandler);
 
-        var refreshTokenCommand = _mapper.Map<RefreshCommand>(new RefreshDto() { UserName = userName });
+        var refreshTokenCommand = _mapper.Map<RefreshCommand>(new RefreshDto { UserName = userName });
 
         tokenResponse.RefreshToken = await Mediator.Send(refreshTokenCommand);
 
@@ -111,7 +111,7 @@ public class UserController : BaseController
         tokenResponse.JwtToken = finalToken;
 
         var refreshTokenCommand =
-            _mapper.Map<RefreshCommand>(new RefreshDto() { UserName = authenticateResult.UserName });
+            _mapper.Map<RefreshCommand>(new RefreshDto { UserName = authenticateResult.UserName });
 
         tokenResponse.RefreshToken = await Mediator.Send(refreshTokenCommand);
 
@@ -151,7 +151,7 @@ public class UserController : BaseController
         }
         
         var updateTokenCommand =
-            _mapper.Map<UpdateCommand>(new UpdateDto() { UserName = username, RefreshToken = token.RefreshToken });
+            _mapper.Map<UpdateCommand>(new UpdateDto { UserName = username, RefreshToken = token.RefreshToken });
 
         var refreshToken = await Mediator.Send(updateTokenCommand);
 

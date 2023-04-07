@@ -11,7 +11,7 @@ public class Token
         RefreshToken = string.Empty;
     }
     
-    public Token(string jwtToken, string refreshToken) : base()
+    public Token(string jwtToken, string refreshToken)
     {
         JwtToken = jwtToken;
         RefreshToken = refreshToken;

@@ -166,7 +166,7 @@ public class GroupController : BaseController
     [ProducesResponseType(StatusCodes.Status401Unauthorized)]
     public async Task<ActionResult> Delete(Guid id)
     {
-        var command = new DeleteGroupCommand() { Id = id };
+        var command = new DeleteGroupCommand { Id = id };
         await Mediator.Send(command);
         return NoContent();
     }

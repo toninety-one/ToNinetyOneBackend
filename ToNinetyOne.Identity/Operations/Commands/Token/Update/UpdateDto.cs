@@ -1,6 +1,5 @@
 using AutoMapper;
 using ToNinetyOne.Config.Common.Mappings;
-using ToNinetyOne.Identity.Operations.Commands.Token.Refresh;
 
 namespace ToNinetyOne.Identity.Operations.Commands.Token.Update;
 

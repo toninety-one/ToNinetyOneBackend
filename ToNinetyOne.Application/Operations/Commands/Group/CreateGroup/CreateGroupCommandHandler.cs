@@ -1,6 +1,5 @@
 using MediatR;
 using ToNinetyOne.Application.Interfaces;
-using ToNinetyOne.Domain;
 
 namespace ToNinetyOne.Application.Operations.Commands.Group.CreateGroup;
 
@@ -15,7 +14,7 @@ public class CreateGroupCommandHandler : IRequestHandler<CreateGroupCommand, Gui
 
     public async Task<Guid> Handle(CreateGroupCommand request, CancellationToken cancellationToken)
     {
-        var group = new Domain.Group()
+        var group = new Domain.Group
         {
             Title = request.Title,
             Id = Guid.NewGuid(),

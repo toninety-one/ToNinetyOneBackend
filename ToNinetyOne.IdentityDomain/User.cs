@@ -1,5 +1,3 @@
-using System.Text.RegularExpressions;
-
 namespace ToNinetyOne.IdentityDomain;
 
 public class User
@@ -15,5 +13,9 @@ public class User
     {
         Id = Guid.NewGuid();
         RegTime = DateTime.Now;
+        UserName = "";
+        Role = "";
+        Password = "";
+        Salt = "";
     }
 }

@@ -12,7 +12,7 @@ public class UpdateCommand : IRequest<string>
         RefreshToken = "";
     }
     
-    public UpdateCommand(string userName, string refreshToken) : base()
+    public UpdateCommand(string userName, string refreshToken)
     {
         UserName = userName;
         RefreshToken = refreshToken;

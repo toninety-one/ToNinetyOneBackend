@@ -15,7 +15,7 @@ public class UserTransferCommandHandler : IRequestHandler<UserTransferCommand, G
 
     public async Task<Guid> Handle(UserTransferCommand request, CancellationToken cancellationToken)
     {
-        var user = new User()
+        var user = new User
         {
             Id = request.RegisterId,
             FirstName = "firstname",

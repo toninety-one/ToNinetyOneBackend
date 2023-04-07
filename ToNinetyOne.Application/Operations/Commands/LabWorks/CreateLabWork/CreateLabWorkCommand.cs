@@ -8,4 +8,19 @@ public class CreateLabWorkCommand : IRequest<Guid>
     public string Title { get; set; }
     public string Details { get; set; }
     public string FilePath { get; set; }
+
+    public CreateLabWorkCommand()
+    {
+        Title = "";
+        Details = "";
+        FilePath = "";
+    }
+
+    public CreateLabWorkCommand(Guid disciplineId, string title, string details, string filePath)
+    {
+        DisciplineId = disciplineId;
+        Title = title;
+        Details = details;
+        FilePath = filePath;
+    }
 }

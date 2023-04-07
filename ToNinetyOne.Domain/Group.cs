@@ -13,6 +13,8 @@ public class Group
 
     public Group()
     {
+        Title = "";
+        ClassRoom = "";
         CreationDate = DateTime.Now;
         EditDate = DateTime.Now;
     }

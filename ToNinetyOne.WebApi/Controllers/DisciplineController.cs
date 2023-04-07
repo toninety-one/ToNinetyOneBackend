@@ -139,7 +139,7 @@ public class DisciplineController : BaseController
     [ProducesResponseType(StatusCodes.Status401Unauthorized)]
     public async Task<ActionResult> Delete(Guid id)
     {
-        var command = new DeleteDisciplineCommand() { Id = id, UserId = UserId };
+        var command = new DeleteDisciplineCommand { Id = id, UserId = UserId };
         await Mediator.Send(command);
         return NoContent();
     }

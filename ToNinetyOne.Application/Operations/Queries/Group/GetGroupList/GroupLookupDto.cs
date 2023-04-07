@@ -1,6 +1,5 @@
 using AutoMapper;
 using ToNinetyOne.Config.Common.Mappings;
-using ToNinetyOne.Domain;
 
 namespace ToNinetyOne.Application.Operations.Queries.Group.GetGroupList;
 

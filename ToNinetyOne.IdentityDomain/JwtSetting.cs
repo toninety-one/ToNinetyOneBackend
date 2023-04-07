@@ -2,8 +2,18 @@ namespace ToNinetyOne.IdentityDomain;
 
 public class JwtSetting
 {
+    public JwtSetting()
+    {
+        SecurityKey = "";
+    }
+
+    public JwtSetting(string securityKey)
+    {
+        SecurityKey = securityKey;
+    }
+
     public string SecurityKey { get; set; }
-    
+
     public string Encrypt(string refreshToken)
     {
         var crypt = new char[refreshToken.Length];

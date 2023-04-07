@@ -15,7 +15,7 @@ public class  CreateDisciplineCommandHandler : IRequestHandler<CreateDisciplineC
 
     public async Task<Guid> Handle(CreateDisciplineCommand request, CancellationToken cancellationToken)
     {
-        var discipline = new Discipline()
+        var discipline = new Discipline
         {
             UserId = request.UserId,
             Title = request.Title,

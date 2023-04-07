@@ -1,6 +1,3 @@
-using ToNinetyOne.IdentityDomain;
-using ToNinetyOne.IdentityDomain.Static;
-
 namespace ToNinetyOne.IdentityPersistence;
 
 public static class UserDbInitializer

@@ -3,7 +3,6 @@ using AutoMapper.QueryableExtensions;
 using MediatR;
 using Microsoft.EntityFrameworkCore;
 using ToNinetyOne.Application.Interfaces;
-using ToNinetyOne.Application.Operations.Queries.Disciplines.GetDisciplineList;
 
 namespace ToNinetyOne.Application.Operations.Queries.Group.GetGroupList;
 

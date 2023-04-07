@@ -3,7 +3,6 @@ using Microsoft.EntityFrameworkCore;
 using ToNinetyOne.Config.Common.Exceptions;
 using ToNinetyOne.Identity.Interfaces;
 using ToNinetyOne.IdentityDomain;
-using ToNinetyOne.IdentityDomain.Static;
 
 namespace ToNinetyOne.Identity.Operations.Commands.Token.Authenticate;
 
@@ -26,7 +25,7 @@ public class AuthenticateCommandHandler : IRequestHandler<AuthenticateCommand, A
             throw new NotAuthorizedException(nameof(User), request.UserName);
         }
 
-        return new AuthenticateResult()
+        return new AuthenticateResult
         {
             Id = user.Id,
             Role = user.Role,

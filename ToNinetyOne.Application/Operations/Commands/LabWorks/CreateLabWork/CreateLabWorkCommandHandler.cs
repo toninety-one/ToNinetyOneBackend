@@ -15,7 +15,7 @@ public class CreateLabWorkCommandHandler : IRequestHandler<CreateLabWorkCommand,
     
     public async Task<Guid> Handle(CreateLabWorkCommand request, CancellationToken cancellationToken)
     {
-        var labWork = new LabWork()
+        var labWork = new LabWork
         {
             DisciplineId = request.DisciplineId,
             Title = request.Title,

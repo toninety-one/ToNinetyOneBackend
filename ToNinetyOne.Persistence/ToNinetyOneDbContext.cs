@@ -2,7 +2,6 @@ using Microsoft.EntityFrameworkCore;
 using ToNinetyOne.Application.Interfaces;
 using ToNinetyOne.Domain;
 using ToNinetyOne.Persistence.EntityTypeConfigurations;
-using Group = System.Text.RegularExpressions.Group;
 
 namespace ToNinetyOne.Persistence;
 
@@ -11,7 +10,7 @@ public class ToNinetyOneDbContext : DbContext, IToNinetyOneDbContext
     public DbSet<Discipline> Disciplines { get; set; }
     public DbSet<LabWork> LabWorks { get; set; }
     public DbSet<User> Users { get; set; }
-    public DbSet<Domain.Group> Groups { get; set; }
+    public DbSet<Group> Groups { get; set; }
 
     public ToNinetyOneDbContext(DbContextOptions<ToNinetyOneDbContext> options) : base(options)
     {

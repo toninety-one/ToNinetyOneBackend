@@ -14,9 +14,9 @@ public class BaseController : ControllerBase
     /// <summary>
     /// Mediator
     /// </summary>
-    protected IMediator Mediator => _mediator ??= HttpContext.RequestServices.GetService<IMediator>();
+    protected IMediator Mediator => _mediator ??= HttpContext.RequestServices.GetService<IMediator>() ?? throw new NullReferenceException("Service not found");
 
-    internal Guid UserId => !User.Identity.IsAuthenticated
+    internal Guid UserId => User.Identity is { IsAuthenticated: false }
         ? Guid.Empty
-        : Guid.Parse(User.FindFirst(ClaimTypes.NameIdentifier).Value);
+        : Guid.Parse(User.FindFirst(ClaimTypes.NameIdentifier)?.Value ?? "");
 }

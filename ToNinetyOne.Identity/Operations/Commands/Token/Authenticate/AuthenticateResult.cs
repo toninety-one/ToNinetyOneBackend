@@ -1,5 +1,3 @@
-using ToNinetyOne.IdentityDomain;
-
 namespace ToNinetyOne.Identity.Operations.Commands.Token.Authenticate;
 
 public class AuthenticateResult

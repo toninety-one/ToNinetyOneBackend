@@ -13,5 +13,7 @@ public class Discipline
     {
         CreationDate = DateTime.Now;
         EditDate = CreationDate;
+        Title = "";
+        FilePath = "";
     }
 }

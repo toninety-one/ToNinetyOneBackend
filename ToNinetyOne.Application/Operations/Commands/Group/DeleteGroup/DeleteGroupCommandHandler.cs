@@ -2,8 +2,7 @@ using MediatR;
 using Microsoft.EntityFrameworkCore;
 using ToNinetyOne.Application.Interfaces;
 using ToNinetyOne.Config.Common.Exceptions;
-using ToNinetyOne.Domain;
-        
+
 namespace ToNinetyOne.Application.Operations.Commands.Group.DeleteGroup;
         
 public class  DeleteGroupCommandHandler : IRequestHandler<DeleteGroupCommand>

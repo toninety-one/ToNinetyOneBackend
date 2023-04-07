@@ -13,7 +13,7 @@ public class RegistrationCommand : IRequest<Guid>
         Password = "";
     }
     
-    public RegistrationCommand(string userName, string password) : base()
+    public RegistrationCommand(string userName, string password)
     {
         UserName = userName;
         Password = password;

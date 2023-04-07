@@ -2,7 +2,7 @@ using MediatR;
 using ToNinetyOne.Application.Interfaces;
 using ToNinetyOne.Config.Common.Exceptions;
 using ToNinetyOne.Domain;
-        
+
 namespace ToNinetyOne.Application.Operations.Commands.Group.SetUserGroup;
         
 public class  SetUserGroupCommandHandler : IRequestHandler<SetUserGroupCommand, Guid>

@@ -14,5 +14,8 @@ public class LabWork
     {
         CreationDate = DateTime.Now;
         EditDate = CreationDate;
+        FilePath = "";
+        Title = "";
+        Details = "";
     }
 }
