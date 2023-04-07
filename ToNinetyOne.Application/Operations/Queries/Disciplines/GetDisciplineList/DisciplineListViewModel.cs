@@ -6,7 +6,6 @@ public class DisciplineListViewModel
 
     public DisciplineListViewModel()
     {
-        Disciplines = new List<DisciplineLookupDto>();
     }
 
     public DisciplineListViewModel(IList<DisciplineLookupDto> disciplines)

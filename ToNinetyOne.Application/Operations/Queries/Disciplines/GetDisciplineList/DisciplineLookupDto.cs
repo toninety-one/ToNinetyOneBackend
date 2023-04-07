@@ -9,16 +9,6 @@ public class DisciplineLookupDto : IMapWith<Discipline>
     public Guid Id { get; set; }
     public string Title { get; set; }
 
-    public DisciplineLookupDto()
-    {
-        Title = "";
-    }
-
-    public DisciplineLookupDto(string title)
-    {
-        Title = title;
-    }
-
     public void Mapping(Profile profile)
     {
         profile.CreateMap<Discipline, DisciplineLookupDto>()

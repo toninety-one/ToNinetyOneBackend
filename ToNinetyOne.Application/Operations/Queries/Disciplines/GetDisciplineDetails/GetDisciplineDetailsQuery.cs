@@ -9,7 +9,7 @@ public class GetDisciplineDetailsQuery : IRequest<DisciplineDetailsViewModel>
 
     public GetDisciplineDetailsQuery(Guid userId, Guid id)
     {
-        UserId = userId;
+        UserId = UserId;
         Id = id;
     }
 }

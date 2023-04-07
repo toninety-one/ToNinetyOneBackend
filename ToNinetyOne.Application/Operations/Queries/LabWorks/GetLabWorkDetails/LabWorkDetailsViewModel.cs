@@ -13,24 +13,6 @@ public class LabWorkDetailsViewModel : IMapWith<LabWork>
     public DateTime CreationDate { get; set; }
     public DateTime EditDate { get; set; }
 
-    public LabWorkDetailsViewModel()
-    {
-        Title = "";
-        Details = "";
-        FilePath = "";
-    }
-
-    public LabWorkDetailsViewModel(Guid id, string title, string details, string filePath, DateTime creationDate,
-        DateTime editDate)
-    {
-        Id = id;
-        Title = title;
-        Details = details;
-        FilePath = filePath;
-        CreationDate = creationDate;
-        EditDate = editDate;
-    }
-
     public void Mapping(Profile profile)
     {
         profile.CreateMap<LabWork, LabWorkDetailsViewModel>()

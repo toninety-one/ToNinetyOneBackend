@@ -6,15 +6,6 @@ namespace ToNinetyOne.Application.Operations.Commands.Group.CreateGroup;
 public class CreateGroupDto : IMapWith<CreateGroupCommand>
 {
     public string Title { get; set; }
-    public CreateGroupDto()
-    {
-        Title = "";
-    }
-
-    public CreateGroupDto(string title)
-    {
-        Title = title;
-    }
 
     public void Mapping(Profile profile)
     {

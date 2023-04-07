@@ -6,20 +6,9 @@ namespace ToNinetyOne.Application.Operations.Commands.Disciplines.CreateDiscipli
 
 public class CreateDisciplineDto : IMapWith<CreateDisciplineCommand>
 {
-    [Required] public string Title { get; set; }
+    [Required]
+    public string Title { get; set; }
     public string FilePath { get; set; }
-
-    public CreateDisciplineDto()
-    {
-        Title = "";
-        FilePath = "";
-    }
-
-    public CreateDisciplineDto(string title, string filePath)
-    {
-        Title = title;
-        FilePath = filePath;
-    }
 
     public void Mapping(Profile profile)
     {

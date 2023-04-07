@@ -7,8 +7,8 @@ namespace ToNinetyOne.IdentityPersistence;
 
 public class ToNinetyOneUserDbContext : DbContext, IToNinetyOneUserDbContext
 {
-    public DbSet<RefreshToken> RefreshTokens { get; set; } = null!;
-    public DbSet<User> Users { get; set; } = null!;
+    public DbSet<RefreshToken> RefreshTokens { get; set; }
+    public DbSet<User> Users { get; set; }
 
     public ToNinetyOneUserDbContext(DbContextOptions<ToNinetyOneUserDbContext> options) : base(options)
     {

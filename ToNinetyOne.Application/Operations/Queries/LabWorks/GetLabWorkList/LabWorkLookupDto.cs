@@ -9,16 +9,6 @@ public class LabWorkLookupDto : IMapWith<LabWork>
     public Guid Id { get; set; }
     public string Title { get; set; }
 
-    public LabWorkLookupDto()
-    {
-        Title = "";
-    }
-
-    public LabWorkLookupDto(string title)
-    {
-        Title = title;
-    }
-
     public void Mapping(Profile profile)
     {
         profile.CreateMap<LabWork, LabWorkLookupDto>()

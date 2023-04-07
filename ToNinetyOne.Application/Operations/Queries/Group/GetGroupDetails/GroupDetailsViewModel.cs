@@ -12,22 +12,6 @@ public class GroupDetailsViewModel : IMapWith<Domain.Group>
     public DateTime CreationDate { get; set; }
     public DateTime EditDate { get; set; }
 
-    public GroupDetailsViewModel()
-    {
-        Title = "";
-        Users = new List<User>();
-    }
-
-    public GroupDetailsViewModel(Guid id, string title, IEnumerable<User> users, DateTime creationDate,
-        DateTime editDate)
-    {
-        Id = id;
-        Title = title;
-        Users = users;
-        CreationDate = creationDate;
-        EditDate = editDate;
-    }
-
     public void Mapping(Profile profile)
     {
         profile.CreateMap<Domain.Group, GroupDetailsViewModel>()

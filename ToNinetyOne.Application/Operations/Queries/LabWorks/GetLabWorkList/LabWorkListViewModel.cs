@@ -6,7 +6,6 @@ public class LabWorkListViewModel
 
     public LabWorkListViewModel()
     {
-        LabWorks = new List<LabWorkLookupDto>();
     }
 
     public LabWorkListViewModel(IList<LabWorkLookupDto> labWorks)

@@ -8,16 +8,4 @@ public class UpdateDisciplineCommand : IRequest
     public Guid Id { get; set; }
     public string Title { get; set; }
     public string FilePath { get; set; }
-    
-    public UpdateDisciplineCommand()
-    {
-        Title = "";
-        FilePath = "";
-    }
-
-    public UpdateDisciplineCommand(string title, string filePath)
-    {
-        Title = title;
-        FilePath = filePath;
-    }
 }
