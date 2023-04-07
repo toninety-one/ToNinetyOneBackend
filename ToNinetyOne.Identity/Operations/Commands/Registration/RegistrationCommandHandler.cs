@@ -2,6 +2,7 @@ using AutoMapper.QueryableExtensions;
 using MediatR;
 using ToNinetyOne.Identity.Interfaces;
 using ToNinetyOne.IdentityDomain;
+using ToNinetyOne.IdentityDomain.Static;
 
 namespace ToNinetyOne.Identity.Operations.Commands.Registration;
 
@@ -19,7 +20,7 @@ public class RegistrationCommandHandler : IRequestHandler<RegistrationCommand, G
         var user = new User
         {
             UserName = request.UserName,
-            RoleId = Guid.Empty,
+            Role = Roles.User,
             Password = request.Password,
             Salt = "generatesaltpls",
         };

@@ -7,10 +7,11 @@ using ToNinetyOne.Application.Operations.Commands.Group.SetUserGroup;
 using ToNinetyOne.Application.Operations.Commands.Group.UpdateGroup;
 using ToNinetyOne.Application.Operations.Queries.Group.GetGroupDetails;
 using ToNinetyOne.Application.Operations.Queries.Group.GetGroupList;
+using ToNinetyOne.IdentityDomain.Static;
 
 namespace ToNinetyOne.WebApi.Controllers;
 
-[Authorize]
+[Authorize(Roles = Roles.Administrator)]
 [ApiController]
 public class GroupController : BaseController
 {
@@ -81,7 +82,7 @@ public class GroupController : BaseController
         var command = _mapper.Map<SetUserGroupCommand>(setUserGroupDto);
 
         var userId = await Mediator.Send(command);
-        
+
         return Ok(userId);
     }
 

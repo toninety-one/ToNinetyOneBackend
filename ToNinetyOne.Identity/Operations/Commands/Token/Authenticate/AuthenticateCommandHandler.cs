@@ -26,10 +26,7 @@ public class AuthenticateCommandHandler : IRequestHandler<AuthenticateCommand, A
         return new AuthenticateResult()
         {
             Id = user.Id,
-            Role = new Role()
-            {
-                Title = Roles.Administrator
-            },
+            Role = user.Role,
             UserName = user.UserName,
         };
     }

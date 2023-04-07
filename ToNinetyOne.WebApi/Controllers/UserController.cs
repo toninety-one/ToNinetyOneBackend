@@ -83,7 +83,7 @@ public class UserController : BaseController
                 new Claim[]
                 {
                     new(ClaimTypes.Name, authenticateResult.UserName),
-                    new(ClaimTypes.Role, authenticateResult.Role.Title),
+                    new(ClaimTypes.Role, authenticateResult.Role),
                     new(ClaimTypes.NameIdentifier, authenticateResult.Id.ToString())
                 }
             ),
