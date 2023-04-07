@@ -9,4 +9,20 @@ public class UpdateLabWorkCommand : IRequest
     public string Title { get; set; }
     public string Details { get; set; }
     public string FilePath { get; set; }
+
+    public UpdateLabWorkCommand()
+    {
+        Title = "";
+        Details = "";
+        FilePath = "";
+    }
+
+    public UpdateLabWorkCommand(Guid disciplineId, Guid id, string title, string details, string filePath)
+    {
+        DisciplineId = disciplineId;
+        Id = id;
+        Title = title;
+        Details = details;
+        FilePath = filePath;
+    }
 }

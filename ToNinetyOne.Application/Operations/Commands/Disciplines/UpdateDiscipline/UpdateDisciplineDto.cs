@@ -8,6 +8,18 @@ public class UpdateDisciplineDto : IMapWith<UpdateDisciplineCommand>
     public string Title { get; set; }
     public string FilePath { get; set; }
 
+    public UpdateDisciplineDto()
+    {
+        Title = "";
+        FilePath = "";
+    }
+
+    public UpdateDisciplineDto(string title, string filePath)
+    {
+        Title = title;
+        FilePath = filePath;
+    }
+
     public void Mapping(Profile profile)
     {
         profile.CreateMap<UpdateDisciplineDto, UpdateDisciplineCommand>()

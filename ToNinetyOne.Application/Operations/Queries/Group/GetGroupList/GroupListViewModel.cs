@@ -6,6 +6,7 @@ public class GroupListViewModel
 
     public GroupListViewModel()
     {
+        Groups = new List<GroupLookupDto>();
     }
 
     public GroupListViewModel(IList<GroupLookupDto> groups)

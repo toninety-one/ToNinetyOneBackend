@@ -7,10 +7,10 @@ namespace ToNinetyOne.Persistence;
 
 public class ToNinetyOneDbContext : DbContext, IToNinetyOneDbContext
 {
-    public DbSet<Discipline> Disciplines { get; set; }
-    public DbSet<LabWork> LabWorks { get; set; }
-    public DbSet<User> Users { get; set; }
-    public DbSet<Group> Groups { get; set; }
+    public DbSet<Discipline> Disciplines { get; set; } = null!;
+    public DbSet<LabWork> LabWorks { get; set; } = null!;
+    public DbSet<User> Users { get; set; } = null!;
+    public DbSet<Group> Groups { get; set; } = null!;
 
     public ToNinetyOneDbContext(DbContextOptions<ToNinetyOneDbContext> options) : base(options)
     {

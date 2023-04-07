@@ -8,6 +8,16 @@ public class UpdateGroupDto : IMapWith<UpdateGroupCommand>
     public Guid GroupId { get; set; }
     public string Title { get; set; }
 
+    public UpdateGroupDto()
+    {
+        Title = "";
+    }
+
+    public UpdateGroupDto(string title)
+    {
+        Title = title;
+    }
+
     public void Mapping(Profile profile)
     {
         profile.CreateMap<UpdateGroupDto, UpdateGroupCommand>()
