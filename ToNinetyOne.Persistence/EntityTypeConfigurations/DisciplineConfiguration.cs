@@ -11,5 +11,13 @@ public class DisciplineConfiguration : IEntityTypeConfiguration<Discipline>
         builder.HasKey(discipline => discipline.Id);
         builder.HasIndex(discipline => discipline.Id).IsUnique();
         builder.Property(discipline => discipline.Title).IsRequired();
+
+        builder
+            .HasMany(d => d.Groups)
+            .WithMany(g => g.Disciplines);
+
+        builder
+            .HasMany(b => b.LabWorks)
+            .WithOne(l => l.SelfDiscipline);
     }
 }

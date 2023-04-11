@@ -10,6 +10,7 @@ public class Group
     [JsonIgnore] public ICollection<User>? Users { get; set; } = new List<User>();
     public DateTime CreationDate { get; set; }
     public DateTime EditDate { get; set; }
+    [JsonIgnore] public ICollection<Discipline>? Disciplines { get; set; } = new List<Discipline>();
 
     public Group()
     {

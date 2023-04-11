@@ -3,6 +3,7 @@ using Microsoft.EntityFrameworkCore;
 using ToNinetyOne.Config.Common.Exceptions;
 using ToNinetyOne.Identity.Interfaces;
 using ToNinetyOne.IdentityDomain;
+using ToNinetyOne.Utils;
 
 namespace ToNinetyOne.Identity.Operations.Commands.Token.Authenticate;
 
@@ -17,11 +18,11 @@ public class AuthenticateCommandHandler : IRequestHandler<AuthenticateCommand, A
 
     public async Task<AuthenticateResult> Handle(AuthenticateCommand request, CancellationToken cancellationToken)
     {
-        var user = await _dbContext.Users.FirstOrDefaultAsync(
-            u => u.UserName == request.UserName && u.Password == request.Password, cancellationToken);
+        var user = await _dbContext.Users.FirstOrDefaultAsync(u => u.UserName == request.UserName, cancellationToken);
 
-        if (user == null)
+        if (user == null && user.Password != HashPassword.HashWithSalt(request.Password, user.Salt))
         {
+            Console.WriteLine("HUIHUIHUI");
             throw new NotAuthorizedException(nameof(User), request.UserName);
         }
 

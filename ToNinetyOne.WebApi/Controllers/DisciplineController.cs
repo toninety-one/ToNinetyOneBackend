@@ -1,16 +1,18 @@
+using System.Security.Claims;
 using AutoMapper;
 using Microsoft.AspNetCore.Authorization;
 using Microsoft.AspNetCore.Mvc;
-using ToNinetyOne.Application.Operations.Commands.Disciplines.CreateDiscipline;
-using ToNinetyOne.Application.Operations.Commands.Disciplines.DeleteDiscipline;
-using ToNinetyOne.Application.Operations.Commands.Disciplines.UpdateDiscipline;
-using ToNinetyOne.Application.Operations.Queries.Disciplines.GetDisciplineDetails;
-using ToNinetyOne.Application.Operations.Queries.Disciplines.GetDisciplineList;
+using ToNinetyOne.Application.Operations.Commands.Discipline.CreateDiscipline;
+using ToNinetyOne.Application.Operations.Commands.Discipline.DeleteDiscipline;
+using ToNinetyOne.Application.Operations.Commands.Discipline.UpdateDiscipline;
+using ToNinetyOne.Application.Operations.Queries.Discipline.GetDisciplineDetails;
+using ToNinetyOne.Application.Operations.Queries.Discipline.GetDisciplineList;
+using ToNinetyOne.Config.Static;
 
 namespace ToNinetyOne.WebApi.Controllers;
 
 /// <inheritdoc />
-[Authorize]
+[Authorize(Roles = Roles.Administrator)]
 [ApiController]
 [Produces("application/json")]
 public class DisciplineController : BaseController
@@ -26,6 +28,8 @@ public class DisciplineController : BaseController
         _mapper = mapper;
     }
 
+    #region Get
+
     /// <summary>
     /// return the list of all disciplines
     /// </summary>
@@ -36,10 +40,12 @@ public class DisciplineController : BaseController
     /// <returns>returns DisciplineListViewModel</returns>
     /// <responce code="200">Success</responce>
     /// <responce code="401">If user not auth</responce>
+    [Authorize(Roles = Roles.Teacher)]
+    [Authorize(Roles = Roles.Administrator)]
     [HttpGet]
     [ProducesResponseType(StatusCodes.Status200OK)]
     [ProducesResponseType(StatusCodes.Status401Unauthorized)]
-    public async Task<ActionResult<DisciplineListViewModel>> GetAll()
+    public async Task<ActionResult<DisciplineListViewModel>> Get()
     {
         var query = new GetDisciplineListQuery(UserId);
 
@@ -59,6 +65,8 @@ public class DisciplineController : BaseController
     /// <returns>Returns DisciplineDetailsViewModel</returns>
     /// <response code="200">Success</response>
     /// <responce code="401">If user not auth</responce>
+    [Authorize(Roles = Roles.Administrator)]
+    [Authorize(Roles = Roles.Teacher)]
     [HttpGet("{id:guid}")]
     [ProducesResponseType(StatusCodes.Status200OK)]
     [ProducesResponseType(StatusCodes.Status401Unauthorized)]
@@ -70,6 +78,10 @@ public class DisciplineController : BaseController
 
         return Ok(viewModel);
     }
+
+    #endregion
+
+    #region Post
 
     /// <summary>
     /// Creates the discipline
@@ -92,10 +104,13 @@ public class DisciplineController : BaseController
     public async Task<ActionResult<Guid>> Create([FromBody] CreateDisciplineDto createDisciplineDto)
     {
         var command = _mapper.Map<CreateDisciplineCommand>(createDisciplineDto);
-        command.UserId = UserId;
         var disciplineId = await Mediator.Send(command);
         return Ok(disciplineId);
     }
+
+    #endregion
+
+    #region Put
 
     /// <summary>
     /// Updates the discipline
@@ -118,10 +133,13 @@ public class DisciplineController : BaseController
     public async Task<ActionResult<Guid>> Update([FromBody] UpdateDisciplineDto updateDisciplineDto)
     {
         var command = _mapper.Map<UpdateDisciplineCommand>(updateDisciplineDto);
-        command.UserId = UserId;
         await Mediator.Send(command);
         return NoContent();
     }
+
+    #endregion
+
+    #region Delete
 
     /// <summary>
     /// Deletes the discipline by id
@@ -143,4 +161,6 @@ public class DisciplineController : BaseController
         await Mediator.Send(command);
         return NoContent();
     }
+
+    #endregion
 }

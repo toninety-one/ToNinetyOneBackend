@@ -9,6 +9,7 @@
     <ItemGroup>
       <ProjectReference Include="..\ToNinetyOne.Config\ToNinetyOne.Config.csproj" />
       <ProjectReference Include="..\ToNinetyOne.IdentityDomain\ToNinetyOne.IdentityDomain.csproj" />
+      <ProjectReference Include="..\ToNinetyOne.Utils\ToNinetyOne.Utils.csproj" />
     </ItemGroup>
 
     <ItemGroup>

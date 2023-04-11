@@ -10,8 +10,6 @@ public class UserConfiguration : IEntityTypeConfiguration<User>
     {
         builder
             .HasOne(o => o.UserGroup)
-            .WithMany(o => o.Users)
-            // .HasForeignKey(o=>o.GroupId);
-            ;
+            .WithMany(o => o.Users);
     }
 }

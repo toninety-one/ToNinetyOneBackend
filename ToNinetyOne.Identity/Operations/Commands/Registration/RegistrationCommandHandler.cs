@@ -1,7 +1,8 @@
 using MediatR;
+using ToNinetyOne.Config.Static;
 using ToNinetyOne.Identity.Interfaces;
 using ToNinetyOne.IdentityDomain;
-using ToNinetyOne.IdentityDomain.Static;
+using ToNinetyOne.Utils;
 
 namespace ToNinetyOne.Identity.Operations.Commands.Registration;
 
@@ -16,12 +17,14 @@ public class RegistrationCommandHandler : IRequestHandler<RegistrationCommand, G
 
     public async Task<Guid> Handle(RegistrationCommand request, CancellationToken cancellationToken)
     {
+        var salt = HashPassword.CreateSalt();
+        
         var user = new User
         {
             UserName = request.UserName,
             Role = Roles.User,
-            Password = request.Password,
-            Salt = "generatesaltpls",
+            Password = HashPassword.HashWithSalt(request.Password, salt),
+            Salt = salt,
         };
 
         await _dbContext.Users.AddAsync(user, cancellationToken);

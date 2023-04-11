@@ -6,7 +6,7 @@ using Microsoft.AspNetCore.Authorization;
 using Microsoft.AspNetCore.Mvc;
 using Microsoft.Extensions.Options;
 using Microsoft.IdentityModel.Tokens;
-using ToNinetyOne.Application.Operations.Commands.Users;
+using ToNinetyOne.Application.Operations.Commands.User;
 using ToNinetyOne.Identity.Operations.Commands.Registration;
 using ToNinetyOne.Identity.Operations.Commands.Token;
 using ToNinetyOne.Identity.Operations.Commands.Token.Authenticate;
@@ -75,6 +75,8 @@ public class UserController : BaseController
     [ProducesResponseType(StatusCodes.Status401Unauthorized)]
     public async Task<IActionResult> Authenticate([FromBody] AuthenticateDto authenticateDto)
     {
+        Console.WriteLine("this pos");
+
         var tokenResponse = new Token();
 
         var command = _mapper.Map<AuthenticateCommand>(authenticateDto);
@@ -83,12 +85,12 @@ public class UserController : BaseController
 
         if (authenticateResult == null)
         {
+            Console.WriteLine("EBLAN");
+
             return Unauthorized();
         }
 
         var tokenHandler = new JwtSecurityTokenHandler();
-
-        var tokenKey = Encoding.UTF8.GetBytes(_jwtSetting.SecurityKey);
 
         var tokenDescriptor = new SecurityTokenDescriptor
         {
@@ -102,13 +104,11 @@ public class UserController : BaseController
             ),
             Expires = DateTime.Now.AddMinutes(5),
             SigningCredentials =
-                new SigningCredentials(new SymmetricSecurityKey(tokenKey), SecurityAlgorithms.HmacSha256)
+                new SigningCredentials(new SymmetricSecurityKey(Encoding.UTF8.GetBytes(_jwtSetting.SecurityKey)),
+                    SecurityAlgorithms.HmacSha256)
         };
 
-        var token = tokenHandler.CreateToken(tokenDescriptor);
-        var finalToken = tokenHandler.WriteToken(token);
-
-        tokenResponse.JwtToken = finalToken;
+        tokenResponse.JwtToken = tokenHandler.WriteToken(tokenHandler.CreateToken(tokenDescriptor));
 
         var refreshTokenCommand =
             _mapper.Map<RefreshCommand>(new RefreshDto { UserName = authenticateResult.UserName });
@@ -149,7 +149,7 @@ public class UserController : BaseController
         {
             return Unauthorized();
         }
-        
+
         var updateTokenCommand =
             _mapper.Map<UpdateCommand>(new UpdateDto { UserName = username, RefreshToken = token.RefreshToken });
 
@@ -190,7 +190,12 @@ public class UserController : BaseController
 
         var registerId = await Mediator.Send(command);
 
-        var transferCommand = _mapper.Map<UserTransferCommand>(new UserTransferDto(registerId));
+        var transferCommand = _mapper.Map<UserTransferCommand>(new UserTransferDto(registerId)
+        {
+            FirstName = registrationDto.FirstName,
+            LastName = registrationDto.LastName,
+            MiddleName = registrationDto.MiddleName,
+        });
 
         var userId = await Mediator.Send(transferCommand);
 

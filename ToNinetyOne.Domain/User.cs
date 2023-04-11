@@ -1,7 +1,9 @@
 using System.ComponentModel.DataAnnotations;
 using System.ComponentModel.DataAnnotations.Schema;
 using System.Diagnostics.CodeAnalysis;
+using System.Security.AccessControl;
 using System.Text.Json.Serialization;
+using ToNinetyOne.Config.Static;
 
 namespace ToNinetyOne.Domain;
 
@@ -10,10 +12,11 @@ public class User
     [Key] [Required] [NotNull] public Guid Id { get; set; }
     public string FirstName { get; set; }
     public string LastName { get; set; }
-    public string MiddleName { get; set; }
+    public string? MiddleName { get; set; }
     [ForeignKey(nameof(UserGroup))] public Guid? GroupId { get; set; }
     [JsonIgnore] public Group? UserGroup { get; set; }
     public Guid AvatarId { get; set; }
+    public string Role { get; set; } = Roles.User;
 
     public User()
     {
@@ -27,10 +30,11 @@ public class User
         Id = registerId;
     }
 
-    public User(string firstName, string lastName, string middleName)
+    public User(string firstName, string lastName, string middleName, string role)
     {
         FirstName = firstName;
         LastName = lastName;
         MiddleName = middleName;
+        Role = role;
     }
 }

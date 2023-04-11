@@ -6,18 +6,22 @@ namespace ToNinetyOne.Identity.Operations.Commands.Registration;
 public class RegistrationDto : IMapWith<RegistrationDto>
 {
     public string UserName { get; set; }
+    public string FirstName { get; set; }
+    public string LastName { get; set; }
+    public string MiddleName { get; set; }
     public string Password { get; set; }
 
     public RegistrationDto()
     {
-        UserName = "";
-        Password = "";
     }
 
-    public RegistrationDto(string userName, string password)
+    public RegistrationDto(string userName, string password, string firstName, string lastName, string middleName)
     {
         UserName = userName;
         Password = password;
+        FirstName = firstName;
+        LastName = lastName;
+        MiddleName = middleName;
     }
 
     public void Mapping(Profile profile)
@@ -26,6 +30,15 @@ public class RegistrationDto : IMapWith<RegistrationDto>
             .ForMember(
                 command => command.UserName,
                 opt => opt.MapFrom(dto => dto.UserName)
+            ).ForMember(
+                command => command.FirstName,
+                opt => opt.MapFrom(dto => dto.FirstName)
+            ).ForMember(
+                command => command.LastName,
+                opt => opt.MapFrom(dto => dto.LastName)
+            ).ForMember(
+                command => command.MiddleName,
+                opt => opt.MapFrom(dto => dto.MiddleName)
             ).ForMember(
                 command => command.Password,
                 opt => opt.MapFrom(dto => dto.Password)

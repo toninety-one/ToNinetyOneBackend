@@ -9,6 +9,7 @@ public class GroupDetailsViewModel : IMapWith<Domain.Group>
     public Guid Id { get; set; }
     public string Title { get; set; }
     public IEnumerable<User> Users { get; set; }
+    public IEnumerable<User> Disciplines { get; set; }
     public DateTime CreationDate { get; set; }
     public DateTime EditDate { get; set; }
 
@@ -46,6 +47,9 @@ public class GroupDetailsViewModel : IMapWith<Domain.Group>
             ).ForMember(
                 disciplineVm => disciplineVm.Users,
                 opt => opt.MapFrom(discipline => discipline.Users)
+            ).ForMember(
+                disciplineVm => disciplineVm.Disciplines,
+                opt => opt.MapFrom(discipline => discipline.Disciplines)
             );
     }
 }

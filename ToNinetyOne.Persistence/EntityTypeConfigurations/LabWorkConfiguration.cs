@@ -11,5 +11,9 @@ public class LabWorkConfiguration : IEntityTypeConfiguration<LabWork>
         builder.HasKey(labWork => labWork.Id);
         builder.HasIndex(labWork => labWork.Id).IsUnique();
         builder.Property(labWork => labWork.Title).IsRequired();
+
+        builder
+            .HasOne(l => l.SelfDiscipline)
+            .WithMany(d => d.LabWorks);
     }
 }

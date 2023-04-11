@@ -26,6 +26,8 @@ Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "ToNinetyOne.IdentityPersist
 EndProject
 Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "ToNinetyOne.Config", "ToNinetyOne.Config\ToNinetyOne.Config.csproj", "{EDB20CEA-4CCF-4A12-8A57-F4CBF8CF64B5}"
 EndProject
+Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "ToNinetyOne.Utils", "ToNinetyOne.Utils\ToNinetyOne.Utils.csproj", "{ED588753-FD28-4296-8E1B-F1C2DC6A9479}"
+EndProject
 Global
 	GlobalSection(SolutionConfigurationPlatforms) = preSolution
 		Debug|Any CPU = Debug|Any CPU
@@ -42,6 +44,7 @@ Global
 		{1D535EAD-E232-41F4-BA34-D5E0D195FB6A} = {A9C46733-75A7-4304-B03D-DD375B2410F9}
 		{EF2526F3-44CA-4D47-ABE4-CC071F8CE821} = {A9C46733-75A7-4304-B03D-DD375B2410F9}
 		{EDB20CEA-4CCF-4A12-8A57-F4CBF8CF64B5} = {C6389644-857D-4042-9F62-C5BAF2E33FF5}
+		{ED588753-FD28-4296-8E1B-F1C2DC6A9479} = {C6389644-857D-4042-9F62-C5BAF2E33FF5}
 	EndGlobalSection
 	GlobalSection(ProjectConfigurationPlatforms) = postSolution
 		{8FA8D91B-0EB2-4726-B736-12BD5358EF9F}.Debug|Any CPU.ActiveCfg = Debug|Any CPU
@@ -76,5 +79,9 @@ Global
 		{EDB20CEA-4CCF-4A12-8A57-F4CBF8CF64B5}.Debug|Any CPU.Build.0 = Debug|Any CPU
 		{EDB20CEA-4CCF-4A12-8A57-F4CBF8CF64B5}.Release|Any CPU.ActiveCfg = Release|Any CPU
 		{EDB20CEA-4CCF-4A12-8A57-F4CBF8CF64B5}.Release|Any CPU.Build.0 = Release|Any CPU
+		{ED588753-FD28-4296-8E1B-F1C2DC6A9479}.Debug|Any CPU.ActiveCfg = Debug|Any CPU
+		{ED588753-FD28-4296-8E1B-F1C2DC6A9479}.Debug|Any CPU.Build.0 = Debug|Any CPU
+		{ED588753-FD28-4296-8E1B-F1C2DC6A9479}.Release|Any CPU.ActiveCfg = Release|Any CPU
+		{ED588753-FD28-4296-8E1B-F1C2DC6A9479}.Release|Any CPU.Build.0 = Release|Any CPU
 	EndGlobalSection
 EndGlobal

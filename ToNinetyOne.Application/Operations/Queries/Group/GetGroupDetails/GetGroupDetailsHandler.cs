@@ -19,8 +19,10 @@ public class GetGroupDetailsHandler : IRequestHandler<GetGroupDetailsQuery, Grou
 
     public async Task<GroupDetailsViewModel> Handle(GetGroupDetailsQuery request, CancellationToken cancellationToken)
     {
-        var entity = await _dbContext.Groups.Include(g=>g.Users)
+        var entity = await _dbContext.Groups.Include(g=>g.Users).Include(g=>g.Disciplines)
             .FirstOrDefaultAsync(discipline => discipline.Id == request.Id, cancellationToken);
+        
+        Console.Write(entity.Disciplines.Count);
         
         if (entity == null)
         {

@@ -12,5 +12,8 @@ public class GroupConfiguration : IEntityTypeConfiguration<Group>
         builder
             .HasMany(o => o.Users)
             .WithOne(o => o.UserGroup);
+        builder
+            .HasMany(g => g.Disciplines)
+            .WithMany(d => d.Groups);
     }
 }

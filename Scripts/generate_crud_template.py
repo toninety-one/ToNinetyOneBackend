@@ -26,6 +26,15 @@ def generate_operation(operation_name: str, operation_type: str):
 
     file_writer(str(templates.operations["dto"]).replace("{0}", operation_name).replace("{1}", operation),
                 f"{folder_path}{operation}Dto.cs")
+    #
+    # file_writer(str(templates.operations["query"]).replace("{0}", operation_name).replace("{1}", operation),
+    #             f"{folder_path}{operation}Query.cs")
+    #
+    # file_writer(str(templates.operations["queryhandler"]).replace("{0}", operation_name).replace("{1}", operation),
+    #             f"{folder_path}{operation}QueryHandler.cs")
+    #
+    # file_writer(str(templates.operations["viewmodel"]).replace("{0}", operation_name).replace("{1}", operation),
+    #             f"{folder_path}{operation}LookupDto.cs")
 
 
 def generate_folders(operation_name: str) -> int:
@@ -40,6 +49,7 @@ def generate_folders(operation_name: str) -> int:
     generate_operation(operation_name, "Create")
     generate_operation(operation_name, "Update")
     generate_operation(operation_name, "Delete")
+    # generate_operation(operation_name, "AddGroup")
 
 
 def main():

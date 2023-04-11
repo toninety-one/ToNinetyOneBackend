@@ -1,13 +1,14 @@
 using AutoMapper;
 using Microsoft.AspNetCore.Authorization;
 using Microsoft.AspNetCore.Mvc;
+using ToNinetyOne.Application.Operations.Commands.DisciplineGroup.AddDisciplineGroup;
 using ToNinetyOne.Application.Operations.Commands.Group.CreateGroup;
 using ToNinetyOne.Application.Operations.Commands.Group.DeleteGroup;
 using ToNinetyOne.Application.Operations.Commands.Group.SetUserGroup;
 using ToNinetyOne.Application.Operations.Commands.Group.UpdateGroup;
 using ToNinetyOne.Application.Operations.Queries.Group.GetGroupDetails;
 using ToNinetyOne.Application.Operations.Queries.Group.GetGroupList;
-using ToNinetyOne.IdentityDomain.Static;
+using ToNinetyOne.Config.Static;
 
 namespace ToNinetyOne.WebApi.Controllers;
 
@@ -27,6 +28,8 @@ public class GroupController : BaseController
         _mapper = mapper;
     }
 
+    #region Get
+
     /// <summary>
     /// return the list of all groups
     /// </summary>
@@ -40,7 +43,7 @@ public class GroupController : BaseController
     [HttpGet]
     [ProducesResponseType(StatusCodes.Status200OK)]
     [ProducesResponseType(StatusCodes.Status401Unauthorized)]
-    public async Task<ActionResult<GroupListViewModel>> GetAll()
+    public async Task<ActionResult<GroupListViewModel>> Get()
     {
         var query = new GetGroupListQuery(UserId);
 
@@ -71,6 +74,10 @@ public class GroupController : BaseController
 
         return Ok(viewModel);
     }
+
+    #endregion
+
+    #region Post
 
     /// <summary>
     /// Creates the group
@@ -125,6 +132,10 @@ public class GroupController : BaseController
         return Ok(userId);
     }
 
+    #endregion
+
+    #region Put
+
     /// <summary>
     /// Updates the group
     /// </summary>
@@ -150,6 +161,10 @@ public class GroupController : BaseController
         return NoContent();
     }
 
+    #endregion
+
+    #region Delete
+
     /// <summary>
     /// Deletes the group by id
     /// </summary>
@@ -170,4 +185,6 @@ public class GroupController : BaseController
         await Mediator.Send(command);
         return NoContent();
     }
+
+    #endregion
 }

@@ -8,5 +8,7 @@ public class RegistrationCommandValidator : AbstractValidator<RegistrationComman
     {
         RuleFor(command => command.UserName).NotEmpty();
         RuleFor(command => command.Password).NotEmpty();
+        RuleFor(command => command.FirstName).NotEmpty();
+        RuleFor(command => command.LastName).NotEmpty();
     }
 }
