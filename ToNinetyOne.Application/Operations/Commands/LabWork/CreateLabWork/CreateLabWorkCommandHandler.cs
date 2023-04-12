@@ -17,23 +17,19 @@ public class CreateLabWorkCommandHandler : IRequestHandler<CreateLabWorkCommand,
 
     public async Task<Guid> Handle(CreateLabWorkCommand request, CancellationToken cancellationToken)
     {
-        var user = await _dbContext.Users.FirstOrDefaultAsync(u => u.Id == request.UserId, cancellationToken);
+        var user = await _dbContext.Users
+            .Include(u => u.UserGroup)
+            .FirstOrDefaultAsync(u => u.Id == request.UserId, cancellationToken);
 
-        if (user == null)
-        {
-            throw new NotFoundException(nameof(User), request.UserId);
-        }
+        if (user == null) throw new NotFoundException(nameof(User), request.UserId);
 
         var selfDiscipline =
             _dbContext.Disciplines.FirstOrDefault(d =>
-                d.Id == request.DisciplineId && d.UserId == request.UserId || user.Role == Roles.Administrator);
+                (d.Id == request.DisciplineId && d.UserId == request.UserId) || user.Role == Roles.Administrator);
 
-        if (selfDiscipline == null)
-        {
-            throw new NotFoundException(nameof(Domain.Discipline), request.DisciplineId);
-        }
+        if (selfDiscipline == null) throw new NotFoundException(nameof(Domain.Discipline), request.DisciplineId);
 
-        var lab = new Domain.LabWork()
+        var lab = new Domain.LabWork
         {
             Details = request.Details,
             FilePath = request.FilePath,

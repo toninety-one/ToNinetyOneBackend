@@ -11,10 +11,12 @@ namespace ToNinetyOne.WebApi.Controllers;
 public class BaseController : ControllerBase
 {
     private IMediator? _mediator;
+
     /// <summary>
-    /// Mediator
+    ///     Mediator
     /// </summary>
-    protected IMediator Mediator => _mediator ??= HttpContext.RequestServices.GetService<IMediator>() ?? throw new NullReferenceException("Service not found");
+    protected IMediator Mediator => _mediator ??= HttpContext.RequestServices.GetService<IMediator>() ??
+                                                  throw new NullReferenceException("Service not found");
 
     internal Guid UserId => User.Identity is { IsAuthenticated: false }
         ? Guid.Empty

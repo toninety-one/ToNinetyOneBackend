@@ -5,14 +5,6 @@ namespace ToNinetyOne.Domain;
 
 public class SubmittedLab
 {
-    public Guid Id { get; set; }
-    public string Title { get; set; }
-    public string Details { get; set; }
-    public string FilePath { get; set; }
-    public DateTime CreationDate { get; set; }
-    public DateTime EditDate { get; set; }
-    [Required] [JsonIgnore] public LabWork SelfLabWork { get; set; }
-
     public SubmittedLab()
     {
         Id = Guid.NewGuid();
@@ -22,4 +14,14 @@ public class SubmittedLab
         CreationDate = DateTime.Now;
         EditDate = CreationDate;
     }
+
+    public Guid Id { get; set; }
+    public string Title { get; set; }
+    public string Details { get; set; }
+    public string FilePath { get; set; }
+    public DateTime CreationDate { get; set; }
+    public DateTime EditDate { get; set; }
+    public string? Mark { get; set; }
+    [Required] public User SelfUser { get; set; }
+    [Required] [JsonIgnore] public LabWork SelfLabWork { get; set; }
 }

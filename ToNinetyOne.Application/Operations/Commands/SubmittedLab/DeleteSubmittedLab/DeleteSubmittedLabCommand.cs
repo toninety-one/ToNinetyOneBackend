@@ -6,5 +6,3 @@ public class DeleteSubmittedLabCommand : IRequest<Guid>
 {
     public Guid UserId { get; set; }
 }
-    
-    

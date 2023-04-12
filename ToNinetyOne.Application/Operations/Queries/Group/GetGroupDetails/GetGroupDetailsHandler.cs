@@ -19,14 +19,11 @@ public class GetGroupDetailsHandler : IRequestHandler<GetGroupDetailsQuery, Grou
 
     public async Task<GroupDetailsViewModel> Handle(GetGroupDetailsQuery request, CancellationToken cancellationToken)
     {
-        var entity = await _dbContext.Groups.Include(g=>g.Users).Include(g=>g.Disciplines)
+        var entity = await _dbContext.Groups.Include(g => g.Users).Include(g => g.Disciplines)
             .FirstOrDefaultAsync(discipline => discipline.Id == request.Id, cancellationToken);
-        
-        if (entity == null)
-        {
-            throw new NotFoundException(nameof(Domain.Group), request.Id);
-        }
-        
+
+        if (entity == null) throw new NotFoundException(nameof(Domain.Group), request.Id);
+
         return _mapper.Map<GroupDetailsViewModel>(entity);
     }
 }

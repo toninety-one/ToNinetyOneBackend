@@ -22,15 +22,9 @@ public class AddDisciplineGroupCommandHandler : IRequestHandler<AddDisciplineGro
         var discipline =
             await _dbContext.Disciplines.FirstOrDefaultAsync(d => d.Id == request.DisciplineId, cancellationToken);
 
-        if (group == null)
-        {
-            throw new NotFoundException(nameof(Domain.Group), request.GroupId);
-        }
+        if (group == null) throw new NotFoundException(nameof(Domain.Group), request.GroupId);
 
-        if (discipline == null)
-        {
-            throw new NotFoundException(nameof(Domain.Discipline), request.DisciplineId);
-        }
+        if (discipline == null) throw new NotFoundException(nameof(Domain.Discipline), request.DisciplineId);
 
         group.Disciplines.Add(discipline);
 

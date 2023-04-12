@@ -7,6 +7,6 @@ public class GetGroupDetailsQueryValidator : AbstractValidator<GetGroupListQuery
 {
     public GetGroupDetailsQueryValidator()
     {
-        RuleFor(group=> group.UserId).NotEqual(Guid.Empty);
+        RuleFor(group => group.UserId).NotEqual(Guid.Empty);
     }
 }

@@ -5,9 +5,6 @@ namespace ToNinetyOne.Application.Operations.Queries.Discipline.GetDisciplineLis
 
 public class DisciplineLookupDto : IMapWith<Domain.Discipline>
 {
-    public Guid Id { get; set; }
-    public string Title { get; set; }
-
     public DisciplineLookupDto()
     {
         Title = "";
@@ -17,6 +14,9 @@ public class DisciplineLookupDto : IMapWith<Domain.Discipline>
     {
         Title = title;
     }
+
+    public Guid Id { get; set; }
+    public string Title { get; set; }
 
     public void Mapping(Profile profile)
     {

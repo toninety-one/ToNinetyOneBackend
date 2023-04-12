@@ -6,7 +6,7 @@ public class GetDisciplineDetailsQueryValidator : AbstractValidator<GetDisciplin
 {
     public GetDisciplineDetailsQueryValidator()
     {
-        RuleFor(discipline=> discipline.UserId).NotEqual(Guid.Empty);
-        RuleFor(discipline=> discipline.Id).NotEqual(Guid.Empty);
+        RuleFor(discipline => discipline.UserId).NotEqual(Guid.Empty);
+        RuleFor(discipline => discipline.Id).NotEqual(Guid.Empty);
     }
 }

@@ -17,12 +17,11 @@ public class UpdateDisciplineCommandHandler : IRequestHandler<UpdateDisciplineCo
     public async Task<Unit> Handle(UpdateDisciplineCommand request, CancellationToken cancellationToken)
     {
         var entity =
-            await _dbContext.Disciplines.FirstOrDefaultAsync(discipline => discipline.Id == request.Id, cancellationToken);
+            await _dbContext.Disciplines.FirstOrDefaultAsync(discipline => discipline.Id == request.Id,
+                cancellationToken);
 
         if (entity == null || entity.UserId != request.UserId)
-        {
             throw new NotFoundException(nameof(Domain.LabWork), request.Id);
-        }
 
         entity.Title = request.Title;
         entity.FilePath = request.FilePath;

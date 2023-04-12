@@ -5,14 +5,14 @@ using System.Text.Json;
 namespace ToNinetyOne.WebApi.Middleware;
 
 /// <summary>
-/// Custom middleware handler
+///     Custom middleware handler
 /// </summary>
 public class CustomExceptionHandlerMiddleware
 {
     private readonly RequestDelegate _next;
 
     /// <summary>
-    /// Custom middleware constructor
+    ///     Custom middleware constructor
     /// </summary>
     /// <param name="next"></param>
     public CustomExceptionHandlerMiddleware(RequestDelegate next)
@@ -21,7 +21,7 @@ public class CustomExceptionHandlerMiddleware
     }
 
     /// <summary>
-    /// Custom middleware descriptor
+    ///     Custom middleware descriptor
     /// </summary>
     /// <param name="context"></param>
     public async Task Invoke(HttpContext context)
@@ -56,9 +56,7 @@ public class CustomExceptionHandlerMiddleware
         context.Response.StatusCode = (int)code;
 
         if (result == string.Empty)
-        {
-            result = JsonSerializer.Serialize(new { error = exception?.Message ?? "Unknown exception"});
-        }
+            result = JsonSerializer.Serialize(new { error = exception?.Message ?? "Unknown exception" });
 
         return context.Response.WriteAsync(result);
     }

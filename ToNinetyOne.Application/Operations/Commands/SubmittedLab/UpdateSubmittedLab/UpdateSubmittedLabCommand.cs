@@ -6,5 +6,3 @@ public class UpdateSubmittedLabCommand : IRequest<Guid>
 {
     public Guid UserId { get; set; }
 }
-    
-    

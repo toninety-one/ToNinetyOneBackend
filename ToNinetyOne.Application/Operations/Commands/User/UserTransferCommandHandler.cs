@@ -22,7 +22,7 @@ public class UserTransferCommandHandler : IRequestHandler<UserTransferCommand, G
             AvatarId = Guid.Empty,
             LastName = request.LastName,
             MiddleName = request.MiddleName,
-            Role = Roles.User,
+            Role = Roles.User
         };
 
         await _dbContext.Users.AddAsync(user, cancellationToken);

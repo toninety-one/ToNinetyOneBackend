@@ -1,7 +1,6 @@
 using AutoMapper;
 using Microsoft.AspNetCore.Authorization;
 using Microsoft.AspNetCore.Mvc;
-using ToNinetyOne.Application.Operations.Queries.UserProfile;
 
 namespace ToNinetyOne.WebApi.Controllers;
 
@@ -13,7 +12,7 @@ public class SubmittedLabController : BaseController
     private readonly IMapper _mapper;
 
     /// <summary>
-    /// Constructor
+    ///     Constructor
     /// </summary>
     /// <param name="mapper">configured mapper</param>
     public SubmittedLabController(IMapper mapper)
@@ -24,11 +23,11 @@ public class SubmittedLabController : BaseController
     #region Get
 
     /// <summary>
-    /// return user profile info
+    ///     return user profile info
     /// </summary>
     /// <remarks>
-    /// Sample request:
-    /// GET /api/labwork
+    ///     Sample request:
+    ///     GET /api/labwork
     /// </remarks>
     /// <returns>returns GroupListViewModel</returns>
     /// <responce code="200">Success</responce>
@@ -42,11 +41,11 @@ public class SubmittedLabController : BaseController
     }
 
     /// <summary>
-    /// return user profile info
+    ///     return user profile info
     /// </summary>
     /// <remarks>
-    /// Sample request:
-    /// GET /api/labwork
+    ///     Sample request:
+    ///     GET /api/labwork
     /// </remarks>
     /// <returns>returns GroupListViewModel</returns>
     /// <responce code="200">Success</responce>
@@ -60,11 +59,11 @@ public class SubmittedLabController : BaseController
     }
 
     /// <summary>
-    /// return user profile info
+    ///     return user profile info
     /// </summary>
     /// <remarks>
-    /// Sample request:
-    /// GET /api/labwork
+    ///     Sample request:
+    ///     GET /api/labwork
     /// </remarks>
     /// <returns>returns GroupListViewModel</returns>
     /// <responce code="200">Success</responce>
@@ -74,7 +73,7 @@ public class SubmittedLabController : BaseController
     [ProducesResponseType(StatusCodes.Status401Unauthorized)]
     public async Task<ActionResult> Get(Guid disciplineId, Guid labId)
     {
-        return Ok(disciplineId.ToString() + labId.ToString());
+        return Ok(disciplineId + labId.ToString());
     }
 
     #endregion

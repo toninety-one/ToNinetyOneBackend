@@ -15,5 +15,6 @@ public class SubmittedLabConfiguration : IEntityTypeConfiguration<SubmittedLab>
         builder
             .HasOne(l => l.SelfLabWork)
             .WithMany(l => l.SubmittedLabs);
+        builder.HasOne(l => l.SelfUser);
     }
 }

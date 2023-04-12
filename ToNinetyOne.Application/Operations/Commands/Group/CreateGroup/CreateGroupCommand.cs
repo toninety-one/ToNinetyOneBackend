@@ -4,9 +4,6 @@ namespace ToNinetyOne.Application.Operations.Commands.Group.CreateGroup;
 
 public class CreateGroupCommand : IRequest<Guid>
 {
-    public Guid UserId { get; set; }
-    public string Title { get; set; }
-
     public CreateGroupCommand()
     {
         Title = "";
@@ -16,4 +13,7 @@ public class CreateGroupCommand : IRequest<Guid>
     {
         Title = title;
     }
+
+    public Guid UserId { get; set; }
+    public string Title { get; set; }
 }

@@ -5,8 +5,6 @@ namespace ToNinetyOne.Identity.Operations.Commands.Token.Refresh;
 
 public class RefreshDto : IMapWith<RefreshDto>
 {
-    public string UserName { get; set; }
-
     public RefreshDto()
     {
         UserName = "";
@@ -16,6 +14,8 @@ public class RefreshDto : IMapWith<RefreshDto>
     {
         UserName = userName;
     }
+
+    public string UserName { get; set; }
 
     public void Mapping(Profile profile)
     {

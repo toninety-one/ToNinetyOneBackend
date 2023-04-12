@@ -9,25 +9,25 @@
     </PropertyGroup>
 
     <ItemGroup>
-        <PackageReference Include="AutoMapper.Extensions.Microsoft.DependencyInjection" Version="12.0.0" />
-        <PackageReference Include="MediatR.Extensions.Microsoft.DependencyInjection" Version="11.1.0" />
-        <PackageReference Include="Microsoft.AspNetCore.Authentication.JwtBearer" Version="7.0.4" />
-        <PackageReference Include="Microsoft.AspNetCore.OpenApi" Version="7.0.2" />
-        <PackageReference Include="Swashbuckle.AspNetCore" Version="6.4.0" />
-        <PackageReference Include="Swashbuckle.AspNetCore.Annotations" Version="6.5.0" />
+        <PackageReference Include="AutoMapper.Extensions.Microsoft.DependencyInjection" Version="12.0.0"/>
+        <PackageReference Include="MediatR.Extensions.Microsoft.DependencyInjection" Version="11.1.0"/>
+        <PackageReference Include="Microsoft.AspNetCore.Authentication.JwtBearer" Version="7.0.4"/>
+        <PackageReference Include="Microsoft.AspNetCore.OpenApi" Version="7.0.2"/>
+        <PackageReference Include="Swashbuckle.AspNetCore" Version="6.4.0"/>
+        <PackageReference Include="Swashbuckle.AspNetCore.Annotations" Version="6.5.0"/>
     </ItemGroup>
 
     <ItemGroup>
-      <Content Include="..\.dockerignore">
-        <Link>.dockerignore</Link>
-      </Content>
+        <Content Include="..\.dockerignore">
+            <Link>.dockerignore</Link>
+        </Content>
     </ItemGroup>
 
     <ItemGroup>
-      <ProjectReference Include="..\ToNinetyOne.Application\ToNinetyOne.Application.csproj" />
-      <ProjectReference Include="..\ToNinetyOne.IdentityPersistence\ToNinetyOne.IdentityPersistence.csproj" />
-      <ProjectReference Include="..\ToNinetyOne.Identity\ToNinetyOne.Identity.csproj" />
-      <ProjectReference Include="..\ToNinetyOne.Persistence\ToNinetyOne.Persistence.csproj" />
+        <ProjectReference Include="..\ToNinetyOne.Application\ToNinetyOne.Application.csproj"/>
+        <ProjectReference Include="..\ToNinetyOne.IdentityPersistence\ToNinetyOne.IdentityPersistence.csproj"/>
+        <ProjectReference Include="..\ToNinetyOne.Identity\ToNinetyOne.Identity.csproj"/>
+        <ProjectReference Include="..\ToNinetyOne.Persistence\ToNinetyOne.Persistence.csproj"/>
     </ItemGroup>
 
 </Project>

@@ -2,10 +2,6 @@ namespace ToNinetyOne.Identity.Operations.Commands.Token.Authenticate;
 
 public class AuthenticateResult
 {
-    public Guid Id { get; set; }
-    public string UserName { get; set; }
-    public string Role { get; set; }
-
     public AuthenticateResult()
     {
         UserName = "";
@@ -18,4 +14,8 @@ public class AuthenticateResult
         UserName = userName;
         Role = role;
     }
+
+    public Guid Id { get; set; }
+    public string UserName { get; set; }
+    public string Role { get; set; }
 }

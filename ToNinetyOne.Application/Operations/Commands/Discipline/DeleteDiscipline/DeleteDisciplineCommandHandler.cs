@@ -17,12 +17,11 @@ public class DeleteDisciplineCommandHandler : IRequestHandler<DeleteDisciplineCo
     public async Task<Unit> Handle(DeleteDisciplineCommand request, CancellationToken cancellationToken)
     {
         var entity =
-            await _dbContext.Disciplines.FirstOrDefaultAsync(discipline => discipline.Id == request.Id, cancellationToken);
+            await _dbContext.Disciplines.FirstOrDefaultAsync(discipline => discipline.Id == request.Id,
+                cancellationToken);
 
         if (entity == null || entity.UserId != request.UserId)
-        {
             throw new NotFoundException(nameof(Domain.LabWork), request.Id);
-        }
 
         _dbContext.Disciplines.Remove(entity);
 

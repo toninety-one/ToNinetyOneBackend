@@ -5,13 +5,6 @@ namespace ToNinetyOne.Application.Operations.Queries.Discipline.GetDisciplineDet
 
 public class DisciplineDetailsViewModel : IMapWith<Domain.Discipline>
 {
-    public Guid Id { get; set; }
-    public string Title { get; set; }
-    public string FilePath { get; set; }
-    public IEnumerable<Domain.Group> Groups { get; set; }
-    public DateTime CreationDate { get; set; }
-    public DateTime EditDate { get; set; }
-
     public DisciplineDetailsViewModel()
     {
         Title = "";
@@ -26,6 +19,13 @@ public class DisciplineDetailsViewModel : IMapWith<Domain.Discipline>
         CreationDate = creationDate;
         EditDate = editDate;
     }
+
+    public Guid Id { get; set; }
+    public string Title { get; set; }
+    public string FilePath { get; set; }
+    public IEnumerable<Domain.Group> Groups { get; set; }
+    public DateTime CreationDate { get; set; }
+    public DateTime EditDate { get; set; }
 
     public void Mapping(Profile profile)
     {

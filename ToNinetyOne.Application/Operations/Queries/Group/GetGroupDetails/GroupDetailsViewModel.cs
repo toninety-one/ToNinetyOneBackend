@@ -6,13 +6,6 @@ namespace ToNinetyOne.Application.Operations.Queries.Group.GetGroupDetails;
 
 public class GroupDetailsViewModel : IMapWith<Domain.Group>
 {
-    public Guid Id { get; set; }
-    public string Title { get; set; }
-    public IEnumerable<User> Users { get; set; }
-    public IEnumerable<User> Disciplines { get; set; }
-    public DateTime CreationDate { get; set; }
-    public DateTime EditDate { get; set; }
-
     public GroupDetailsViewModel()
     {
         Title = "";
@@ -28,6 +21,13 @@ public class GroupDetailsViewModel : IMapWith<Domain.Group>
         CreationDate = creationDate;
         EditDate = editDate;
     }
+
+    public Guid Id { get; set; }
+    public string Title { get; set; }
+    public IEnumerable<User> Users { get; set; }
+    public IEnumerable<User> Disciplines { get; set; }
+    public DateTime CreationDate { get; set; }
+    public DateTime EditDate { get; set; }
 
     public void Mapping(Profile profile)
     {

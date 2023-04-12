@@ -13,13 +13,9 @@ public static class DependencyInjection
         services.AddDbContext<ToNinetyOneUserDbContext>(options =>
         {
             if (isDevelopment)
-            {
                 options.UseSqlite(configuration.GetConnectionString("SqliteUserConnectionString"));
-            }
             else
-            {
                 options.UseNpgsql(configuration.GetConnectionString("PostgresqlUserConnectionString"));
-            }
         });
 
         services.AddScoped<IToNinetyOneUserDbContext>(provider =>

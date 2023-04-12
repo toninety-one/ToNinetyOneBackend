@@ -9,4 +9,3 @@ public class CreateLabWorkCommandValidator : AbstractValidator<CreateLabWorkComm
         RuleFor(command => command.DisciplineId).NotEqual(Guid.Empty);
     }
 }
-    

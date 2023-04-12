@@ -5,9 +5,6 @@ namespace ToNinetyOne.Identity.Operations.Commands.Token.Update;
 
 public class UpdateDto : IMapWith<UpdateDto>
 {
-    public string UserName { get; set; }
-    public string RefreshToken { get; set; }
-
     public UpdateDto()
     {
         UserName = "";
@@ -19,6 +16,9 @@ public class UpdateDto : IMapWith<UpdateDto>
         UserName = userName;
         RefreshToken = refreshToken;
     }
+
+    public string UserName { get; set; }
+    public string RefreshToken { get; set; }
 
     public void Mapping(Profile profile)
     {

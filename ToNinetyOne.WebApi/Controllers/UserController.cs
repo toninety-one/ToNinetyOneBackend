@@ -21,8 +21,8 @@ namespace ToNinetyOne.WebApi.Controllers;
 [ApiController]
 public class UserController : BaseController
 {
-    private readonly IMapper _mapper;
     private readonly JwtSetting _jwtSetting;
+    private readonly IMapper _mapper;
 
     /// <inheritdoc />
     public UserController(IMapper mapper, IOptions<JwtSetting> options)
@@ -55,15 +55,15 @@ public class UserController : BaseController
     }
 
     /// <summary>
-    /// Identity and authenticate. Returns jwt and refresh tokens
+    ///     Identity and authenticate. Returns jwt and refresh tokens
     /// </summary>
     /// <remarks>
-    /// Sample request:
-    /// POST /api/User/authenticate
-    ///{
-    ///    "login": "string",
-    ///    "password": "string"
-    ///}
+    ///     Sample request:
+    ///     POST /api/User/authenticate
+    ///     {
+    ///     "login": "string",
+    ///     "password": "string"
+    ///     }
     /// </remarks>
     /// <param name="authenticateDto">AuthenticateDto object</param>
     /// <returns>Returns jwt and refresh tokens</returns>
@@ -81,10 +81,7 @@ public class UserController : BaseController
 
         var authenticateResult = await Mediator.Send(command);
 
-        if (authenticateResult == null)
-        {
-            return Unauthorized();
-        }
+        if (authenticateResult == null) return Unauthorized();
 
         var tokenHandler = new JwtSecurityTokenHandler();
 
@@ -115,15 +112,15 @@ public class UserController : BaseController
     }
 
     /// <summary>
-    /// Refresh auth token
+    ///     Refresh auth token
     /// </summary>
     /// <remarks>
-    /// Sample request:
-    /// POST /api/User/refresh
-    /// {
-    ///    "jwtToken": "string",
-    ///    "refreshToken": "string"
-    /// }
+    ///     Sample request:
+    ///     POST /api/User/refresh
+    ///     {
+    ///     "jwtToken": "string",
+    ///     "refreshToken": "string"
+    ///     }
     /// </remarks>
     /// <param name="token">Token object</param>
     /// <returns>Returns jwt and refresh tokens</returns>
@@ -141,20 +138,14 @@ public class UserController : BaseController
 
         var username = securityToken.Claims.FirstOrDefault(c => c.Type == "unique_name")?.Value;
 
-        if (username == null)
-        {
-            return Unauthorized();
-        }
+        if (username == null) return Unauthorized();
 
         var updateTokenCommand =
             _mapper.Map<UpdateCommand>(new UpdateDto { UserName = username, RefreshToken = token.RefreshToken });
 
         var refreshToken = await Mediator.Send(updateTokenCommand);
 
-        if (string.IsNullOrEmpty(refreshToken))
-        {
-            return Unauthorized();
-        }
+        if (string.IsNullOrEmpty(refreshToken)) return Unauthorized();
 
         var result = await Authenticate(username, securityToken.Claims.ToArray());
 
@@ -162,17 +153,17 @@ public class UserController : BaseController
     }
 
     /// <summary>
-    /// Creates the account
+    ///     Creates the account
     /// </summary>
     /// <remarks>
-    /// Sample request:
-    /// POST /api/User/register
-    /// {
-    ///   "userName": "string",
-    ///   "firstName": "string",
-    ///   "lastName": "string",
-    ///   "password" : "string"
-    /// }
+    ///     Sample request:
+    ///     POST /api/User/register
+    ///     {
+    ///     "userName": "string",
+    ///     "firstName": "string",
+    ///     "lastName": "string",
+    ///     "password" : "string"
+    ///     }
     /// </remarks>
     /// <param name="registrationDto">RegistrationDto object</param>
     /// <returns>Returns id (guid)</returns>
@@ -190,7 +181,7 @@ public class UserController : BaseController
         {
             FirstName = registrationDto.FirstName,
             LastName = registrationDto.LastName,
-            MiddleName = registrationDto.MiddleName,
+            MiddleName = registrationDto.MiddleName
         });
 
         var userId = await Mediator.Send(transferCommand);

@@ -1,4 +1,3 @@
-using System.ComponentModel.DataAnnotations;
 using AutoMapper;
 using ToNinetyOne.Config.Common.Mappings;
 
@@ -6,10 +5,6 @@ namespace ToNinetyOne.Application.Operations.Commands.Discipline.CreateDisciplin
 
 public class CreateDisciplineDto : IMapWith<CreateDisciplineCommand>
 {
-    public Guid UserId { get; set; }
-    public string Title { get; set; }
-    public string FilePath { get; set; }
-
     public CreateDisciplineDto()
     {
         Title = "";
@@ -21,6 +16,10 @@ public class CreateDisciplineDto : IMapWith<CreateDisciplineCommand>
         Title = title;
         FilePath = filePath;
     }
+
+    public Guid UserId { get; set; }
+    public string Title { get; set; }
+    public string FilePath { get; set; }
 
     public void Mapping(Profile profile)
     {

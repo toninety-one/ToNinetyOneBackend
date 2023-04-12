@@ -5,9 +5,6 @@ namespace ToNinetyOne.Application.Operations.Queries.Group.GetGroupList;
 
 public class GroupLookupDto : IMapWith<Domain.Group>
 {
-    public Guid Id { get; set; }
-    public string Title { get; set; }
-
     public GroupLookupDto()
     {
         Title = "";
@@ -17,6 +14,9 @@ public class GroupLookupDto : IMapWith<Domain.Group>
     {
         Title = title;
     }
+
+    public Guid Id { get; set; }
+    public string Title { get; set; }
 
     public void Mapping(Profile profile)
     {

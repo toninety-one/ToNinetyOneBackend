@@ -2,8 +2,6 @@ namespace ToNinetyOne.Application.Operations.Queries.Discipline.GetDisciplineLis
 
 public class DisciplineListViewModel
 {
-    public IList<DisciplineLookupDto> Disciplines { get; set; }
-
     public DisciplineListViewModel()
     {
         Disciplines = new List<DisciplineLookupDto>();
@@ -13,4 +11,6 @@ public class DisciplineListViewModel
     {
         Disciplines = disciplines;
     }
+
+    public IList<DisciplineLookupDto> Disciplines { get; set; }
 }

@@ -18,13 +18,13 @@ public class RegistrationCommandHandler : IRequestHandler<RegistrationCommand, G
     public async Task<Guid> Handle(RegistrationCommand request, CancellationToken cancellationToken)
     {
         var salt = HashPassword.CreateSalt();
-        
+
         var user = new User
         {
             UserName = request.UserName,
             Role = Roles.User,
             Password = HashPassword.HashWithSalt(request.Password, salt),
-            Salt = salt,
+            Salt = salt
         };
 
         await _dbContext.Users.AddAsync(user, cancellationToken);

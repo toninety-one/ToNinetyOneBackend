@@ -5,9 +5,6 @@ namespace ToNinetyOne.Application.Operations.Queries.LabWork.GetLabWorkList;
 
 public class LabWorkLookupDto : IMapWith<Domain.LabWork>
 {
-    public Guid Id { get; set; }
-    public string Title { get; set; }
-
     public LabWorkLookupDto()
     {
         Title = "";
@@ -17,6 +14,10 @@ public class LabWorkLookupDto : IMapWith<Domain.LabWork>
     {
         Title = title;
     }
+
+    public Guid Id { get; set; }
+    public string Title { get; set; }
+    public string? Mark { get; set; }
 
     public void Mapping(Profile profile)
     {

@@ -1,4 +1,3 @@
-using System.Security.Claims;
 using AutoMapper;
 using Microsoft.AspNetCore.Authorization;
 using Microsoft.AspNetCore.Mvc;
@@ -20,7 +19,7 @@ public class DisciplineController : BaseController
     private readonly IMapper _mapper;
 
     /// <summary>
-    /// Constructor
+    ///     Constructor
     /// </summary>
     /// <param name="mapper">configured mapper</param>
     public DisciplineController(IMapper mapper)
@@ -31,11 +30,11 @@ public class DisciplineController : BaseController
     #region Get
 
     /// <summary>
-    /// return the list of all disciplines
+    ///     return the list of all disciplines
     /// </summary>
     /// <remarks>
-    /// Sample request:
-    /// GET /api/discipline
+    ///     Sample request:
+    ///     GET /api/discipline
     /// </remarks>
     /// <returns>returns DisciplineListViewModel</returns>
     /// <responce code="200">Success</responce>
@@ -54,11 +53,11 @@ public class DisciplineController : BaseController
     }
 
     /// <summary>
-    /// Gets the discipline by id
+    ///     Gets the discipline by id
     /// </summary>
     /// <remarks>
-    /// Sample request:
-    /// GET /api/discipline/D34D349E-43B8-429E-BCA4-793C932FD580
+    ///     Sample request:
+    ///     GET /api/discipline/D34D349E-43B8-429E-BCA4-793C932FD580
     /// </remarks>
     /// <param name="id">Discipline id (guid)</param>
     /// <returns>Returns DisciplineDetailsViewModel</returns>
@@ -83,15 +82,15 @@ public class DisciplineController : BaseController
     #region Post
 
     /// <summary>
-    /// Creates the discipline
+    ///     Creates the discipline
     /// </summary>
     /// <remarks>
-    /// Sample request:
-    /// POST /api/discipline
-    /// {
+    ///     Sample request:
+    ///     POST /api/discipline
+    ///     {
     ///     title: "discipline title",
     ///     filePath: "file path"
-    /// }
+    ///     }
     /// </remarks>
     /// <param name="createDisciplineDto">CreateDisciplineDto object</param>
     /// <returns>Returns id (guid)</returns>
@@ -112,15 +111,15 @@ public class DisciplineController : BaseController
     #region Put
 
     /// <summary>
-    /// Updates the discipline
+    ///     Updates the discipline
     /// </summary>
     /// <remarks>
-    /// Sample request:
-    /// PUT /api/discipline
-    /// {
+    ///     Sample request:
+    ///     PUT /api/discipline
+    ///     {
     ///     title: "updated discipline title",
     ///     filePath: "file path"
-    /// }
+    ///     }
     /// </remarks>
     /// <param name="updateDisciplineDto">updateDisciplineDto object</param>
     /// <returns>Returns NoContent</returns>
@@ -141,11 +140,11 @@ public class DisciplineController : BaseController
     #region Delete
 
     /// <summary>
-    /// Deletes the discipline by id
+    ///     Deletes the discipline by id
     /// </summary>
     /// <remarks>
-    /// Sample request:
-    /// DELETE /api/discipline/88DEB432-062F-43DE-8DCD-8B6EF79073D3
+    ///     Sample request:
+    ///     DELETE /api/discipline/88DEB432-062F-43DE-8DCD-8B6EF79073D3
     /// </remarks>
     /// <param name="id">Id of the discipline (guid)</param>
     /// <returns>Returns NoContent</returns>

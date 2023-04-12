@@ -1,12 +1,12 @@
 namespace ToNinetyOne.WebApi.Middleware;
 
 /// <summary>
-/// Custom middleware extension
+///     Custom middleware extension
 /// </summary>
 public static class CustomExceptionHandlerMiddlewareExtensions
 {
     /// <summary>
-    /// Custom builder exception that use middleware
+    ///     Custom builder exception that use middleware
     /// </summary>
     /// <param name="builder"></param>
     /// <returns></returns>

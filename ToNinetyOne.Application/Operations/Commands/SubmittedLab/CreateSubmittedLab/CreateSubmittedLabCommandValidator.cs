@@ -10,4 +10,3 @@ public class CreateSubmittedLabCommandValidator : AbstractValidator<CreateSubmit
         RuleFor(command => command.LabWorkId).NotEqual(Guid.Empty);
     }
 }
-    

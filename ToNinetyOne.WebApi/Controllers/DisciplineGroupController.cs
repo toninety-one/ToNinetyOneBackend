@@ -14,7 +14,7 @@ public class DisciplineGroupController : BaseController
     private readonly IMapper _mapper;
 
     /// <summary>
-    /// Constructor
+    ///     Constructor
     /// </summary>
     /// <param name="mapper">configured mapper</param>
     public DisciplineGroupController(IMapper mapper)
@@ -25,15 +25,15 @@ public class DisciplineGroupController : BaseController
     #region Post
 
     /// <summary>
-    /// add discipline to group
+    ///     add discipline to group
     /// </summary>
     /// <remarks>
-    /// Sample request:
-    /// POST /api/Group/AddDisciplineGroup
-    /// {
+    ///     Sample request:
+    ///     POST /api/Group/AddDisciplineGroup
+    ///     {
     ///     "groupId": "3fa85f64-5717-4562-b3fc-2c963f66afa6",
     ///     "disciplineId": "3fa85f64-5717-4562-b3fc-2c963f66afa6"
-    /// }
+    ///     }
     /// </remarks>
     /// <param name="addDisciplineGroupDto">AddDisciplineGroupDto object</param>
     /// <returns>Returns group id (guid)</returns>

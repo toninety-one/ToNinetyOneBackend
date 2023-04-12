@@ -10,4 +10,3 @@ public class AddDisciplineGroupCommandValidator : AbstractValidator<AddDisciplin
         RuleFor(command => command.DisciplineId).NotEqual(Guid.Empty);
     }
 }
-    

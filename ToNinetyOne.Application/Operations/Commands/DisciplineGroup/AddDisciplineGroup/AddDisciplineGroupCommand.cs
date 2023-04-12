@@ -7,5 +7,3 @@ public class AddDisciplineGroupCommand : IRequest<Guid>
     public Guid GroupId { get; set; }
     public Guid DisciplineId { get; set; }
 }
-    
-    

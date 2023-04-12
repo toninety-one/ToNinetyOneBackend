@@ -22,21 +22,29 @@ public class GetLabWorkListQueryHandler : IRequestHandler<GetLabWorkListQuery, L
 
     public async Task<LabWorkListViewModel> Handle(GetLabWorkListQuery request, CancellationToken cancellationToken)
     {
-        var user = await _dbContext.Users.FirstOrDefaultAsync(u => u.Id == request.UserId, cancellationToken);
+        var user = await _dbContext.Users
+            .Include(u => u.UserGroup)
+            .FirstOrDefaultAsync(u => u.Id == request.UserId, cancellationToken);
 
-        if (user == null)
-        {
-            throw new NotFoundException(nameof(User), request.UserId);
-        }
+        if (user == null) throw new NotFoundException(nameof(User), request.UserId);
 
         var labWorkQuery = await _dbContext.LabWorks
             .Include(l => l.SelfDiscipline)
             .Where(labWork => labWork.SelfDiscipline.Id == request.DisciplineId || request.DisciplineId == null)
             .Where(labWork => labWork.SelfDiscipline.UserId == user.Id || user.Role == Roles.Administrator ||
-                              labWork.SelfDiscipline.Groups != null &&
-                              labWork.SelfDiscipline.Groups.Any(
-                                  g => user.UserGroup != null && g.Id == user.UserGroup.Id))
+                              (labWork.SelfDiscipline.Groups != null &&
+                               labWork.SelfDiscipline.Groups.Any(
+                                   g => user.UserGroup != null && g.Id == user.UserGroup.Id)))
             .ProjectTo<LabWorkLookupDto>(_mapper.ConfigurationProvider).ToListAsync(cancellationToken);
+
+        foreach (var query in labWorkQuery)
+        {
+            var submitted = await _dbContext.SubmittedLabs
+                .Include(l => l.SelfLabWork)
+                .FirstOrDefaultAsync(l => l.SelfLabWork.Id == query.Id, cancellationToken);
+
+            query.Mark = submitted?.Mark ?? "";
+        }
 
         return new LabWorkListViewModel(labWorkQuery);
     }

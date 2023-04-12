@@ -19,7 +19,7 @@ public class LabWorksController : BaseController
     private readonly IMapper _mapper;
 
     /// <summary>
-    /// Constructor
+    ///     Constructor
     /// </summary>
     /// <param name="mapper">configured mapper</param>
     public LabWorksController(IMapper mapper)
@@ -30,11 +30,11 @@ public class LabWorksController : BaseController
     #region Get
 
     /// <summary>
-    /// return the list of all lab works
+    ///     return the list of all lab works
     /// </summary>
     /// <remarks>
-    /// Sample request:
-    /// GET /api/labwork
+    ///     Sample request:
+    ///     GET /api/labwork
     /// </remarks>
     /// <param name="disciplineId">discipline id (guid</param>
     /// <returns>returns GroupListViewModel</returns>
@@ -53,11 +53,11 @@ public class LabWorksController : BaseController
     }
 
     /// <summary>
-    /// Gets the lab work by id
+    ///     Gets the lab work by id
     /// </summary>
     /// <remarks>
-    /// Sample request:
-    /// GET /api/group/D34D349E-43B8-429E-BCA4-793C932FD580
+    ///     Sample request:
+    ///     GET /api/group/D34D349E-43B8-429E-BCA4-793C932FD580
     /// </remarks>
     /// <param name="id">Group id (guid)</param>
     /// <returns>Returns GroupDetailsViewModel</returns>
@@ -68,7 +68,7 @@ public class LabWorksController : BaseController
     [ProducesResponseType(StatusCodes.Status401Unauthorized)]
     public async Task<ActionResult<LabWorkDetailsViewModel>> Get(Guid id)
     {
-        var query = new GetLabWorkDetailsQuery(id);
+        var query = new GetLabWorkDetailsQuery(UserId, id);
 
         var viewModel = await Mediator.Send(query);
 
@@ -80,16 +80,16 @@ public class LabWorksController : BaseController
     #region Post
 
     /// <summary>
-    /// Creates the lab work
+    ///     Creates the lab work
     /// </summary>
     /// <remarks>
-    /// Sample request:
-    /// POST /api/labWork
-    /// {
+    ///     Sample request:
+    ///     POST /api/labWork
+    ///     {
     ///     "title": "string",
     ///     "details": "string",
     ///     "filePath": "string",
-    /// }
+    ///     }
     /// </remarks>
     /// <param name="createLabWorkDto">CreateLabWorkDto object</param>
     /// <returns>Returns lab work id (guid)</returns>
@@ -107,16 +107,16 @@ public class LabWorksController : BaseController
     }
 
     /// <summary>
-    /// submit lab work
+    ///     submit lab work
     /// </summary>
     /// <remarks>
-    /// Sample request:
-    /// POST /api/labWork/{id}
-    /// {
+    ///     Sample request:
+    ///     POST /api/labWork/{id}
+    ///     {
     ///     "title": "string",
     ///     "details": "string",
     ///     "filePath": "string",
-    /// }
+    ///     }
     /// </remarks>
     /// <param name="createSubmittedLabDto">CreateSubmittedLabDto object</param>
     /// <param name="id"></param>
@@ -136,21 +136,21 @@ public class LabWorksController : BaseController
     }
 
     #endregion
-
+    
     #region Put
 
     /// <summary>
-    /// Updates the lab work
+    ///     Updates the lab work
     /// </summary>
     /// <remarks>
-    /// Sample request:
-    /// PUT /api/labwork
-    /// {
+    ///     Sample request:
+    ///     PUT /api/labwork
+    ///     {
     ///     "id": "3fa85f64-5717-4562-b3fc-2c963f66afa6",
     ///     "title": "string",
     ///     "details": "string",
     ///     "filePath": "string",
-    /// }
+    ///     }
     /// </remarks>
     /// <param name="updateLabWorkDto">UpdateLabWorkDto object</param>
     /// <returns>none</returns>
@@ -172,11 +172,11 @@ public class LabWorksController : BaseController
     #region Delete
 
     /// <summary>
-    /// Deletes the lab work by id
+    ///     Deletes the lab work by id
     /// </summary>
     /// <remarks>
-    /// Sample request:
-    /// DELETE /api/labwork/88DEB432-062F-43DE-8DCD-8B6EF79073D3
+    ///     Sample request:
+    ///     DELETE /api/labwork/88DEB432-062F-43DE-8DCD-8B6EF79073D3
     /// </remarks>
     /// <param name="id">lab work id</param>
     /// <returns>none</returns>

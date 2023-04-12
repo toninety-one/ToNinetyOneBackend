@@ -21,15 +21,13 @@ public class AuthenticateCommandHandler : IRequestHandler<AuthenticateCommand, A
         var user = await _dbContext.Users.FirstOrDefaultAsync(u => u.UserName == request.UserName, cancellationToken);
 
         if (user == null && user.Password != HashPassword.HashWithSalt(request.Password, user.Salt))
-        {
             throw new NotAuthorizedException(nameof(User), request.UserName);
-        }
 
         return new AuthenticateResult
         {
             Id = user.Id,
             Role = user.Role,
-            UserName = user.UserName,
+            UserName = user.UserName
         };
     }
 }

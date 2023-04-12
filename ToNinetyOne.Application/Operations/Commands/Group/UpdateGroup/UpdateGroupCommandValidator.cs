@@ -10,4 +10,3 @@ public class UpdateGroupCommandValidator : AbstractValidator<UpdateGroupCommand>
         RuleFor(command => command.Title).NotEmpty();
     }
 }
-    

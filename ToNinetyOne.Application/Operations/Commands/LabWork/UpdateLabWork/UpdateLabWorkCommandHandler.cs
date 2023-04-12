@@ -17,22 +17,18 @@ public class UpdateLabWorkCommandHandler : IRequestHandler<UpdateLabWorkCommand>
 
     public async Task<Unit> Handle(UpdateLabWorkCommand request, CancellationToken cancellationToken)
     {
-        var user = await _dbContext.Users.FirstOrDefaultAsync(u => u.Id == request.UserId, cancellationToken);
+        var user = await _dbContext.Users
+            .Include(u => u.UserGroup)
+            .FirstOrDefaultAsync(u => u.Id == request.UserId, cancellationToken);
 
-        if (user == null)
-        {
-            throw new NotFoundException(nameof(User), request.UserId);
-        }
+        if (user == null) throw new NotFoundException(nameof(User), request.UserId);
 
         var entity =
             await _dbContext.LabWorks.FirstOrDefaultAsync(
-                labWork => labWork.Id == request.Id && labWork.SelfDiscipline.UserId == user.Id ||
+                labWork => (labWork.Id == request.Id && labWork.SelfDiscipline.UserId == user.Id) ||
                            user.Role == Roles.Administrator, cancellationToken);
 
-        if (entity == null)
-        {
-            throw new NotFoundException(nameof(LabWork), request.Id);
-        }
+        if (entity == null) throw new NotFoundException(nameof(LabWork), request.Id);
 
         entity.Title = request.Title;
         entity.Details = request.Details;

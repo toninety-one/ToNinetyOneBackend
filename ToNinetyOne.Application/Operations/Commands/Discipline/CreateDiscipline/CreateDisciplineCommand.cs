@@ -4,10 +4,6 @@ namespace ToNinetyOne.Application.Operations.Commands.Discipline.CreateDisciplin
 
 public class CreateDisciplineCommand : IRequest<Guid>
 {
-    public Guid UserId { get; set; }
-    public string Title { get; set; }
-    public string FilePath { get; set; }
-
     public CreateDisciplineCommand()
     {
         Title = "";
@@ -20,4 +16,8 @@ public class CreateDisciplineCommand : IRequest<Guid>
         Title = title;
         FilePath = filePath;
     }
+
+    public Guid UserId { get; set; }
+    public string Title { get; set; }
+    public string FilePath { get; set; }
 }

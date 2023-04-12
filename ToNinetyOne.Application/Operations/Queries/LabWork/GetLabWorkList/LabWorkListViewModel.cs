@@ -2,8 +2,6 @@ namespace ToNinetyOne.Application.Operations.Queries.LabWork.GetLabWorkList;
 
 public class LabWorkListViewModel
 {
-    public IList<LabWorkLookupDto> LabWorks { get; set; }
-
     public LabWorkListViewModel()
     {
         LabWorks = new List<LabWorkLookupDto>();
@@ -13,4 +11,6 @@ public class LabWorkListViewModel
     {
         LabWorks = labWorks;
     }
+
+    public IList<LabWorkLookupDto> LabWorks { get; set; }
 }

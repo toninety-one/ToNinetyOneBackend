@@ -6,6 +6,6 @@ public class GetLabWorkDetailsQueryValidator : AbstractValidator<GetLabWorkDetai
 {
     public GetLabWorkDetailsQueryValidator()
     {
-        RuleFor(labWork=> labWork.Id).NotEqual(Guid.Empty);
+        RuleFor(labWork => labWork.Id).NotEqual(Guid.Empty);
     }
 }

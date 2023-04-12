@@ -4,11 +4,6 @@ namespace ToNinetyOne.Application.Operations.Commands.Discipline.UpdateDisciplin
 
 public class UpdateDisciplineCommand : IRequest
 {
-    public Guid UserId { get; set; }
-    public Guid Id { get; set; }
-    public string Title { get; set; }
-    public string FilePath { get; set; }
-    
     public UpdateDisciplineCommand()
     {
         Title = "";
@@ -20,4 +15,9 @@ public class UpdateDisciplineCommand : IRequest
         Title = title;
         FilePath = filePath;
     }
+
+    public Guid UserId { get; set; }
+    public Guid Id { get; set; }
+    public string Title { get; set; }
+    public string FilePath { get; set; }
 }

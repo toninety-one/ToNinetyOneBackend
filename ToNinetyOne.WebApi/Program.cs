@@ -46,10 +46,8 @@ if (authKey == null)
 builder.Services.AddAuthorization(options =>
 {
     foreach (var role in Roles.Fields)
-    {
         options.AddPolicy(role,
             policy => { policy.RequireClaim(ClaimTypes.Role, role); });
-    }
 });
 
 builder.Services.AddAuthentication(item =>
@@ -77,7 +75,7 @@ builder.Services.AddSwaggerGen(option =>
     option.SwaggerDoc("v1", new OpenApiInfo
     {
         Title = "Demo API",
-        Version = "v1",
+        Version = "v1"
     });
     option.IncludeXmlComments(Path.Combine(AppContext.BaseDirectory,
         $"{Assembly.GetExecutingAssembly().GetName().Name}.xml"));

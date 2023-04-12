@@ -9,4 +9,3 @@ public class DeleteSubmittedLabCommandValidator : AbstractValidator<DeleteSubmit
         RuleFor(command => command.UserId).NotEqual(Guid.Empty);
     }
 }
-    

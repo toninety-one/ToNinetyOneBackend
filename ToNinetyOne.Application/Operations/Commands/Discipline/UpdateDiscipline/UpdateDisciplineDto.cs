@@ -5,11 +5,6 @@ namespace ToNinetyOne.Application.Operations.Commands.Discipline.UpdateDisciplin
 
 public class UpdateDisciplineDto : IMapWith<UpdateDisciplineCommand>
 {
-    public Guid Id { get; set; }
-    public Guid UserId { get; set; }
-    public string Title { get; set; }
-    public string FilePath { get; set; }
-
     public UpdateDisciplineDto()
     {
         Title = "";
@@ -21,6 +16,11 @@ public class UpdateDisciplineDto : IMapWith<UpdateDisciplineCommand>
         Title = title;
         FilePath = filePath;
     }
+
+    public Guid Id { get; set; }
+    public Guid UserId { get; set; }
+    public string Title { get; set; }
+    public string FilePath { get; set; }
 
     public void Mapping(Profile profile)
     {

@@ -4,12 +4,12 @@ namespace ToNinetyOne.Application.Operations.Queries.Discipline.GetDisciplineDet
 
 public class GetDisciplineDetailsQuery : IRequest<DisciplineDetailsViewModel>
 {
-    public Guid UserId { get; set; }
-    public Guid Id { get; set; }
-
     public GetDisciplineDetailsQuery(Guid userId, Guid id)
     {
         UserId = userId;
         Id = id;
     }
+
+    public Guid UserId { get; set; }
+    public Guid Id { get; set; }
 }

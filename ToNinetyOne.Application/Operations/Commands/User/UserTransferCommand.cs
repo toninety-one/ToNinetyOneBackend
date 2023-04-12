@@ -4,11 +4,6 @@ namespace ToNinetyOne.Application.Operations.Commands.User;
 
 public class UserTransferCommand : IRequest<Guid>
 {
-    public Guid RegisterId { get; set; }
-    public string FirstName { get; set; }
-    public string LastName { get; set; }
-    public string MiddleName { get; set; }
-
     public UserTransferCommand()
     {
         FirstName = "";
@@ -20,4 +15,9 @@ public class UserTransferCommand : IRequest<Guid>
     {
         RegisterId = registerId;
     }
+
+    public Guid RegisterId { get; set; }
+    public string FirstName { get; set; }
+    public string LastName { get; set; }
+    public string MiddleName { get; set; }
 }

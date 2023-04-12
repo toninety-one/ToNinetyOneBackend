@@ -1,7 +1,6 @@
 using AutoMapper;
 using Microsoft.AspNetCore.Authorization;
 using Microsoft.AspNetCore.Mvc;
-using ToNinetyOne.Application.Operations.Commands.DisciplineGroup.AddDisciplineGroup;
 using ToNinetyOne.Application.Operations.Commands.Group.CreateGroup;
 using ToNinetyOne.Application.Operations.Commands.Group.DeleteGroup;
 using ToNinetyOne.Application.Operations.Commands.Group.SetUserGroup;
@@ -20,7 +19,7 @@ public class GroupController : BaseController
     private readonly IMapper _mapper;
 
     /// <summary>
-    /// Constructor
+    ///     Constructor
     /// </summary>
     /// <param name="mapper">configured mapper</param>
     public GroupController(IMapper mapper)
@@ -31,11 +30,11 @@ public class GroupController : BaseController
     #region Get
 
     /// <summary>
-    /// return the list of all groups
+    ///     return the list of all groups
     /// </summary>
     /// <remarks>
-    /// Sample request:
-    /// GET /api/group
+    ///     Sample request:
+    ///     GET /api/group
     /// </remarks>
     /// <returns>returns GroupListViewModel</returns>
     /// <responce code="200">Success</responce>
@@ -53,11 +52,11 @@ public class GroupController : BaseController
     }
 
     /// <summary>
-    /// Gets the group with users by id
+    ///     Gets the group with users by id
     /// </summary>
     /// <remarks>
-    /// Sample request:
-    /// GET /api/group/D34D349E-43B8-429E-BCA4-793C932FD580
+    ///     Sample request:
+    ///     GET /api/group/D34D349E-43B8-429E-BCA4-793C932FD580
     /// </remarks>
     /// <param name="id">Group id (guid)</param>
     /// <returns>Returns GroupDetailsViewModel</returns>
@@ -80,14 +79,14 @@ public class GroupController : BaseController
     #region Post
 
     /// <summary>
-    /// Creates the group
+    ///     Creates the group
     /// </summary>
     /// <remarks>
-    /// Sample request:
-    /// POST /api/group
-    /// {
+    ///     Sample request:
+    ///     POST /api/group
+    ///     {
     ///     "title": "string"
-    /// }
+    ///     }
     /// </remarks>
     /// <param name="createGroupDto">CreateGroupDto object</param>
     /// <returns>Returns group id (guid)</returns>
@@ -105,15 +104,15 @@ public class GroupController : BaseController
     }
 
     /// <summary>
-    /// Updates user group
+    ///     Updates user group
     /// </summary>
     /// <remarks>
-    /// Sample request:
-    /// POST /api/group/setUserGroup
-    /// {
+    ///     Sample request:
+    ///     POST /api/group/setUserGroup
+    ///     {
     ///     "userId": "3fa85f64-5717-4562-b3fc-2c963f66afa6",
     ///     "groupId": "3fa85f64-5717-4562-b3fc-2c963f66afa6"
-    /// }
+    ///     }
     /// </remarks>
     /// <param name="setUserGroupDto">SetUserGroupDto object</param>
     /// <returns>Returns group id (guid)</returns>
@@ -137,15 +136,15 @@ public class GroupController : BaseController
     #region Put
 
     /// <summary>
-    /// Updates the group
+    ///     Updates the group
     /// </summary>
     /// <remarks>
-    /// Sample request:
-    /// PUT /api/group
-    /// {
+    ///     Sample request:
+    ///     PUT /api/group
+    ///     {
     ///     "groupId": "3fa85f64-5717-4562-b3fc-2c963f66afa6",
     ///     "title": "string"
-    /// }
+    ///     }
     /// </remarks>
     /// <param name="updateGroupDto">UserUpdateDto</param>
     /// <returns>none</returns>
@@ -166,11 +165,11 @@ public class GroupController : BaseController
     #region Delete
 
     /// <summary>
-    /// Deletes the group by id
+    ///     Deletes the group by id
     /// </summary>
     /// <remarks>
-    /// Sample request:
-    /// DELETE /api/group/88DEB432-062F-43DE-8DCD-8B6EF79073D3
+    ///     Sample request:
+    ///     DELETE /api/group/88DEB432-062F-43DE-8DCD-8B6EF79073D3
     /// </remarks>
     /// <param name="id">group id</param>
     /// <returns>none</returns>

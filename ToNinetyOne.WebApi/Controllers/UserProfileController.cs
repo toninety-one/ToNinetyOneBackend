@@ -13,7 +13,7 @@ public class UserProfileController : BaseController
     private readonly IMapper _mapper;
 
     /// <summary>
-    /// Constructor
+    ///     Constructor
     /// </summary>
     /// <param name="mapper">configured mapper</param>
     public UserProfileController(IMapper mapper)
@@ -24,11 +24,11 @@ public class UserProfileController : BaseController
     #region Get
 
     /// <summary>
-    /// return user profile info
+    ///     return user profile info
     /// </summary>
     /// <remarks>
-    /// Sample request:
-    /// GET /api/userProfile
+    ///     Sample request:
+    ///     GET /api/userProfile
     /// </remarks>
     /// <returns>returns UserProfileViewModel</returns>
     /// <responce code="200">Success</responce>

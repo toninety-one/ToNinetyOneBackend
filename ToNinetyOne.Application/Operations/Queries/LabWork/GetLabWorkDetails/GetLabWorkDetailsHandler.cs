@@ -16,16 +16,20 @@ public class GetLabWorkDetailsHandler : IRequestHandler<GetLabWorkDetailsQuery, 
         _dbContext = dbContext;
         _mapper = mapper;
     }
-    
-    public async Task<LabWorkDetailsViewModel> Handle(GetLabWorkDetailsQuery request, CancellationToken cancellationToken)
+
+    public async Task<LabWorkDetailsViewModel> Handle(GetLabWorkDetailsQuery request,
+        CancellationToken cancellationToken)
     {
         var entity = await _dbContext.LabWorks
             .FirstOrDefaultAsync(labWork => labWork.Id == request.Id, cancellationToken);
 
-        if (entity == null)
-        {
-            throw new NotFoundException(nameof(Domain.LabWork), request.Id);
-        }
+        if (entity == null) throw new NotFoundException(nameof(Domain.LabWork), request.Id);
+
+        var submitted = await _dbContext.SubmittedLabs
+            .Include(s => s.SelfLabWork)
+            .Include(s => s.SelfUser)
+            .FirstOrDefaultAsync(s => s.SelfLabWork.Id == request.Id && s.SelfUser.Id == request.UserId,
+                cancellationToken);
 
         return _mapper.Map<LabWorkDetailsViewModel>(entity);
     }

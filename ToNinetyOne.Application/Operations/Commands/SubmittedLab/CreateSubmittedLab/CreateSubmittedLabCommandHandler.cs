@@ -16,12 +16,11 @@ public class CreateSubmittedLabCommandHandler : IRequestHandler<CreateSubmittedL
 
     public async Task<Guid> Handle(CreateSubmittedLabCommand request, CancellationToken cancellationToken)
     {
-        var user = await _dbContext.Users.FirstOrDefaultAsync(u => u.Id == request.UserId, cancellationToken);
+        var user = await _dbContext.Users
+            .Include(u => u.UserGroup)
+            .FirstOrDefaultAsync(u => u.Id == request.UserId, cancellationToken);
 
-        if (user == null)
-        {
-            throw new NotFoundException(nameof(User), request.UserId);
-        }
+        if (user == null) throw new NotFoundException(nameof(User), request.UserId);
 
         var selfLabWork =
             await _dbContext.LabWorks.FirstOrDefaultAsync(
@@ -30,12 +29,9 @@ public class CreateSubmittedLabCommandHandler : IRequestHandler<CreateSubmittedL
                          d.Groups != null && d.Groups.Any(g => user.UserGroup != null && g.Id == user.UserGroup.Id)),
                 cancellationToken);
 
-        if (selfLabWork == null)
-        {
-            throw new NotFoundException(nameof(LabWork), request.LabWorkId);
-        }
+        if (selfLabWork == null) throw new NotFoundException(nameof(LabWork), request.LabWorkId);
 
-        var submittedLab = new Domain.SubmittedLab()
+        var submittedLab = new Domain.SubmittedLab
         {
             Details = request.Details,
             FilePath = request.FilePath,

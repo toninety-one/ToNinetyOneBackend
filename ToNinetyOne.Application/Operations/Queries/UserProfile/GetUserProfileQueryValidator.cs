@@ -6,6 +6,6 @@ public class GetUserProfileQueryValidator : AbstractValidator<GetUserProfileQuer
 {
     public GetUserProfileQueryValidator()
     {
-        RuleFor(labWork=> labWork.UserId).NotEqual(Guid.Empty);
+        RuleFor(labWork => labWork.UserId).NotEqual(Guid.Empty);
     }
 }

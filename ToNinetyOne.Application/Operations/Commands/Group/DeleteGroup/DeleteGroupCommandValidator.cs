@@ -9,4 +9,3 @@ public class DeleteGroupCommandValidator : AbstractValidator<DeleteGroupCommand>
         RuleFor(command => command.Id).NotEqual(Guid.Empty);
     }
 }
-    

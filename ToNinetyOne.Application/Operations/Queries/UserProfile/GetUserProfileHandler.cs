@@ -19,17 +19,16 @@ public class GetUserProfileHandler : IRequestHandler<GetUserProfileQuery, UserPr
 
     public async Task<UserProfileViewModel> Handle(GetUserProfileQuery request, CancellationToken cancellationToken)
     {
-        var user = await _dbContext.Users.Include(u=>u.UserGroup).FirstOrDefaultAsync(u => u.Id == request.UserId , cancellationToken);
+        var user = await _dbContext.Users
+            .Include(u => u.UserGroup)
+            .FirstOrDefaultAsync(u => u.Id == request.UserId, cancellationToken);
 
-        if (user == null)
-        {
-            throw new NotFoundException(nameof(Domain.LabWork), request.UserId);
-        }
+        if (user == null) throw new NotFoundException(nameof(Domain.LabWork), request.UserId);
 
-        var entity =  _mapper.Map<UserProfileViewModel>(user);
-        
+        var entity = _mapper.Map<UserProfileViewModel>(user);
+
         // TODO: add resent labs and more
-        
+
         return entity;
     }
 }

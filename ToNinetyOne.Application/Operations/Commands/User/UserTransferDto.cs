@@ -5,11 +5,6 @@ namespace ToNinetyOne.Application.Operations.Commands.User;
 
 public class UserTransferDto : IMapWith<UserTransferCommand>
 {
-    public Guid RegisterId { get; set; }
-    public string FirstName { get; set; }
-    public string LastName { get; set; }
-    public string MiddleName { get; set; }
-
     public UserTransferDto()
     {
         FirstName = "";
@@ -21,6 +16,11 @@ public class UserTransferDto : IMapWith<UserTransferCommand>
     {
         RegisterId = registerId;
     }
+
+    public Guid RegisterId { get; set; }
+    public string FirstName { get; set; }
+    public string LastName { get; set; }
+    public string MiddleName { get; set; }
 
     public void Mapping(Profile profile)
     {

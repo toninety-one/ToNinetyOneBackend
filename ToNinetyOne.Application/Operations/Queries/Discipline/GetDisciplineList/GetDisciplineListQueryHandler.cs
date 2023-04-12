@@ -23,17 +23,16 @@ public class GetDisciplineListQueryHandler : IRequestHandler<GetDisciplineListQu
     public async Task<DisciplineListViewModel> Handle(GetDisciplineListQuery request,
         CancellationToken cancellationToken)
     {
-        var user = await _dbContext.Users.FirstOrDefaultAsync(u => u.Id == request.UserId, cancellationToken);
+        var user = await _dbContext.Users
+            .Include(u => u.UserGroup)
+            .FirstOrDefaultAsync(u => u.Id == request.UserId, cancellationToken);
 
-        if (user == null)
-        {
-            throw new NotFoundException(nameof(User), request.UserId);
-        }
+        if (user == null) throw new NotFoundException(nameof(User), request.UserId);
 
         var disciplineQuery = await _dbContext.Disciplines
             .Where(discipline => discipline.UserId == request.UserId || user.Role == Roles.Administrator ||
-                                 discipline.Groups != null && discipline.Groups.Any(d =>
-                                     user.UserGroup != null && d.Id == user.UserGroup.Id))
+                                 (discipline.Groups != null && discipline.Groups.Any(d =>
+                                     user.UserGroup != null && d.Id == user.UserGroup.Id)))
             .ProjectTo<DisciplineLookupDto>(_mapper.ConfigurationProvider).ToListAsync(cancellationToken);
 
         return new DisciplineListViewModel(disciplineQuery);

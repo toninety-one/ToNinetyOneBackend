@@ -7,7 +7,7 @@ public class SetUserGroupDto : IMapWith<SetUserGroupCommand>
 {
     public Guid UserId { get; set; }
     public Guid GroupId { get; set; }
-    
+
     public void Mapping(Profile profile)
     {
         profile.CreateMap<SetUserGroupDto, SetUserGroupCommand>()

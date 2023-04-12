@@ -5,9 +5,6 @@ namespace ToNinetyOne.Application.Operations.Commands.Group.UpdateGroup;
 
 public class UpdateGroupDto : IMapWith<UpdateGroupCommand>
 {
-    public Guid GroupId { get; set; }
-    public string Title { get; set; }
-
     public UpdateGroupDto()
     {
         Title = "";
@@ -17,6 +14,9 @@ public class UpdateGroupDto : IMapWith<UpdateGroupCommand>
     {
         Title = title;
     }
+
+    public Guid GroupId { get; set; }
+    public string Title { get; set; }
 
     public void Mapping(Profile profile)
     {

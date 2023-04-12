@@ -10,4 +10,3 @@ public class SetUserGroupCommandValidator : AbstractValidator<SetUserGroupComman
         RuleFor(command => command.GroupId).NotEqual(Guid.Empty);
     }
 }
-    

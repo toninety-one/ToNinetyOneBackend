@@ -5,9 +5,6 @@ namespace ToNinetyOne.Identity.Operations.Commands.Token.Authenticate;
 
 public class AuthenticateDto : IMapWith<AuthenticateDto>
 {
-    public string UserName { get; set; }
-    public string Password { get; set; }
-
     public AuthenticateDto()
     {
         UserName = "";
@@ -19,6 +16,9 @@ public class AuthenticateDto : IMapWith<AuthenticateDto>
         UserName = userName;
         Password = password;
     }
+
+    public string UserName { get; set; }
+    public string Password { get; set; }
 
     public void Mapping(Profile profile)
     {

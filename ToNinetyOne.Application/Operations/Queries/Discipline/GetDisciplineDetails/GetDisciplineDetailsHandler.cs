@@ -22,22 +22,18 @@ public class GetDisciplineDetailsHandler : IRequestHandler<GetDisciplineDetailsQ
     public async Task<DisciplineDetailsViewModel> Handle(GetDisciplineDetailsQuery request,
         CancellationToken cancellationToken)
     {
-        var user = await _dbContext.Users.FirstOrDefaultAsync(u => u.Id == request.UserId, cancellationToken);
+        var user = await _dbContext.Users
+            .Include(u => u.UserGroup)
+            .FirstOrDefaultAsync(u => u.Id == request.UserId, cancellationToken);
 
-        if (user == null)
-        {
-            throw new NotFoundException(nameof(User), request.UserId);
-        }
+        if (user == null) throw new NotFoundException(nameof(User), request.UserId);
 
         var entity = await _dbContext.Disciplines.Include(d => d.Groups).Include(d => d.LabWorks)
             .FirstOrDefaultAsync(
-                discipline => discipline.Id == request.Id && discipline.UserId == request.UserId ||
+                discipline => (discipline.Id == request.Id && discipline.UserId == request.UserId) ||
                               user.Role == Roles.Administrator, cancellationToken);
 
-        if (entity == null)
-        {
-            throw new NotFoundException(nameof(Domain.Discipline), request.Id);
-        }
+        if (entity == null) throw new NotFoundException(nameof(Domain.Discipline), request.Id);
 
         return _mapper.Map<DisciplineDetailsViewModel>(entity);
     }

@@ -17,14 +17,14 @@ public class RefreshCommandHandler : IRequestHandler<RefreshCommand, string>
     public async Task<string> Handle(RefreshCommand request, CancellationToken cancellationToken)
     {
         var randomNumber = new byte[32];
-        
+
         using var randomNumberGenerator = RandomNumberGenerator.Create();
-        
+
         randomNumberGenerator.GetBytes(randomNumber);
-        
+
         var refreshToken = Convert.ToBase64String(randomNumber);
         var userToken = _dbContext.RefreshTokens.FirstOrDefault(o => o.UserName == request.UserName);
-            
+
         if (userToken != null)
         {
             userToken.Token = refreshToken;
@@ -35,7 +35,7 @@ public class RefreshCommandHandler : IRequestHandler<RefreshCommand, string>
             var newRefreshToken = new RefreshToken(request.UserName, refreshToken);
 
             _dbContext.RefreshTokens.Add(newRefreshToken);
-            
+
             await _dbContext.SaveChangesAsync(cancellationToken);
         }
 

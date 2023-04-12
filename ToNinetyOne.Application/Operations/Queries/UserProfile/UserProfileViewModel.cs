@@ -10,7 +10,7 @@ public class UserProfileViewModel : IMapWith<User>
     public string LastName { get; set; }
     public string MiddleName { get; set; }
     public Domain.Group Group { get; set; }
-    
+
     public void Mapping(Profile profile)
     {
         profile.CreateMap<User, UserProfileViewModel>()

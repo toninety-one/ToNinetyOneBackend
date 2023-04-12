@@ -1,5 +1,4 @@
 using AutoMapper;
-using ToNinetyOne.Application.Operations.Commands.LabWork.CreateLabWork;
 using ToNinetyOne.Config.Common.Mappings;
 
 namespace ToNinetyOne.Application.Operations.Commands.LabWork.UpdateLabWork;

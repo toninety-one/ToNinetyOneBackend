@@ -9,4 +9,3 @@ public class UpdateSubmittedLabCommandValidator : AbstractValidator<UpdateSubmit
         RuleFor(command => command.UserId).NotEqual(Guid.Empty);
     }
 }
-    

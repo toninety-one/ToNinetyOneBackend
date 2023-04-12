@@ -4,9 +4,6 @@ namespace ToNinetyOne.Application.Operations.Queries.LabWork.GetLabWorkList;
 
 public class GetLabWorkListQuery : IRequest<LabWorkListViewModel>
 {
-    public Guid UserId { get; set; }
-    public Guid? DisciplineId { get; set; }
-
     public GetLabWorkListQuery()
     {
     }
@@ -16,4 +13,7 @@ public class GetLabWorkListQuery : IRequest<LabWorkListViewModel>
         DisciplineId = id;
         UserId = userId;
     }
+
+    public Guid UserId { get; set; }
+    public Guid? DisciplineId { get; set; }
 }
