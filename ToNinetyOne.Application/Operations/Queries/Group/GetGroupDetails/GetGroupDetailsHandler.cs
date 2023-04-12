@@ -22,8 +22,6 @@ public class GetGroupDetailsHandler : IRequestHandler<GetGroupDetailsQuery, Grou
         var entity = await _dbContext.Groups.Include(g=>g.Users).Include(g=>g.Disciplines)
             .FirstOrDefaultAsync(discipline => discipline.Id == request.Id, cancellationToken);
         
-        Console.Write(entity.Disciplines.Count);
-        
         if (entity == null)
         {
             throw new NotFoundException(nameof(Domain.Group), request.Id);

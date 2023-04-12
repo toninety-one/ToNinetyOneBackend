@@ -40,8 +40,7 @@ public class DisciplineController : BaseController
     /// <returns>returns DisciplineListViewModel</returns>
     /// <responce code="200">Success</responce>
     /// <responce code="401">If user not auth</responce>
-    [Authorize(Roles = Roles.Teacher)]
-    [Authorize(Roles = Roles.Administrator)]
+    [Authorize]
     [HttpGet]
     [ProducesResponseType(StatusCodes.Status200OK)]
     [ProducesResponseType(StatusCodes.Status401Unauthorized)]

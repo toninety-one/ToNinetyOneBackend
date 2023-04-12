@@ -1,8 +1,9 @@
+using System.ComponentModel.DataAnnotations;
 using System.Text.Json.Serialization;
 
 namespace ToNinetyOne.Domain;
 
-public class LabWork
+public class SubmittedLab
 {
     public Guid Id { get; set; }
     public string Title { get; set; }
@@ -10,16 +11,15 @@ public class LabWork
     public string FilePath { get; set; }
     public DateTime CreationDate { get; set; }
     public DateTime EditDate { get; set; }
-    [JsonIgnore] public Discipline SelfDiscipline { get; set; }
-    [JsonIgnore] public ICollection<SubmittedLab>? SubmittedLabs { get; set; } = new List<SubmittedLab>();
+    [Required] [JsonIgnore] public LabWork SelfLabWork { get; set; }
 
-
-    public LabWork()
+    public SubmittedLab()
     {
-        CreationDate = DateTime.Now;
-        EditDate = CreationDate;
-        FilePath = "";
+        Id = Guid.NewGuid();
         Title = "";
         Details = "";
+        FilePath = "";
+        CreationDate = DateTime.Now;
+        EditDate = CreationDate;
     }
 }

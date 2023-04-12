@@ -5,6 +5,7 @@ namespace ToNinetyOne.Application.Operations.Commands.LabWork.UpdateLabWork;
 public class UpdateLabWorkCommand : IRequest
 {
     public Guid Id { get; set; }
+    public Guid UserId { get; set; }
     public string Title { get; set; }
     public string Details { get; set; }
     public string FilePath { get; set; }
@@ -16,9 +17,8 @@ public class UpdateLabWorkCommand : IRequest
         FilePath = "";
     }
 
-    public UpdateLabWorkCommand(Guid id, string title, string details, string filePath)
+    public UpdateLabWorkCommand(string title, string details, string filePath)
     {
-        Id = id;
         Title = title;
         Details = details;
         FilePath = filePath;

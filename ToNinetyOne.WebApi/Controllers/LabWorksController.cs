@@ -4,6 +4,7 @@ using Microsoft.AspNetCore.Mvc;
 using ToNinetyOne.Application.Operations.Commands.LabWork.CreateLabWork;
 using ToNinetyOne.Application.Operations.Commands.LabWork.DeleteLabWork;
 using ToNinetyOne.Application.Operations.Commands.LabWork.UpdateLabWork;
+using ToNinetyOne.Application.Operations.Commands.SubmittedLab.CreateSubmittedLab;
 using ToNinetyOne.Application.Operations.Queries.LabWork.GetLabWorkDetails;
 using ToNinetyOne.Application.Operations.Queries.LabWork.GetLabWorkList;
 using ToNinetyOne.Config.Static;
@@ -44,7 +45,7 @@ public class LabWorksController : BaseController
     [ProducesResponseType(StatusCodes.Status401Unauthorized)]
     public async Task<ActionResult<LabWorkListViewModel>> Get([FromQuery] Guid? disciplineId)
     {
-        var query = new GetLabWorkListQuery(disciplineId);
+        var query = new GetLabWorkListQuery(UserId, disciplineId);
 
         var viewModel = await Mediator.Send(query);
 
@@ -52,7 +53,7 @@ public class LabWorksController : BaseController
     }
 
     /// <summary>
-    /// Gets the lab works with users by id
+    /// Gets the lab work by id
     /// </summary>
     /// <remarks>
     /// Sample request:
@@ -105,16 +106,45 @@ public class LabWorksController : BaseController
         return Ok(labWorkId);
     }
 
+    /// <summary>
+    /// submit lab work
+    /// </summary>
+    /// <remarks>
+    /// Sample request:
+    /// POST /api/labWork/{id}
+    /// {
+    ///     "title": "string",
+    ///     "details": "string",
+    ///     "filePath": "string",
+    /// }
+    /// </remarks>
+    /// <param name="createSubmittedLabDto">CreateSubmittedLabDto object</param>
+    /// <param name="id"></param>
+    /// <returns>Returns submitted lab work id (guid)</returns>
+    /// <response code="201">Success</response>
+    /// <responce code="401">If user not auth</responce>
+    [HttpPost("{id:guid}")]
+    [ProducesResponseType(StatusCodes.Status201Created)]
+    [ProducesResponseType(StatusCodes.Status401Unauthorized)]
+    public async Task<ActionResult<Guid>> Create(Guid id, [FromBody] CreateSubmittedLabDto createSubmittedLabDto)
+    {
+        var command = _mapper.Map<CreateSubmittedLabCommand>(createSubmittedLabDto);
+        command.UserId = UserId;
+        command.LabWorkId = id;
+        var labWorkId = await Mediator.Send(command);
+        return Ok(labWorkId);
+    }
+
     #endregion
 
     #region Put
 
     /// <summary>
-    /// Updates the group
+    /// Updates the lab work
     /// </summary>
     /// <remarks>
     /// Sample request:
-    /// PUT /api/group
+    /// PUT /api/labwork
     /// {
     ///     "id": "3fa85f64-5717-4562-b3fc-2c963f66afa6",
     ///     "title": "string",
@@ -132,6 +162,7 @@ public class LabWorksController : BaseController
     public async Task<ActionResult<Guid>> Update([FromBody] UpdateLabWorkDto updateLabWorkDto)
     {
         var command = _mapper.Map<UpdateLabWorkCommand>(updateLabWorkDto);
+        command.UserId = UserId;
         await Mediator.Send(command);
         return NoContent();
     }
@@ -156,7 +187,7 @@ public class LabWorksController : BaseController
     [ProducesResponseType(StatusCodes.Status401Unauthorized)]
     public async Task<ActionResult> Delete(Guid id)
     {
-        var command = new DeleteLabWorkCommand() { Id = id };
+        var command = new DeleteLabWorkCommand(id, UserId);
         await Mediator.Send(command);
         return NoContent();
     }

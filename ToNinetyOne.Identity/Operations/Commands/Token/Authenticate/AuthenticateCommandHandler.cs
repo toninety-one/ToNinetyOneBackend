@@ -22,7 +22,6 @@ public class AuthenticateCommandHandler : IRequestHandler<AuthenticateCommand, A
 
         if (user == null && user.Password != HashPassword.HashWithSalt(request.Password, user.Salt))
         {
-            Console.WriteLine("HUIHUIHUI");
             throw new NotAuthorizedException(nameof(User), request.UserName);
         }
 

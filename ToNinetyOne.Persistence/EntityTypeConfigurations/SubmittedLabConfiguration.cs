@@ -4,20 +4,16 @@ using ToNinetyOne.Domain;
 
 namespace ToNinetyOne.Persistence.EntityTypeConfigurations;
 
-public class LabWorkConfiguration : IEntityTypeConfiguration<LabWork>
+public class SubmittedLabConfiguration : IEntityTypeConfiguration<SubmittedLab>
 {
-    public void Configure(EntityTypeBuilder<LabWork> builder)
+    public void Configure(EntityTypeBuilder<SubmittedLab> builder)
     {
         builder.HasKey(labWork => labWork.Id);
         builder.HasIndex(labWork => labWork.Id).IsUnique();
         builder.Property(labWork => labWork.Title).IsRequired();
 
         builder
-            .HasOne(l => l.SelfDiscipline)
-            .WithMany(d => d.LabWorks);
-
-        builder
-            .HasMany(l => l.SubmittedLabs)
-            .WithOne(l => l.SelfLabWork);
+            .HasOne(l => l.SelfLabWork)
+            .WithMany(l => l.SubmittedLabs);
     }
 }

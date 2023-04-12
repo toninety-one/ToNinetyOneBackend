@@ -6,7 +6,7 @@ public class DeleteLabWorkCommandValidator : AbstractValidator<DeleteLabWorkComm
 {
     public DeleteLabWorkCommandValidator()
     {
-        RuleFor(command => command.DisciplineId).NotEqual(Guid.Empty);
+        RuleFor(command => command.UserId).NotEqual(Guid.Empty);
         RuleFor(command => command.Id).NotEqual(Guid.Empty);
     }
 }

@@ -2,6 +2,7 @@ using MediatR;
 using Microsoft.EntityFrameworkCore;
 using ToNinetyOne.Application.Interfaces;
 using ToNinetyOne.Config.Common.Exceptions;
+using ToNinetyOne.Config.Static;
 
 namespace ToNinetyOne.Application.Operations.Commands.LabWork.DeleteLabWork;
 
@@ -16,10 +17,19 @@ public class DeleteLabWorkCommandHandler : IRequestHandler<DeleteLabWorkCommand>
 
     public async Task<Unit> Handle(DeleteLabWorkCommand request, CancellationToken cancellationToken)
     {
-        var entity =
-            await _dbContext.LabWorks.FirstOrDefaultAsync(labWork => labWork.Id == request.Id, cancellationToken);
+        var user = await _dbContext.Users.FirstOrDefaultAsync(u => u.Id == request.UserId, cancellationToken);
 
-        if (entity == null || entity.SelfDiscipline.Id != request.DisciplineId)
+        if (user == null)
+        {
+            throw new NotFoundException(nameof(User), request.UserId);
+        }
+
+        var entity =
+            await _dbContext.LabWorks.FirstOrDefaultAsync(
+                labWork => labWork.Id == request.Id && labWork.SelfDiscipline.UserId == user.Id ||
+                           user.Role == Roles.Administrator, cancellationToken);
+
+        if (entity == null)
         {
             throw new NotFoundException(nameof(LabWork), request.Id);
         }
