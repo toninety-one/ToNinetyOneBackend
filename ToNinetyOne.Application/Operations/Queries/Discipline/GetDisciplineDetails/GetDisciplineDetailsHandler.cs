@@ -31,7 +31,7 @@ public class GetDisciplineDetailsHandler : IRequestHandler<GetDisciplineDetailsQ
         var entity = await _dbContext.Disciplines.Include(d => d.Groups).Include(d => d.LabWorks)
             .FirstOrDefaultAsync(
                 discipline => (discipline.Id == request.Id && discipline.UserId == request.UserId) ||
-                              user.Role == Roles.Administrator, cancellationToken);
+                              request.UserRole == Roles.Administrator, cancellationToken);
 
         if (entity == null) throw new NotFoundException(nameof(Domain.Discipline), request.Id);
 

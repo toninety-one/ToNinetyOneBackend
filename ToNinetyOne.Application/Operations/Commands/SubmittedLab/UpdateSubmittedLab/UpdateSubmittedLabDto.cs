@@ -7,10 +7,10 @@ public class UpdateSubmittedLabDto : IMapWith<UpdateSubmittedLabCommand>
 {
     public void Mapping(Profile profile)
     {
-        profile.CreateMap<UpdateSubmittedLabDto, UpdateSubmittedLabCommand>()
-            .ForMember(
-                command => "template",
-                opt => opt.MapFrom(dto => "template")
-            );
+        // profile.CreateMap<UpdateSubmittedLabDto, UpdateSubmittedLabCommand>()
+            // .ForMember(
+                // command => "template",
+                // opt => opt.MapFrom(dto => "template")
+            // );
     }
 }

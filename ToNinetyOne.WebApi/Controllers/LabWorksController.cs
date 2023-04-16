@@ -12,7 +12,7 @@ using ToNinetyOne.Config.Static;
 namespace ToNinetyOne.WebApi.Controllers;
 
 /// <inheritdoc />
-[Authorize(Roles = Roles.Teacher)]
+[Authorize(Roles = $"{Roles.Administrator}, {Roles.Teacher}, {Roles.User}")]
 [ApiController]
 public class LabWorksController : BaseController
 {
@@ -45,7 +45,7 @@ public class LabWorksController : BaseController
     [ProducesResponseType(StatusCodes.Status401Unauthorized)]
     public async Task<ActionResult<LabWorkListViewModel>> Get([FromQuery] Guid? disciplineId)
     {
-        var query = new GetLabWorkListQuery(UserId, disciplineId);
+        var query = new GetLabWorkListQuery(UserId, disciplineId, UserRole);
 
         var viewModel = await Mediator.Send(query);
 
@@ -53,7 +53,7 @@ public class LabWorksController : BaseController
     }
 
     /// <summary>
-    ///     Gets the lab work by id
+    ///     Gets the lab work details by id
     /// </summary>
     /// <remarks>
     ///     Sample request:
@@ -68,11 +68,32 @@ public class LabWorksController : BaseController
     [ProducesResponseType(StatusCodes.Status401Unauthorized)]
     public async Task<ActionResult<LabWorkDetailsViewModel>> Get(Guid id)
     {
-        var query = new GetLabWorkDetailsQuery(UserId, id);
+        var query = new GetLabWorkDetailsQuery(UserId, id, UserRole);
 
         var viewModel = await Mediator.Send(query);
 
         return Ok(viewModel);
+    }
+
+    /// <summary>
+    ///     Gets the submitted lab by id
+    /// </summary>
+    /// <remarks>
+    ///     Sample request:
+    ///     GET /api/group/D34D349E-43B8-429E-BCA4-793C932FD580
+    /// </remarks>
+    /// <param name="id">Group id (guid)</param>
+    /// <param name="submittedId">Group id (guid)</param>
+    /// <returns>Returns GroupDetailsViewModel</returns>
+    /// <response code="200">Success</response>
+    /// <responce code="401">If user not auth</responce>
+    [HttpGet("{id:guid}/{submittedId:guid}")]
+    [ProducesResponseType(StatusCodes.Status200OK)]
+    [ProducesResponseType(StatusCodes.Status401Unauthorized)]
+    public async Task<ActionResult> Get(Guid id, Guid submittedId)
+    {
+        return Ok();
+        // throw new NotImplementedException(submittedId.ToString() + " " + id.ToString());
     }
 
     #endregion
@@ -95,6 +116,7 @@ public class LabWorksController : BaseController
     /// <returns>Returns lab work id (guid)</returns>
     /// <response code="201">Success</response>
     /// <responce code="401">If user not auth</responce>
+    [Authorize(Roles = $"{Roles.Administrator}, {Roles.Teacher}")]
     [HttpPost]
     [ProducesResponseType(StatusCodes.Status201Created)]
     [ProducesResponseType(StatusCodes.Status401Unauthorized)]
@@ -102,6 +124,7 @@ public class LabWorksController : BaseController
     {
         var command = _mapper.Map<CreateLabWorkCommand>(createLabWorkDto);
         command.UserId = UserId;
+        command.UserRole = UserRole;
         var labWorkId = await Mediator.Send(command);
         return Ok(labWorkId);
     }
@@ -123,6 +146,7 @@ public class LabWorksController : BaseController
     /// <returns>Returns submitted lab work id (guid)</returns>
     /// <response code="201">Success</response>
     /// <responce code="401">If user not auth</responce>
+    [Authorize(Roles = $"{Roles.Administrator}, {Roles.User}")]
     [HttpPost("{id:guid}")]
     [ProducesResponseType(StatusCodes.Status201Created)]
     [ProducesResponseType(StatusCodes.Status401Unauthorized)]
@@ -131,12 +155,13 @@ public class LabWorksController : BaseController
         var command = _mapper.Map<CreateSubmittedLabCommand>(createSubmittedLabDto);
         command.UserId = UserId;
         command.LabWorkId = id;
+        command.UserRole = UserRole;
         var labWorkId = await Mediator.Send(command);
         return Ok(labWorkId);
     }
 
     #endregion
-    
+
     #region Put
 
     /// <summary>
@@ -156,6 +181,7 @@ public class LabWorksController : BaseController
     /// <returns>none</returns>
     /// <response code="204">Success</response>
     /// <responce code="401">If user not auth</responce>
+    [Authorize(Roles = $"{Roles.Administrator}, {Roles.Teacher}")]
     [HttpPut]
     [ProducesResponseType(StatusCodes.Status204NoContent)]
     [ProducesResponseType(StatusCodes.Status401Unauthorized)]
@@ -163,6 +189,7 @@ public class LabWorksController : BaseController
     {
         var command = _mapper.Map<UpdateLabWorkCommand>(updateLabWorkDto);
         command.UserId = UserId;
+        command.UserRole = UserRole;
         await Mediator.Send(command);
         return NoContent();
     }
@@ -182,12 +209,13 @@ public class LabWorksController : BaseController
     /// <returns>none</returns>
     /// <response code="204">Success</response>
     /// <responce code="401">If user not auth</responce>
+    [Authorize(Roles = $"{Roles.Administrator}, {Roles.Teacher}")]
     [HttpDelete("{id:guid}")]
     [ProducesResponseType(StatusCodes.Status204NoContent)]
     [ProducesResponseType(StatusCodes.Status401Unauthorized)]
     public async Task<ActionResult> Delete(Guid id)
     {
-        var command = new DeleteLabWorkCommand(id, UserId);
+        var command = new DeleteLabWorkCommand(id, UserId, UserRole);
         await Mediator.Send(command);
         return NoContent();
     }

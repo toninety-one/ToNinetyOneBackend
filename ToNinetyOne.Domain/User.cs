@@ -20,12 +20,11 @@ public class User
         Id = registerId;
     }
 
-    public User(string firstName, string lastName, string middleName, string role)
+    public User(string firstName, string lastName, string middleName)
     {
         FirstName = firstName;
         LastName = lastName;
         MiddleName = middleName;
-        Role = role;
     }
 
     [Key] [Required] [NotNull] public Guid Id { get; set; }
@@ -35,5 +34,4 @@ public class User
     [ForeignKey(nameof(UserGroup))] public Guid? GroupId { get; set; }
     [JsonIgnore] public Group? UserGroup { get; set; }
     public Guid AvatarId { get; set; }
-    public string Role { get; set; } = Roles.User;
 }

@@ -31,11 +31,8 @@ public class  {1}CommandHandler : IRequestHandler<{1}Command, Guid>
             .Include(u => u.UserGroup)
             .FirstOrDefaultAsync(u => u.Id == request.UserId, cancellationToken);
 
-        if (user == null)
-        {
-            throw new NotFoundException(nameof(User), request.UserId);
-        }
-    
+        if (user == null) throw new NotFoundException(nameof(User), request.UserId);
+        
         throw new NotImplementedException();
     }
 }

@@ -7,10 +7,10 @@ public class DeleteSubmittedLabDto : IMapWith<DeleteSubmittedLabCommand>
 {
     public void Mapping(Profile profile)
     {
-        profile.CreateMap<DeleteSubmittedLabDto, DeleteSubmittedLabCommand>()
-            .ForMember(
-                command => "template",
-                opt => opt.MapFrom(dto => "template")
-            );
+        // profile.CreateMap<DeleteSubmittedLabDto, DeleteSubmittedLabCommand>()
+            // .ForMember(
+                // command => "template",
+                // opt => opt.MapFrom(dto => "template")
+            // );
     }
 }

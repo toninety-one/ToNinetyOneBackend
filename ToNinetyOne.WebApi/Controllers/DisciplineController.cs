@@ -11,7 +11,7 @@ using ToNinetyOne.Config.Static;
 namespace ToNinetyOne.WebApi.Controllers;
 
 /// <inheritdoc />
-[Authorize(Roles = Roles.Administrator)]
+[Authorize(Roles = $"{Roles.Administrator}, {Roles.Teacher}, {Roles.User}")]
 [ApiController]
 [Produces("application/json")]
 public class DisciplineController : BaseController
@@ -39,13 +39,12 @@ public class DisciplineController : BaseController
     /// <returns>returns DisciplineListViewModel</returns>
     /// <responce code="200">Success</responce>
     /// <responce code="401">If user not auth</responce>
-    [Authorize]
     [HttpGet]
     [ProducesResponseType(StatusCodes.Status200OK)]
     [ProducesResponseType(StatusCodes.Status401Unauthorized)]
     public async Task<ActionResult<DisciplineListViewModel>> Get()
     {
-        var query = new GetDisciplineListQuery(UserId);
+        var query = new GetDisciplineListQuery(UserId, UserRole);
 
         var viewModel = await Mediator.Send(query);
 
@@ -63,14 +62,12 @@ public class DisciplineController : BaseController
     /// <returns>Returns DisciplineDetailsViewModel</returns>
     /// <response code="200">Success</response>
     /// <responce code="401">If user not auth</responce>
-    [Authorize(Roles = Roles.Administrator)]
-    [Authorize(Roles = Roles.Teacher)]
     [HttpGet("{id:guid}")]
     [ProducesResponseType(StatusCodes.Status200OK)]
     [ProducesResponseType(StatusCodes.Status401Unauthorized)]
     public async Task<ActionResult<DisciplineDetailsViewModel>> Get(Guid id)
     {
-        var query = new GetDisciplineDetailsQuery(UserId, id);
+        var query = new GetDisciplineDetailsQuery(UserId, id, UserRole);
 
         var viewModel = await Mediator.Send(query);
 
@@ -96,6 +93,7 @@ public class DisciplineController : BaseController
     /// <returns>Returns id (guid)</returns>
     /// <response code="201">Success</response>
     /// <responce code="401">If user not auth</responce>
+    [Authorize(Roles = $"{Roles.Administrator}, {Roles.Teacher}")]
     [HttpPost]
     [ProducesResponseType(StatusCodes.Status201Created)]
     [ProducesResponseType(StatusCodes.Status401Unauthorized)]
@@ -125,6 +123,7 @@ public class DisciplineController : BaseController
     /// <returns>Returns NoContent</returns>
     /// <response code="204">Success</response>
     /// <responce code="401">If user not auth</responce>
+    [Authorize(Roles = $"{Roles.Administrator}, {Roles.Teacher}")]
     [HttpPut]
     [ProducesResponseType(StatusCodes.Status204NoContent)]
     [ProducesResponseType(StatusCodes.Status401Unauthorized)]
@@ -150,6 +149,7 @@ public class DisciplineController : BaseController
     /// <returns>Returns NoContent</returns>
     /// <response code="204">Success</response>
     /// <responce code="401">If user not auth</responce>
+    [Authorize(Roles = $"{Roles.Administrator}, {Roles.Teacher}")]
     [HttpDelete("{id:guid}")]
     [ProducesResponseType(StatusCodes.Status204NoContent)]
     [ProducesResponseType(StatusCodes.Status401Unauthorized)]

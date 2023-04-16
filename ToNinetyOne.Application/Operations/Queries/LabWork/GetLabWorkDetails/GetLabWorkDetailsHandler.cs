@@ -3,6 +3,8 @@ using MediatR;
 using Microsoft.EntityFrameworkCore;
 using ToNinetyOne.Application.Interfaces;
 using ToNinetyOne.Config.Common.Exceptions;
+using ToNinetyOne.Config.Static;
+using ToNinetyOne.Domain;
 
 namespace ToNinetyOne.Application.Operations.Queries.LabWork.GetLabWorkDetails;
 
@@ -20,17 +22,28 @@ public class GetLabWorkDetailsHandler : IRequestHandler<GetLabWorkDetailsQuery, 
     public async Task<LabWorkDetailsViewModel> Handle(GetLabWorkDetailsQuery request,
         CancellationToken cancellationToken)
     {
+        var user = await _dbContext.Users
+            .Include(u => u.UserGroup)
+            .FirstOrDefaultAsync(u => u.Id == request.UserId, cancellationToken);
+
+        if (user == null) throw new NotFoundException(nameof(User), request.UserId);
+
         var entity = await _dbContext.LabWorks
+            .Include(l => l.SubmittedLabs.Where(s =>
+                s.SelfUser.Id == request.UserId || s.SelfLabWork.SelfDiscipline.UserId == user.Id ||
+                request.UserRole == Roles.Administrator))
             .FirstOrDefaultAsync(labWork => labWork.Id == request.Id, cancellationToken);
 
         if (entity == null) throw new NotFoundException(nameof(Domain.LabWork), request.Id);
 
-        var submitted = await _dbContext.SubmittedLabs
-            .Include(s => s.SelfLabWork)
+        var view = _mapper.Map<LabWorkDetailsViewModel>(entity);
+        
+        var submittedLab = await _dbContext.SubmittedLabs
             .Include(s => s.SelfUser)
-            .FirstOrDefaultAsync(s => s.SelfLabWork.Id == request.Id && s.SelfUser.Id == request.UserId,
-                cancellationToken);
+            .FirstOrDefaultAsync(s => s.SelfUser.Id == user.Id, cancellationToken);
 
-        return _mapper.Map<LabWorkDetailsViewModel>(entity);
+        view.Mark = submittedLab?.Mark;
+
+        return view;
     }
 }

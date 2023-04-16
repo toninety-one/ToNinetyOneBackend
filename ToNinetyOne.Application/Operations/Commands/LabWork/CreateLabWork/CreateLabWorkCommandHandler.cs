@@ -25,7 +25,8 @@ public class CreateLabWorkCommandHandler : IRequestHandler<CreateLabWorkCommand,
 
         var selfDiscipline =
             _dbContext.Disciplines.FirstOrDefault(d =>
-                (d.Id == request.DisciplineId && d.UserId == request.UserId) || user.Role == Roles.Administrator);
+                (d.Id == request.DisciplineId && d.UserId == request.UserId) ||
+                request.UserRole == Roles.Administrator);
 
         if (selfDiscipline == null) throw new NotFoundException(nameof(Domain.Discipline), request.DisciplineId);
 

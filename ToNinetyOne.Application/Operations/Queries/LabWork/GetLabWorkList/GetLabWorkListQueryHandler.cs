@@ -1,8 +1,10 @@
+using System.Text.Json;
 using AutoMapper;
 using AutoMapper.QueryableExtensions;
 using MediatR;
 using Microsoft.EntityFrameworkCore;
 using ToNinetyOne.Application.Interfaces;
+using ToNinetyOne.Application.Operations.Queries.Discipline.GetDisciplineList;
 using ToNinetyOne.Config.Common.Exceptions;
 using ToNinetyOne.Config.Static;
 using ToNinetyOne.Domain;
@@ -27,23 +29,28 @@ public class GetLabWorkListQueryHandler : IRequestHandler<GetLabWorkListQuery, L
             .FirstOrDefaultAsync(u => u.Id == request.UserId, cancellationToken);
 
         if (user == null) throw new NotFoundException(nameof(User), request.UserId);
-
-        var labWorkQuery = await _dbContext.LabWorks
-            .Include(l => l.SelfDiscipline)
-            .Where(labWork => labWork.SelfDiscipline.Id == request.DisciplineId || request.DisciplineId == null)
-            .Where(labWork => labWork.SelfDiscipline.UserId == user.Id || user.Role == Roles.Administrator ||
-                              (labWork.SelfDiscipline.Groups != null &&
-                               labWork.SelfDiscipline.Groups.Any(
-                                   g => user.UserGroup != null && g.Id == user.UserGroup.Id)))
-            .ProjectTo<LabWorkLookupDto>(_mapper.ConfigurationProvider).ToListAsync(cancellationToken);
-
+        
+        var labWorkQuery = _dbContext.LabWorks
+            .Include(l => l.SubmittedLabs)
+            .Include(l=>l.SelfDiscipline.Groups)
+            .ToList()
+            .Where(lab =>
+                request.UserRole == Roles.Administrator || lab.SelfDiscipline.UserId == request.UserId ||
+                (lab.SelfDiscipline.Groups != null &&
+                 lab.SelfDiscipline.Groups
+                     .Any(g => g.Users != null && g.Users
+                         .Any(u => u.Id == request.UserId))))
+            .AsQueryable()
+            .ProjectTo<LabWorkLookupDto>(_mapper.ConfigurationProvider)
+            .ToList();
+        
         foreach (var query in labWorkQuery)
         {
             var submitted = await _dbContext.SubmittedLabs
                 .Include(l => l.SelfLabWork)
                 .FirstOrDefaultAsync(l => l.SelfLabWork.Id == query.Id, cancellationToken);
 
-            query.Mark = submitted?.Mark ?? "";
+            query.Mark = submitted?.Mark;
         }
 
         return new LabWorkListViewModel(labWorkQuery);

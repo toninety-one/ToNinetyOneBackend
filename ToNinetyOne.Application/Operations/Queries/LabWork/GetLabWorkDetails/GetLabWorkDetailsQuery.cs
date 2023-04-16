@@ -8,12 +8,14 @@ public class GetLabWorkDetailsQuery : IRequest<LabWorkDetailsViewModel>
     {
     }
 
-    public GetLabWorkDetailsQuery(Guid userId, Guid id)
+    public GetLabWorkDetailsQuery(Guid userId, Guid id, string userRole)
     {
         UserId = userId;
         Id = id;
+        UserRole = userRole;
     }
 
     public Guid UserId { get; set; }
+    public string UserRole { get; set; }
     public Guid Id { get; set; }
 }

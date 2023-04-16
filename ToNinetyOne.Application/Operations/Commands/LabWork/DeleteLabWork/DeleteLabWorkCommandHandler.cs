@@ -26,7 +26,7 @@ public class DeleteLabWorkCommandHandler : IRequestHandler<DeleteLabWorkCommand>
         var entity =
             await _dbContext.LabWorks.FirstOrDefaultAsync(
                 labWork => (labWork.Id == request.Id && labWork.SelfDiscipline.UserId == user.Id) ||
-                           user.Role == Roles.Administrator, cancellationToken);
+                           request.UserRole == Roles.Administrator, cancellationToken);
 
         if (entity == null) throw new NotFoundException(nameof(LabWork), request.Id);
 

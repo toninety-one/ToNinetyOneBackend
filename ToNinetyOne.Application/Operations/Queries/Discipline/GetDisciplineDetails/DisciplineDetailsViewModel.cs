@@ -23,7 +23,7 @@ public class DisciplineDetailsViewModel : IMapWith<Domain.Discipline>
     public Guid Id { get; set; }
     public string Title { get; set; }
     public string FilePath { get; set; }
-    public IEnumerable<Domain.Group> Groups { get; set; }
+    public ICollection<Domain.Group> Groups { get; set; }
     public DateTime CreationDate { get; set; }
     public DateTime EditDate { get; set; }
 

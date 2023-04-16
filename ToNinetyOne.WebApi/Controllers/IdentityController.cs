@@ -19,13 +19,13 @@ namespace ToNinetyOne.WebApi.Controllers;
 /// <inheritdoc />
 [AllowAnonymous]
 [ApiController]
-public class UserController : BaseController
+public class IdentityController : BaseController
 {
     private readonly JwtSetting _jwtSetting;
     private readonly IMapper _mapper;
 
     /// <inheritdoc />
-    public UserController(IMapper mapper, IOptions<JwtSetting> options)
+    public IdentityController(IMapper mapper, IOptions<JwtSetting> options)
     {
         _mapper = mapper;
         _jwtSetting = options.Value;
@@ -80,8 +80,6 @@ public class UserController : BaseController
         var command = _mapper.Map<AuthenticateCommand>(authenticateDto);
 
         var authenticateResult = await Mediator.Send(command);
-
-        if (authenticateResult == null) return Unauthorized();
 
         var tokenHandler = new JwtSecurityTokenHandler();
 

@@ -8,12 +8,14 @@ public class DeleteLabWorkCommand : IRequest
     {
     }
 
-    public DeleteLabWorkCommand(Guid id, Guid userId)
+    public DeleteLabWorkCommand(Guid id, Guid userId, string userRole)
     {
         Id = id;
         UserId = userId;
+        UserRole = userRole;
     }
 
     public Guid UserId { get; set; }
+    public string UserRole { get; set; }
     public Guid Id { get; set; }
 }

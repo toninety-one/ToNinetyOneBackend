@@ -1,6 +1,7 @@
 using System.Security.Claims;
 using MediatR;
 using Microsoft.AspNetCore.Mvc;
+using ToNinetyOne.Config.Common.Exceptions;
 
 namespace ToNinetyOne.WebApi.Controllers;
 
@@ -21,4 +22,7 @@ public class BaseController : ControllerBase
     internal Guid UserId => User.Identity is { IsAuthenticated: false }
         ? Guid.Empty
         : Guid.Parse(User.FindFirst(ClaimTypes.NameIdentifier)?.Value ?? "");
+
+    internal string UserRole => User.FindFirst(x => x.Type == ClaimsIdentity.DefaultRoleClaimType)?.Value ??
+                                throw new NotAuthorizedException(nameof(User), "role");
 }

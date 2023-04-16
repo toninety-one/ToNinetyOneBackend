@@ -52,6 +52,9 @@ public class LabWorkDetailsViewModel : IMapWith<Domain.LabWork>
             ).ForMember(
                 labWorkVm => labWorkVm.EditDate,
                 opt => opt.MapFrom(labWork => labWork.EditDate)
+            ).ForMember(
+                labWorkVm => labWorkVm.EditDate,
+                opt => opt.MapFrom(labWork => labWork.EditDate)
             );
     }
 }
