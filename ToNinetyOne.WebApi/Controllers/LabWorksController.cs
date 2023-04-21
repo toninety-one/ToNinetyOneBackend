@@ -5,6 +5,8 @@ using ToNinetyOne.Application.Operations.Commands.LabWork.CreateLabWork;
 using ToNinetyOne.Application.Operations.Commands.LabWork.DeleteLabWork;
 using ToNinetyOne.Application.Operations.Commands.LabWork.UpdateLabWork;
 using ToNinetyOne.Application.Operations.Commands.SubmittedLab.CreateSubmittedLab;
+using ToNinetyOne.Application.Operations.Commands.SubmittedLab.DeleteSubmittedLab;
+using ToNinetyOne.Application.Operations.Commands.SubmittedLab.UpdateSubmittedLab;
 using ToNinetyOne.Application.Operations.Queries.LabWork.GetLabWorkDetails;
 using ToNinetyOne.Application.Operations.Queries.LabWork.GetLabWorkList;
 using ToNinetyOne.Application.Operations.Queries.SubmittedLab.GetSubmittedLabDetails;
@@ -189,9 +191,41 @@ public class LabWorksController : BaseController
     [HttpPut]
     [ProducesResponseType(StatusCodes.Status204NoContent)]
     [ProducesResponseType(StatusCodes.Status401Unauthorized)]
-    public async Task<ActionResult<Guid>> Update([FromBody] UpdateLabWorkDto updateLabWorkDto)
+    public async Task<ActionResult> Update([FromBody] UpdateLabWorkDto updateLabWorkDto)
     {
         var command = _mapper.Map<UpdateLabWorkCommand>(updateLabWorkDto);
+        command.UserId = UserId;
+        command.UserRole = UserRole;
+        await Mediator.Send(command);
+        return NoContent();
+    }
+
+    /// <summary>
+    ///     Updates the submitted lab
+    /// </summary>
+    /// <remarks>
+    ///     Sample request:
+    ///     PUT /api/labwork/3fa85f64-5717-4562-b3fc-2c963f66afa6
+    ///     {
+    ///     "id": "3fa85f64-5717-4562-b3fc-2c963f66afa6",
+    ///     "title": "string",
+    ///     "details": "string",
+    ///     "filePath": "string",
+    ///     }
+    /// </remarks>
+    /// <param name="id"></param>
+    /// <param name="updateSubmittedLabDto">UpdateSubmittedLabDto object</param>
+    /// <returns>none</returns>
+    /// <response code="204">Success</response>
+    /// <responce code="401">If user not auth</responce>
+    [Authorize(Roles = $"{Roles.Administrator}, {Roles.Teacher}")]
+    [HttpPut("{id}")]
+    [ProducesResponseType(StatusCodes.Status204NoContent)]
+    [ProducesResponseType(StatusCodes.Status401Unauthorized)]
+    public async Task<ActionResult> Update(Guid id, [FromBody] UpdateSubmittedLabDto updateSubmittedLabDto)
+    {
+        var command = _mapper.Map<UpdateSubmittedLabCommand>(updateSubmittedLabDto);
+        command.Id = id;
         command.UserId = UserId;
         command.UserRole = UserRole;
         await Mediator.Send(command);
@@ -220,6 +254,29 @@ public class LabWorksController : BaseController
     public async Task<ActionResult> Delete(Guid id)
     {
         var command = new DeleteLabWorkCommand(id, UserId, UserRole);
+        await Mediator.Send(command);
+        return NoContent();
+    }
+
+    /// <summary>
+    ///     Deletes the lab work by id
+    /// </summary>
+    /// <remarks>
+    ///     Sample request:
+    ///     DELETE /api/labwork/88DEB432-062F-43DE-8DCD-8B6EF79073D3
+    /// </remarks>
+    /// <param name="id">lab work id</param>
+    /// <param name="submittedLabId"></param>
+    /// <returns>none</returns>
+    /// <response code="204">Success</response>
+    /// <responce code="401">If user not auth</responce>
+    [Authorize(Roles = $"{Roles.Administrator}, {Roles.Teacher}")]
+    [HttpDelete("{id:guid}/{submittedLabId:guid")]
+    [ProducesResponseType(StatusCodes.Status204NoContent)]
+    [ProducesResponseType(StatusCodes.Status401Unauthorized)]
+    public async Task<ActionResult> Delete(Guid id, Guid submittedLabId)
+    {
+        var command = new DeleteSubmittedLabCommand(id, submittedLabId, UserId, UserRole);
         await Mediator.Send(command);
         return NoContent();
     }
