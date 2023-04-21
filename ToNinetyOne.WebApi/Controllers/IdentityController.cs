@@ -73,7 +73,7 @@ public class IdentityController : BaseController
     [HttpPost]
     [ProducesResponseType(StatusCodes.Status200OK)]
     [ProducesResponseType(StatusCodes.Status401Unauthorized)]
-    public async Task<IActionResult> Authenticate([FromBody] AuthenticateDto authenticateDto)
+    public async Task<ActionResult<Token>> Authenticate([FromBody] AuthenticateDto authenticateDto)
     {
         var tokenResponse = new Token();
 
@@ -128,7 +128,7 @@ public class IdentityController : BaseController
     [Route("[action]")]
     [ProducesResponseType(StatusCodes.Status200OK)]
     [ProducesResponseType(StatusCodes.Status401Unauthorized)]
-    public async Task<IActionResult> Refresh([FromBody] Token token)
+    public async Task<ActionResult<Token>> Refresh([FromBody] Token token)
     {
         var tokenHandler = new JwtSecurityTokenHandler();
 

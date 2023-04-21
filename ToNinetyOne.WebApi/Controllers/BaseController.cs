@@ -7,7 +7,7 @@ namespace ToNinetyOne.WebApi.Controllers;
 
 /// <inheritdoc />
 [ApiController]
-[Route("api/[controller]")]
+[Route("[controller]")]
 [Produces("application/json")]
 public class BaseController : ControllerBase
 {

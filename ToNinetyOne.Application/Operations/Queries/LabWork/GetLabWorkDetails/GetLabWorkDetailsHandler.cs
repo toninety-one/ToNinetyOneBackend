@@ -37,12 +37,15 @@ public class GetLabWorkDetailsHandler : IRequestHandler<GetLabWorkDetailsQuery, 
         if (entity == null) throw new NotFoundException(nameof(Domain.LabWork), request.Id);
 
         var view = _mapper.Map<LabWorkDetailsViewModel>(entity);
-        
+
         var submittedLab = await _dbContext.SubmittedLabs
             .Include(s => s.SelfUser)
             .FirstOrDefaultAsync(s => s.SelfUser.Id == user.Id, cancellationToken);
 
         view.Mark = submittedLab?.Mark;
+
+        view.SubmittedLabs = _dbContext.SubmittedLabs.Include(s=>s.SelfUser)
+            .Where(s => request.UserRole == Roles.User && s.SelfUser.Id == user.Id);
 
         return view;
     }

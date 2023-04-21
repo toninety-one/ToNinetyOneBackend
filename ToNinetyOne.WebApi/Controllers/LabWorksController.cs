@@ -7,6 +7,7 @@ using ToNinetyOne.Application.Operations.Commands.LabWork.UpdateLabWork;
 using ToNinetyOne.Application.Operations.Commands.SubmittedLab.CreateSubmittedLab;
 using ToNinetyOne.Application.Operations.Queries.LabWork.GetLabWorkDetails;
 using ToNinetyOne.Application.Operations.Queries.LabWork.GetLabWorkList;
+using ToNinetyOne.Application.Operations.Queries.SubmittedLab.GetSubmittedLabDetails;
 using ToNinetyOne.Config.Static;
 
 namespace ToNinetyOne.WebApi.Controllers;
@@ -90,10 +91,13 @@ public class LabWorksController : BaseController
     [HttpGet("{id:guid}/{submittedId:guid}")]
     [ProducesResponseType(StatusCodes.Status200OK)]
     [ProducesResponseType(StatusCodes.Status401Unauthorized)]
-    public async Task<ActionResult> Get(Guid id, Guid submittedId)
+    public async Task<ActionResult<SubmittedLabDetailsViewModel>> Get(Guid id, Guid submittedId)
     {
-        return Ok();
-        // throw new NotImplementedException(submittedId.ToString() + " " + id.ToString());
+        var query = new GetSubmittedLabDetailsQuery(UserId, id, submittedId, UserRole);
+
+        var viewModel = await Mediator.Send(query);
+
+        return Ok(viewModel);
     }
 
     #endregion

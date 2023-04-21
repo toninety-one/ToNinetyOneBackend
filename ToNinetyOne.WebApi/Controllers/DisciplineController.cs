@@ -13,7 +13,6 @@ namespace ToNinetyOne.WebApi.Controllers;
 /// <inheritdoc />
 [Authorize(Roles = $"{Roles.Administrator}, {Roles.Teacher}, {Roles.User}")]
 [ApiController]
-[Produces("application/json")]
 public class DisciplineController : BaseController
 {
     private readonly IMapper _mapper;

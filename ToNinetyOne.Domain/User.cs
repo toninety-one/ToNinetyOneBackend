@@ -33,5 +33,4 @@ public class User
     public string? MiddleName { get; set; }
     [ForeignKey(nameof(UserGroup))] public Guid? GroupId { get; set; }
     [JsonIgnore] public Group? UserGroup { get; set; }
-    public Guid AvatarId { get; set; }
 }

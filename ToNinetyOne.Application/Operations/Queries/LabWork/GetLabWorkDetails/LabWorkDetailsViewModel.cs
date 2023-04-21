@@ -1,5 +1,6 @@
 using AutoMapper;
 using ToNinetyOne.Config.Common.Mappings;
+using ToNinetyOne.Domain;
 
 namespace ToNinetyOne.Application.Operations.Queries.LabWork.GetLabWorkDetails;
 
@@ -30,6 +31,7 @@ public class LabWorkDetailsViewModel : IMapWith<Domain.LabWork>
     public string? Mark { get; set; }
     public DateTime CreationDate { get; set; }
     public DateTime EditDate { get; set; }
+    public IEnumerable<Domain.SubmittedLab> SubmittedLabs { get; set; }
 
     public void Mapping(Profile profile)
     {

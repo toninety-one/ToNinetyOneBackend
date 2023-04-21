@@ -19,7 +19,6 @@ public class UserTransferCommandHandler : IRequestHandler<UserTransferCommand, G
         {
             Id = request.RegisterId,
             FirstName = request.FirstName,
-            AvatarId = Guid.Empty,
             LastName = request.LastName,
             MiddleName = request.MiddleName,
         };
