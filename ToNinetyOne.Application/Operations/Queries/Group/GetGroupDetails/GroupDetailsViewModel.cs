@@ -11,7 +11,7 @@ public class GroupDetailsViewModel : IMapWith<Domain.Group>
         Title = "";
     }
 
-    public GroupDetailsViewModel(Guid id, string title, ICollection<User> users, DateTime creationDate,
+    public GroupDetailsViewModel(Guid id, string title, ICollection<Domain.User> users, DateTime creationDate,
         DateTime editDate)
     {
         Id = id;
@@ -23,7 +23,7 @@ public class GroupDetailsViewModel : IMapWith<Domain.Group>
 
     public Guid Id { get; set; }
     public string Title { get; set; }
-    public ICollection<User> Users { get; set; }
+    public ICollection<Domain.User> Users { get; set; }
     public ICollection<Domain.Discipline> Disciplines { get; set; }
     public DateTime CreationDate { get; set; }
     public DateTime EditDate { get; set; }
