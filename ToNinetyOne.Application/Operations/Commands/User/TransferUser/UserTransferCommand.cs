@@ -1,6 +1,6 @@
 using MediatR;
 
-namespace ToNinetyOne.Application.Operations.Commands.User;
+namespace ToNinetyOne.Application.Operations.Commands.User.TransferUser;
 
 public class UserTransferCommand : IRequest<Guid>
 {

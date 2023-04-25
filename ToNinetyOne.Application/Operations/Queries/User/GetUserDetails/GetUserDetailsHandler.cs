@@ -4,20 +4,20 @@ using Microsoft.EntityFrameworkCore;
 using ToNinetyOne.Application.Interfaces;
 using ToNinetyOne.Config.Common.Exceptions;
 
-namespace ToNinetyOne.Application.Operations.Queries.UserProfile;
+namespace ToNinetyOne.Application.Operations.Queries.User.GetUserDetails;
 
-public class GetUserProfileHandler : IRequestHandler<GetUserProfileQuery, UserProfileViewModel>
+public class GetUserDetailsHandler : IRequestHandler<GetUserDetailsQuery, UserDetailsViewModel>
 {
     private readonly IToNinetyOneDbContext _dbContext;
     private readonly IMapper _mapper;
 
-    public GetUserProfileHandler(IToNinetyOneDbContext dbContext, IMapper mapper)
+    public GetUserDetailsHandler(IToNinetyOneDbContext dbContext, IMapper mapper)
     {
         _dbContext = dbContext;
         _mapper = mapper;
     }
 
-    public async Task<UserProfileViewModel> Handle(GetUserProfileQuery request, CancellationToken cancellationToken)
+    public async Task<UserDetailsViewModel> Handle(GetUserDetailsQuery request, CancellationToken cancellationToken)
     {
         var user = await _dbContext.Users
             .Include(u => u.UserGroup)
@@ -25,10 +25,10 @@ public class GetUserProfileHandler : IRequestHandler<GetUserProfileQuery, UserPr
 
         if (user == null) throw new NotFoundException(nameof(Domain.LabWork), request.UserId);
 
-        var entity = _mapper.Map<UserProfileViewModel>(user);
+        var entity = _mapper.Map<UserDetailsViewModel>(user);
 
         // TODO: add resent labs and more
-
+        
         return entity;
     }
 }

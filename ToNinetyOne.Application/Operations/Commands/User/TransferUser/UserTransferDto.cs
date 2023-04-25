@@ -1,7 +1,7 @@
 using AutoMapper;
 using ToNinetyOne.Config.Common.Mappings;
 
-namespace ToNinetyOne.Application.Operations.Commands.User;
+namespace ToNinetyOne.Application.Operations.Commands.User.TransferUser;
 
 public class UserTransferDto : IMapWith<UserTransferCommand>
 {

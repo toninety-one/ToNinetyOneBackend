@@ -271,7 +271,7 @@ public class LabWorksController : BaseController
     /// <response code="204">Success</response>
     /// <responce code="401">If user not auth</responce>
     [Authorize(Roles = $"{Roles.Administrator}, {Roles.Teacher}")]
-    [HttpDelete("{id:guid}/{submittedLabId:guid")]
+    [HttpDelete("{id:guid}/{submittedLabId:guid}")]
     [ProducesResponseType(StatusCodes.Status204NoContent)]
     [ProducesResponseType(StatusCodes.Status401Unauthorized)]
     public async Task<ActionResult> Delete(Guid id, Guid submittedLabId)

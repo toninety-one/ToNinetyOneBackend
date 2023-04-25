@@ -1,14 +1,14 @@
 using AutoMapper;
 using Microsoft.AspNetCore.Authorization;
 using Microsoft.AspNetCore.Mvc;
-using ToNinetyOne.Application.Operations.Queries.UserProfile;
+using ToNinetyOne.Application.Operations.Queries.User.GetUserDetails;
 
 namespace ToNinetyOne.WebApi.Controllers;
 
 /// <inheritdoc />
 [Authorize]
 [ApiController]
-public class UserProfileController : BaseController
+public class UserController : BaseController
 {
     private readonly IMapper _mapper;
 
@@ -16,7 +16,7 @@ public class UserProfileController : BaseController
     ///     Constructor
     /// </summary>
     /// <param name="mapper">configured mapper</param>
-    public UserProfileController(IMapper mapper)
+    public UserController(IMapper mapper)
     {
         _mapper = mapper;
     }
@@ -36,9 +36,9 @@ public class UserProfileController : BaseController
     [HttpGet]
     [ProducesResponseType(StatusCodes.Status200OK)]
     [ProducesResponseType(StatusCodes.Status401Unauthorized)]
-    public async Task<ActionResult<UserProfileViewModel>> Get()
+    public async Task<ActionResult<UserDetailsViewModel>> Get()
     {
-        var query = new GetUserProfileQuery(UserId);
+        var query = new GetUserDetailsQuery(UserId);
 
         var viewModel = await Mediator.Send(query);
 

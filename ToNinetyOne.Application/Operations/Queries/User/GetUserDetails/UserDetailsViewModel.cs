@@ -1,10 +1,9 @@
 using AutoMapper;
 using ToNinetyOne.Config.Common.Mappings;
-using ToNinetyOne.Domain;
 
-namespace ToNinetyOne.Application.Operations.Queries.UserProfile;
+namespace ToNinetyOne.Application.Operations.Queries.User.GetUserDetails;
 
-public class UserProfileViewModel : IMapWith<User>
+public class UserDetailsViewModel : IMapWith<Domain.User>
 {
     public string FirstName { get; set; }
     public string LastName { get; set; }
@@ -13,7 +12,7 @@ public class UserProfileViewModel : IMapWith<User>
 
     public void Mapping(Profile profile)
     {
-        profile.CreateMap<User, UserProfileViewModel>()
+        profile.CreateMap<Domain.User, UserDetailsViewModel>()
             .ForMember(
                 dto => dto.FirstName,
                 opt => opt.MapFrom(obj => obj.FirstName)

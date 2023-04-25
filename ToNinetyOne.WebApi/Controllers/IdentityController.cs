@@ -7,6 +7,7 @@ using Microsoft.AspNetCore.Mvc;
 using Microsoft.Extensions.Options;
 using Microsoft.IdentityModel.Tokens;
 using ToNinetyOne.Application.Operations.Commands.User;
+using ToNinetyOne.Application.Operations.Commands.User.TransferUser;
 using ToNinetyOne.Identity.Operations.Commands.Registration;
 using ToNinetyOne.Identity.Operations.Commands.Token;
 using ToNinetyOne.Identity.Operations.Commands.Token.Authenticate;

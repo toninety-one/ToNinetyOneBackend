@@ -1,6 +1,6 @@
 using FluentValidation;
 
-namespace ToNinetyOne.Application.Operations.Commands.User;
+namespace ToNinetyOne.Application.Operations.Commands.User.TransferUser;
 
 public class UserTransferCommandValidator : AbstractValidator<UserTransferCommand>
 {
