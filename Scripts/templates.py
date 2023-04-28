@@ -10,8 +10,9 @@ public class {1}Command : IRequest<Guid>
     
     """,
     "handler": """using MediatR;
+using Microsoft.EntityFrameworkCore;
 using ToNinetyOne.Application.Interfaces;
-using ToNinetyOne.Domain;
+using ToNinetyOne.Config.Common.Exceptions;
         
 namespace ToNinetyOne.Application.Operations.Commands.{0}.{1};
         
