@@ -24,6 +24,7 @@ public class SubmittedLabDetailsViewModel : IMapWith<Domain.SubmittedLab>
     public string? Mark { get; set; }
     [Required] public Domain.User SelfUser { get; set; }
     [Required] public Domain.LabWork SelfLabWork { get; set; }
+    public ICollection<Domain.File> Files { get; set; }
 
     public void Mapping(Profile profile)
     {

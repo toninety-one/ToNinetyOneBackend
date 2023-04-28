@@ -156,7 +156,7 @@ public class LabWorksController : BaseController
     [HttpPost("{id:guid}")]
     [ProducesResponseType(StatusCodes.Status201Created)]
     [ProducesResponseType(StatusCodes.Status401Unauthorized)]
-    public async Task<ActionResult<Guid>> Create(Guid id, [FromBody] CreateSubmittedLabDto createSubmittedLabDto)
+    public async Task<ActionResult<Guid>> Create(Guid id, [FromForm] CreateSubmittedLabDto createSubmittedLabDto)
     {
         var command = _mapper.Map<CreateSubmittedLabCommand>(createSubmittedLabDto);
         command.UserId = UserId;

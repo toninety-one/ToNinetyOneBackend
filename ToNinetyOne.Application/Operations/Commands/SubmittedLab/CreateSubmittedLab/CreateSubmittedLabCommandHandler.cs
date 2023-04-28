@@ -4,6 +4,7 @@ using Microsoft.EntityFrameworkCore;
 using ToNinetyOne.Application.Interfaces;
 using ToNinetyOne.Config.Common.Exceptions;
 using ToNinetyOne.Config.Static;
+using ToNinetyOne.Utils;
 
 namespace ToNinetyOne.Application.Operations.Commands.SubmittedLab.CreateSubmittedLab;
 
@@ -36,11 +37,16 @@ public class CreateSubmittedLabCommandHandler : IRequestHandler<CreateSubmittedL
 
         var submittedLab = new Domain.SubmittedLab()
         {
+            Id = Guid.NewGuid(),
             Details = request.Details,
             SelfLabWork = selfLabWork,
             SelfUser = user
         };
+        
+        var files = await Task.WhenAll(request.Files.Select(async f =>
+            await DownloadFile.Download(f, user.Id, submittedLab.Id, FileTypes.SubmittedLab)));
 
+        await _dbContext.Files.AddRangeAsync(files);
         await _dbContext.SubmittedLabs.AddAsync(submittedLab, cancellationToken);
         await _dbContext.SaveChangesAsync(cancellationToken);
 

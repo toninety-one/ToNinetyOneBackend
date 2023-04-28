@@ -47,7 +47,8 @@ public class GetLabWorkDetailsHandler : IRequestHandler<GetLabWorkDetailsQuery, 
         view.SubmittedLabs = _dbContext.SubmittedLabs.Include(s=>s.SelfUser)
             .Where(s => request.UserRole == Roles.User && s.SelfUser.Id == user.Id);
 
-        var files = await _dbContext.Files.Where(f => f.FileType == FileTypes.LabWork && f.SelfId == entity.Id).ToListAsync(cancellationToken);
+        var files = await _dbContext.Files.Where(f => f.FileType == FileTypes.LabWork && f.SelfId == entity.Id)
+            .ToListAsync(cancellationToken);
 
         view.Files = files;
         

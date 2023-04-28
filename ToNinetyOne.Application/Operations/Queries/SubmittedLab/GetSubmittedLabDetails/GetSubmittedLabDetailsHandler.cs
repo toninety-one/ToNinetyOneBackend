@@ -34,7 +34,16 @@ public class GetSubmittedLabDetailsHandler : IRequestHandler<GetSubmittedLabDeta
             .FirstOrDefaultAsync(
                 s => s.SelfLabWork.Id == request.Id && s.Id == request.SubmittedId &&
                      (s.SelfUser.Id == user.Id || request.UserRole != Roles.User), cancellationToken);
+
+        if (entity == null) throw new NotFoundException(nameof(Domain.SubmittedLab), request.SubmittedId);
         
-        return _mapper.Map<SubmittedLabDetailsViewModel>(entity);
+        var view = _mapper.Map<SubmittedLabDetailsViewModel>(entity);
+
+        var files = await _dbContext.Files.Where(f => f.FileType == FileTypes.SubmittedLab && f.SelfId == entity.Id)
+            .ToListAsync(cancellationToken);
+
+        view.Files = files;
+
+        return view;
     }
 }
