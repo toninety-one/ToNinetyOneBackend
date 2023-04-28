@@ -24,7 +24,6 @@ public class UpdateDisciplineCommandHandler : IRequestHandler<UpdateDisciplineCo
             throw new NotFoundException(nameof(Domain.LabWork), request.Id);
 
         entity.Title = request.Title;
-        entity.FilePath = request.FilePath;
         entity.EditDate = DateTime.Now;
 
         await _dbContext.SaveChangesAsync(cancellationToken);

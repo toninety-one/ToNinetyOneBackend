@@ -1,6 +1,7 @@
 using AutoMapper;
 using ToNinetyOne.Config.Common.Mappings;
 using ToNinetyOne.Domain;
+using File = ToNinetyOne.Domain.File;
 
 namespace ToNinetyOne.Application.Operations.Queries.LabWork.GetLabWorkDetails;
 
@@ -10,16 +11,14 @@ public class LabWorkDetailsViewModel : IMapWith<Domain.LabWork>
     {
         Title = "";
         Details = "";
-        FilePath = "";
     }
 
-    public LabWorkDetailsViewModel(Guid id, string title, string details, string filePath, DateTime creationDate,
+    public LabWorkDetailsViewModel(Guid id, string title, string details, DateTime creationDate,
         DateTime editDate)
     {
         Id = id;
         Title = title;
         Details = details;
-        FilePath = filePath;
         CreationDate = creationDate;
         EditDate = editDate;
     }
@@ -27,11 +26,11 @@ public class LabWorkDetailsViewModel : IMapWith<Domain.LabWork>
     public Guid Id { get; set; }
     public string Title { get; set; }
     public string Details { get; set; }
-    public string FilePath { get; set; }
     public string? Mark { get; set; }
     public DateTime CreationDate { get; set; }
     public DateTime EditDate { get; set; }
     public IEnumerable<Domain.SubmittedLab> SubmittedLabs { get; set; }
+    public ICollection<File> Files { get; set; }
 
     public void Mapping(Profile profile)
     {
@@ -42,9 +41,6 @@ public class LabWorkDetailsViewModel : IMapWith<Domain.LabWork>
             .ForMember(
                 labWorkVm => labWorkVm.Details,
                 opt => opt.MapFrom(labWork => labWork.Details)
-            ).ForMember(
-                labWorkVm => labWorkVm.FilePath,
-                opt => opt.MapFrom(labWork => labWork.FilePath)
             ).ForMember(
                 labWorkVm => labWorkVm.Id,
                 opt => opt.MapFrom(labWork => labWork.Id)

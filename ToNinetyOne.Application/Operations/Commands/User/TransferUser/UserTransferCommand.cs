@@ -11,7 +11,7 @@ public class UserTransferCommand : IRequest<Guid>
         MiddleName = "";
     }
 
-    public UserTransferCommand(Guid registerId)
+    public UserTransferCommand(Guid registerId) : this()
     {
         RegisterId = registerId;
     }

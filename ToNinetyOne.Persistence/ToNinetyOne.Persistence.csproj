@@ -7,13 +7,13 @@
     </PropertyGroup>
 
     <ItemGroup>
-        <PackageReference Include="Microsoft.EntityFrameworkCore.Sqlite" Version="7.0.4"/>
-        <PackageReference Include="Npgsql.EntityFrameworkCore.PostgreSQL" Version="7.0.3"/>
+        <PackageReference Include="Microsoft.EntityFrameworkCore.Sqlite" Version="7.0.4" />
+        <PackageReference Include="Npgsql.EntityFrameworkCore.PostgreSQL" Version="7.0.3" />
     </ItemGroup>
 
     <ItemGroup>
-        <ProjectReference Include="..\ToNinetyOne.Application\ToNinetyOne.Application.csproj"/>
-        <ProjectReference Include="..\ToNinetyOne.Domain\ToNinetyOne.Domain.csproj"/>
+        <ProjectReference Include="..\ToNinetyOne.Application\ToNinetyOne.Application.csproj" />
+        <ProjectReference Include="..\ToNinetyOne.Domain\ToNinetyOne.Domain.csproj" />
     </ItemGroup>
 
 </Project>

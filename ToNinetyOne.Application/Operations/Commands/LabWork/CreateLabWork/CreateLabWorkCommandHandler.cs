@@ -3,6 +3,7 @@ using Microsoft.EntityFrameworkCore;
 using ToNinetyOne.Application.Interfaces;
 using ToNinetyOne.Config.Common.Exceptions;
 using ToNinetyOne.Config.Static;
+using ToNinetyOne.Utils;
 
 namespace ToNinetyOne.Application.Operations.Commands.LabWork.CreateLabWork;
 
@@ -32,16 +33,19 @@ public class CreateLabWorkCommandHandler : IRequestHandler<CreateLabWorkCommand,
 
         var lab = new Domain.LabWork
         {
+            Id = Guid.NewGuid(),
             Details = request.Details,
-            FilePath = request.FilePath,
             Title = request.Title,
             SelfDiscipline = selfDiscipline
         };
 
+        var files = await Task.WhenAll(request.Files.Select(async f =>
+            await DownloadFile.Download(f, user.Id, lab.Id, FileTypes.LabWork)));
+
+        await _dbContext.Files.AddRangeAsync(files);
         await _dbContext.LabWorks.AddAsync(lab, cancellationToken);
-
         await _dbContext.SaveChangesAsync(cancellationToken);
-
+        
         return lab.Id;
     }
 }

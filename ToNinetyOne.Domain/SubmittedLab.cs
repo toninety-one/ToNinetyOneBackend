@@ -10,7 +10,6 @@ public class SubmittedLab
         Id = Guid.NewGuid();
         Title = "";
         Details = "";
-        FilePath = "";
         CreationDate = DateTime.Now;
         EditDate = CreationDate;
     }
@@ -18,7 +17,6 @@ public class SubmittedLab
     public Guid Id { get; set; }
     public string Title { get; set; }
     public string Details { get; set; }
-    public string FilePath { get; set; }
     public DateTime CreationDate { get; set; }
     public DateTime EditDate { get; set; }
     public string? Mark { get; set; }

@@ -8,7 +8,6 @@ public class LabWork
     {
         CreationDate = DateTime.Now;
         EditDate = CreationDate;
-        FilePath = "";
         Title = "";
         Details = "";
     }
@@ -16,7 +15,6 @@ public class LabWork
     public Guid Id { get; set; }
     public string Title { get; set; }
     public string Details { get; set; }
-    public string FilePath { get; set; }
     public DateTime CreationDate { get; set; }
     public DateTime EditDate { get; set; }
     [JsonIgnore] public Discipline SelfDiscipline { get; set; }

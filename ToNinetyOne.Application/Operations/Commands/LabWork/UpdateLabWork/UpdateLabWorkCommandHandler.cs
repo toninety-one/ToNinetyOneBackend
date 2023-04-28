@@ -32,7 +32,6 @@ public class UpdateLabWorkCommandHandler : IRequestHandler<UpdateLabWorkCommand>
 
         entity.Title = request.Title;
         entity.Details = request.Details;
-        entity.FilePath = request.FilePath;
         entity.EditDate = DateTime.Now;
 
         await _dbContext.SaveChangesAsync(cancellationToken);

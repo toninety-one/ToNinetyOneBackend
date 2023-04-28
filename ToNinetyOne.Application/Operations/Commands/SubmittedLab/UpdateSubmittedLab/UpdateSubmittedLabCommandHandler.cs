@@ -38,7 +38,6 @@ public class UpdateSubmittedLabCommandHandler : IRequestHandler<UpdateSubmittedL
         
         entity.Title = request.Title;
         entity.Details = request.Details;
-        entity.FilePath = request.FilePath;
         entity.EditDate = DateTime.Now;
         entity.SelfLabWork = selfLab;
 

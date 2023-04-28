@@ -27,7 +27,7 @@ public class User
         MiddleName = middleName;
     }
 
-    [Key] [Required] [NotNull] public Guid Id { get; set; }
+    [Key] [Required] public Guid Id { get; set; }
     public string FirstName { get; set; }
     public string LastName { get; set; }
     public string? MiddleName { get; set; }

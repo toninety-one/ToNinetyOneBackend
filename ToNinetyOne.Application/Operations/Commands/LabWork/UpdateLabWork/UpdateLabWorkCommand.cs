@@ -8,14 +8,12 @@ public class UpdateLabWorkCommand : IRequest
     {
         Title = "";
         Details = "";
-        FilePath = "";
     }
 
-    public UpdateLabWorkCommand(string title, string details, string filePath)
+    public UpdateLabWorkCommand(string title, string details)
     {
         Title = title;
         Details = details;
-        FilePath = filePath;
     }
 
     public Guid Id { get; set; }
@@ -23,5 +21,4 @@ public class UpdateLabWorkCommand : IRequest
     public string UserRole { get; set; }
     public string Title { get; set; }
     public string Details { get; set; }
-    public string FilePath { get; set; }
 }

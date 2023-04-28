@@ -9,7 +9,6 @@ public class UpdateSubmittedLabDto : IMapWith<UpdateSubmittedLabCommand>
     public Guid SelfLabId { get; set; }
     public string Title { get; set; }
     public string Details { get; set; }
-    public string FilePath { get; set; }
 
     public void Mapping(Profile profile)
     {
@@ -23,9 +22,6 @@ public class UpdateSubmittedLabDto : IMapWith<UpdateSubmittedLabCommand>
             ).ForMember(
                 command => command.Title,
                 opt => opt.MapFrom(dto => dto.Title)
-            ).ForMember(
-                command => command.FilePath,
-                opt => opt.MapFrom(dto => dto.FilePath)
             ).ForMember(
                 command => command.SelfLabId,
                 opt => opt.MapFrom(dto => dto.SelfLabId)

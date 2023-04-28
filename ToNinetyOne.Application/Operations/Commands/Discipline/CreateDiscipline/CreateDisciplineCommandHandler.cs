@@ -19,7 +19,6 @@ public class CreateDisciplineCommandHandler : IRequestHandler<CreateDisciplineCo
             UserId = request.UserId,
             Title = request.Title,
             Id = Guid.NewGuid(),
-            FilePath = request.FilePath
         };
 
         await _dbContext.Disciplines.AddAsync(discipline, cancellationToken);

@@ -7,7 +7,6 @@ public class CreateSubmittedLabDto : IMapWith<CreateSubmittedLabCommand>
 {
     public string Title { get; set; }
     public string Details { get; set; }
-    public string FilePath { get; set; }
 
     public void Mapping(Profile profile)
     {
@@ -18,9 +17,6 @@ public class CreateSubmittedLabDto : IMapWith<CreateSubmittedLabCommand>
             ).ForMember(
                 command => command.Details,
                 opt => opt.MapFrom(dto => dto.Details)
-            ).ForMember(
-                command => command.FilePath,
-                opt => opt.MapFrom(dto => dto.FilePath)
             );
     }
 }

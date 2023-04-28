@@ -8,21 +8,18 @@ public class DisciplineDetailsViewModel : IMapWith<Domain.Discipline>
     public DisciplineDetailsViewModel()
     {
         Title = "";
-        FilePath = "";
     }
 
-    public DisciplineDetailsViewModel(Guid id, string title, string filePath, DateTime creationDate, DateTime editDate)
+    public DisciplineDetailsViewModel(Guid id, string title, DateTime creationDate, DateTime editDate)
     {
         Id = id;
         Title = title;
-        FilePath = filePath;
         CreationDate = creationDate;
         EditDate = editDate;
     }
 
     public Guid Id { get; set; }
     public string Title { get; set; }
-    public string FilePath { get; set; }
     public ICollection<Domain.Group> Groups { get; set; }
     public DateTime CreationDate { get; set; }
     public DateTime EditDate { get; set; }
@@ -34,9 +31,6 @@ public class DisciplineDetailsViewModel : IMapWith<Domain.Discipline>
                 disciplineVm => disciplineVm.Title,
                 opt => opt.MapFrom(discipline => discipline.Title))
             .ForMember(
-                disciplineVm => disciplineVm.FilePath,
-                opt => opt.MapFrom(discipline => discipline.FilePath)
-            ).ForMember(
                 disciplineVm => disciplineVm.Id,
                 opt => opt.MapFrom(discipline => discipline.Id)
             ).ForMember(

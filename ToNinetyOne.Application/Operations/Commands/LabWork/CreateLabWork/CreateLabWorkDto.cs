@@ -1,4 +1,5 @@
 using AutoMapper;
+using Microsoft.AspNetCore.Http;
 using ToNinetyOne.Config.Common.Mappings;
 
 namespace ToNinetyOne.Application.Operations.Commands.LabWork.CreateLabWork;
@@ -8,7 +9,7 @@ public class CreateLabWorkDto : IMapWith<CreateLabWorkCommand>
     public Guid DisciplineId { get; set; }
     public string Title { get; set; }
     public string Details { get; set; }
-    public string FilePath { get; set; }
+    public IEnumerable<IFormFile> Files { get; set; }
 
     public void Mapping(Profile profile)
     {
@@ -20,8 +21,8 @@ public class CreateLabWorkDto : IMapWith<CreateLabWorkCommand>
                 command => command.Details,
                 opt => opt.MapFrom(dto => dto.Details)
             ).ForMember(
-                command => command.FilePath,
-                opt => opt.MapFrom(dto => dto.FilePath)
+                command => command.Files,
+                opt => opt.MapFrom(dto => dto.Files)
             ).ForMember(
                 command => command.DisciplineId,
                 opt => opt.MapFrom(dto => dto.DisciplineId)
