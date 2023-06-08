@@ -23,6 +23,7 @@ public class GroupDetailsViewModel : IMapWith<Domain.Group>
 
     public Guid Id { get; set; }
     public string Title { get; set; }
+    public string ClassRoom { get; set; }
     public ICollection<Domain.User> Users { get; set; }
     public ICollection<Domain.Discipline> Disciplines { get; set; }
     public DateTime CreationDate { get; set; }
@@ -37,6 +38,9 @@ public class GroupDetailsViewModel : IMapWith<Domain.Group>
             ).ForMember(
                 viewModel => viewModel.Title,
                 opt => opt.MapFrom(obj => obj.Title)
+            ).ForMember(
+                viewModel => viewModel.ClassRoom,
+                opt => opt.MapFrom(obj => obj.ClassRoom)
             ).ForMember(
                 viewModel => viewModel.Users,
                 opt => opt.MapFrom(obj => obj.Users)

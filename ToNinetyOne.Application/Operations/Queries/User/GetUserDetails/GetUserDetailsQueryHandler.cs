@@ -28,11 +28,13 @@ public class GetUserDetailsQueryHandler : IRequestHandler<GetUserDetailsQuery, U
         var entity = _mapper.Map<UserDetailsViewModel>(user);
 
         var submittedLabs = _dbContext.SubmittedLabs
-            .Include(s => s.SelfUser)
+            // TODO: test this and if it doesnt work,
+            // remove the user from the submitted lab    
+            // .Include(s => s.SelfUser)
             .Where(s => s.SelfUser.Id == user.Id)
             .Take(10);
 
-        entity.SubmittedLabs = submittedLabs;
+        entity.LastSubmittedLabs = submittedLabs;
 
         return entity;
     }

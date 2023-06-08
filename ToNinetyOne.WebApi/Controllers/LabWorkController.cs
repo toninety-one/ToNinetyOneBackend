@@ -17,7 +17,7 @@ namespace ToNinetyOne.WebApi.Controllers;
 /// <inheritdoc />
 [Authorize(Roles = $"{Roles.Administrator}, {Roles.Teacher}, {Roles.User}")]
 [ApiController]
-public class LabWorksController : BaseController
+public class LabWorkController : BaseController
 {
     private readonly IMapper _mapper;
 
@@ -25,7 +25,7 @@ public class LabWorksController : BaseController
     ///     Constructor
     /// </summary>
     /// <param name="mapper">configured mapper</param>
-    public LabWorksController(IMapper mapper)
+    public LabWorkController(IMapper mapper)
     {
         _mapper = mapper;
     }

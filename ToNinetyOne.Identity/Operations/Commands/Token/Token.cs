@@ -4,16 +4,16 @@ public class Token
 {
     public Token()
     {
-        JwtToken = string.Empty;
+        AccessToken = string.Empty;
         RefreshToken = string.Empty;
     }
 
-    public Token(string jwtToken, string refreshToken)
+    public Token(string accessToken, string refreshToken)
     {
-        JwtToken = jwtToken;
+        AccessToken = accessToken;
         RefreshToken = refreshToken;
     }
 
-    public string JwtToken { get; set; }
+    public string AccessToken { get; set; }
     public string RefreshToken { get; set; }
 }

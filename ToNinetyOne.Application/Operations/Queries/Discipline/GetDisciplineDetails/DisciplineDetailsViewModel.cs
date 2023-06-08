@@ -19,8 +19,10 @@ public class DisciplineDetailsViewModel : IMapWith<Domain.Discipline>
     }
 
     public Guid Id { get; set; }
+    public Guid UserId { get; set; }
     public string Title { get; set; }
     public ICollection<Domain.Group> Groups { get; set; }
+    public ICollection<Domain.LabWork> LabWorks { get; set; }
     public DateTime CreationDate { get; set; }
     public DateTime EditDate { get; set; }
 
@@ -42,6 +44,12 @@ public class DisciplineDetailsViewModel : IMapWith<Domain.Discipline>
             ).ForMember(
                 disciplineVm => disciplineVm.Groups,
                 opt => opt.MapFrom(discipline => discipline.Groups)
+            ).ForMember(
+                disciplineVm => disciplineVm.UserId,
+                opt => opt.MapFrom(discipline => discipline.UserId)
+            ).ForMember(
+                disciplineVm => disciplineVm.LabWorks,
+                opt => opt.MapFrom(discipline => discipline.LabWorks)
             );
     }
 }

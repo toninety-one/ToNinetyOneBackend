@@ -1,3 +1,4 @@
+using System.Text.Json;
 using AutoMapper;
 using MediatR;
 using Microsoft.EntityFrameworkCore;
@@ -28,10 +29,14 @@ public class GetDisciplineDetailsHandler : IRequestHandler<GetDisciplineDetailsQ
 
         if (user == null) throw new NotFoundException(nameof(User), request.UserId);
 
-        var entity = await _dbContext.Disciplines.Include(d => d.Groups).Include(d => d.LabWorks)
+        var entity = await _dbContext.Disciplines
+            .Include(d => d.Groups)
+            .Include(d => d.LabWorks)
             .FirstOrDefaultAsync(
-                discipline => (discipline.Id == request.Id && discipline.UserId == request.UserId) ||
-                              request.UserRole == Roles.Administrator, cancellationToken);
+                discipline =>
+                    discipline.Id == request.Id &&
+                    (discipline.UserId == request.UserId || request.UserRole == Roles.Administrator),
+                cancellationToken);
 
         if (entity == null) throw new NotFoundException(nameof(Domain.Discipline), request.Id);
 

@@ -20,7 +20,7 @@ public class UpdateCommandHandler : IRequestHandler<UpdateCommand, string>
         var refreshToken = await _dbContext.RefreshTokens.FirstOrDefaultAsync(token =>
             token.UserName == request.UserName && token.Token == request.RefreshToken, cancellationToken);
 
-        if (refreshToken == null) throw new NotAuthorizedException(nameof(RefreshToken), request.RefreshToken);
+        if (refreshToken == null) throw new NotAuthorizedException(NotAuthorizedException.InvalidAuthData);
 
         return refreshToken.Token;
     }

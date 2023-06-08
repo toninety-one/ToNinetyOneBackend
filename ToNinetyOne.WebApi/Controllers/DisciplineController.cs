@@ -1,3 +1,4 @@
+using System.Text.Json;
 using AutoMapper;
 using Microsoft.AspNetCore.Authorization;
 using Microsoft.AspNetCore.Mvc;
@@ -67,7 +68,7 @@ public class DisciplineController : BaseController
     public async Task<ActionResult<DisciplineDetailsViewModel>> Get(Guid id)
     {
         var query = new GetDisciplineDetailsQuery(UserId, id, UserRole);
-
+        Console.WriteLine(JsonSerializer.Serialize(query));
         var viewModel = await Mediator.Send(query);
 
         return Ok(viewModel);
@@ -99,6 +100,11 @@ public class DisciplineController : BaseController
     public async Task<ActionResult<Guid>> Create([FromBody] CreateDisciplineDto createDisciplineDto)
     {
         var command = _mapper.Map<CreateDisciplineCommand>(createDisciplineDto);
+        if (createDisciplineDto.UserId == Guid.Empty)
+        {
+            command.UserId = UserId;
+        }
+
         var disciplineId = await Mediator.Send(command);
         return Ok(disciplineId);
     }
@@ -129,6 +135,13 @@ public class DisciplineController : BaseController
     public async Task<ActionResult<Guid>> Update([FromBody] UpdateDisciplineDto updateDisciplineDto)
     {
         var command = _mapper.Map<UpdateDisciplineCommand>(updateDisciplineDto);
+        command.UserRole = UserRole;
+
+        if (updateDisciplineDto.UserId == Guid.Empty)
+        {
+            command.UserId = UserId;
+        }
+
         await Mediator.Send(command);
         return NoContent();
     }
@@ -154,7 +167,12 @@ public class DisciplineController : BaseController
     [ProducesResponseType(StatusCodes.Status401Unauthorized)]
     public async Task<ActionResult> Delete(Guid id)
     {
-        var command = new DeleteDisciplineCommand { Id = id, UserId = UserId };
+        var command = new DeleteDisciplineCommand
+        {
+            Id = id,
+            UserId = UserId,
+            UserRole = UserRole
+        };
         await Mediator.Send(command);
         return NoContent();
     }

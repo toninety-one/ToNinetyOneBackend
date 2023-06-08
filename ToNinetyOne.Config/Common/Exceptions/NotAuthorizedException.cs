@@ -2,7 +2,10 @@ namespace ToNinetyOne.Config.Common.Exceptions;
 
 public class NotAuthorizedException : Exception
 {
-    public NotAuthorizedException(string name, object key) : base($"Entity {name} ({key}) not authorized")
+    public const string AuthenticationNotFound = "authentication not found";
+    public const string InvalidAuthData = "invalid authenticate data";
+
+    public NotAuthorizedException(string message) : base(message)
     {
     }
 }

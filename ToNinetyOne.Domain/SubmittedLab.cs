@@ -20,6 +20,6 @@ public class SubmittedLab
     public DateTime CreationDate { get; set; }
     public DateTime EditDate { get; set; }
     public string? Mark { get; set; }
-    [Required] public User SelfUser { get; set; }
+    [Required] [JsonIgnore] public User SelfUser { get; set; }
     [Required] [JsonIgnore] public LabWork SelfLabWork { get; set; }
 }

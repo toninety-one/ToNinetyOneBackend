@@ -5,5 +5,6 @@ namespace ToNinetyOne.Application.Operations.Commands.Discipline.DeleteDisciplin
 public class DeleteDisciplineCommand : IRequest
 {
     public Guid UserId { get; set; }
+    public string UserRole { get; set; }
     public Guid Id { get; set; }
 }

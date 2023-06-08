@@ -8,6 +8,8 @@ using Microsoft.Extensions.Options;
 using Microsoft.IdentityModel.Tokens;
 using ToNinetyOne.Application.Operations.Commands.User;
 using ToNinetyOne.Application.Operations.Commands.User.TransferUser;
+using ToNinetyOne.Config.Common.Exceptions;
+using ToNinetyOne.Config.Static;
 using ToNinetyOne.Identity.Operations.Commands.Registration;
 using ToNinetyOne.Identity.Operations.Commands.Token;
 using ToNinetyOne.Identity.Operations.Commands.Token.Authenticate;
@@ -41,12 +43,12 @@ public class IdentityController : BaseController
 
         var tokenHandler = new JwtSecurityToken(
             claims: claims,
-            expires: DateTime.Now.AddMinutes(1),
+            expires: DateTime.Now.AddMinutes(5),
             signingCredentials: new SigningCredentials(new SymmetricSecurityKey(tokenKey),
                 SecurityAlgorithms.HmacSha256)
         );
 
-        tokenResponse.JwtToken = new JwtSecurityTokenHandler().WriteToken(tokenHandler);
+        tokenResponse.AccessToken = new JwtSecurityTokenHandler().WriteToken(tokenHandler);
 
         var refreshTokenCommand = _mapper.Map<RefreshCommand>(new RefreshDto { UserName = userName });
 
@@ -100,7 +102,7 @@ public class IdentityController : BaseController
                     SecurityAlgorithms.HmacSha256)
         };
 
-        tokenResponse.JwtToken = tokenHandler.WriteToken(tokenHandler.CreateToken(tokenDescriptor));
+        tokenResponse.AccessToken = tokenHandler.WriteToken(tokenHandler.CreateToken(tokenDescriptor));
 
         var refreshTokenCommand =
             _mapper.Map<RefreshCommand>(new RefreshDto { UserName = authenticateResult.UserName });
@@ -133,11 +135,11 @@ public class IdentityController : BaseController
     {
         var tokenHandler = new JwtSecurityTokenHandler();
 
-        var securityToken = (JwtSecurityToken)tokenHandler.ReadToken(token.JwtToken);
+        var securityToken = (JwtSecurityToken)tokenHandler.ReadToken(token.AccessToken);
 
         var username = securityToken.Claims.FirstOrDefault(c => c.Type == "unique_name")?.Value;
 
-        if (username == null) return Unauthorized();
+        if (username == null) throw new NotAuthorizedException(NotAuthorizedException.AuthenticationNotFound);
 
         var updateTokenCommand =
             _mapper.Map<UpdateCommand>(new UpdateDto { UserName = username, RefreshToken = token.RefreshToken });
@@ -167,6 +169,7 @@ public class IdentityController : BaseController
     /// <param name="registrationDto">RegistrationDto object</param>
     /// <returns>Returns id (guid)</returns>
     /// <response code="201">Success register</response>
+    [Authorize(Roles = Roles.Administrator)]
     [HttpPost]
     [Route("[action]")]
     [ProducesResponseType(StatusCodes.Status201Created)]

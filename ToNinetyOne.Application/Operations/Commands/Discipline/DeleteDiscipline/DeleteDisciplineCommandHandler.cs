@@ -2,6 +2,7 @@ using MediatR;
 using Microsoft.EntityFrameworkCore;
 using ToNinetyOne.Application.Interfaces;
 using ToNinetyOne.Config.Common.Exceptions;
+using ToNinetyOne.Config.Static;
 
 namespace ToNinetyOne.Application.Operations.Commands.Discipline.DeleteDiscipline;
 
@@ -20,8 +21,8 @@ public class DeleteDisciplineCommandHandler : IRequestHandler<DeleteDisciplineCo
             await _dbContext.Disciplines.FirstOrDefaultAsync(discipline => discipline.Id == request.Id,
                 cancellationToken);
 
-        if (entity == null || entity.UserId != request.UserId)
-            throw new NotFoundException(nameof(Domain.LabWork), request.Id);
+        if (entity == null || entity.UserId != request.UserId && request.UserRole == Roles.Administrator)
+            throw new NotFoundException(nameof(Domain.Discipline), request.Id);
 
         _dbContext.Disciplines.Remove(entity);
 

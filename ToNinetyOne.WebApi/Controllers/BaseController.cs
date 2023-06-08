@@ -24,5 +24,5 @@ public class BaseController : ControllerBase
         : Guid.Parse(User.FindFirst(ClaimTypes.NameIdentifier)?.Value ?? "");
 
     internal string UserRole => User.FindFirst(x => x.Type == ClaimsIdentity.DefaultRoleClaimType)?.Value ??
-                                throw new NotAuthorizedException(nameof(User), "role");
+                                throw new NotFoundException(nameof(User), "role");
 }

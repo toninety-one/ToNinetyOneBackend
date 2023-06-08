@@ -1,4 +1,5 @@
 using MediatR;
+using Microsoft.EntityFrameworkCore;
 using ToNinetyOne.Config.Static;
 using ToNinetyOne.Identity.Interfaces;
 using ToNinetyOne.IdentityDomain;
@@ -17,6 +18,11 @@ public class RegistrationCommandHandler : IRequestHandler<RegistrationCommand, G
 
     public async Task<Guid> Handle(RegistrationCommand request, CancellationToken cancellationToken)
     {
+        if (_dbContext.Users.Any(u => u.UserName == request.UserName))
+        {
+            throw new ArgumentException($"UserName {request.UserName} already used");
+        }
+        
         var salt = HashPassword.CreateSalt();
 
         var user = new User
