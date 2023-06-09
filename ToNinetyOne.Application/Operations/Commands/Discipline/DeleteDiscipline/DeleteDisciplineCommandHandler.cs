@@ -18,10 +18,12 @@ public class DeleteDisciplineCommandHandler : IRequestHandler<DeleteDisciplineCo
     public async Task<Unit> Handle(DeleteDisciplineCommand request, CancellationToken cancellationToken)
     {
         var entity =
-            await _dbContext.Disciplines.FirstOrDefaultAsync(discipline => discipline.Id == request.Id,
+            await _dbContext.Disciplines.FirstOrDefaultAsync(
+                discipline => discipline.Id == request.Id &&
+                              (discipline.UserId == request.UserId || request.UserRole == Roles.Administrator),
                 cancellationToken);
 
-        if (entity == null || entity.UserId != request.UserId && request.UserRole == Roles.Administrator)
+        if (entity == null)
             throw new NotFoundException(nameof(Domain.Discipline), request.Id);
 
         _dbContext.Disciplines.Remove(entity);
