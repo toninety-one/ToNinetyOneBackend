@@ -2,6 +2,7 @@ using System.Reflection;
 using System.Security.Claims;
 using System.Text;
 using Microsoft.AspNetCore.Authentication.JwtBearer;
+using Microsoft.Extensions.FileProviders;
 using Microsoft.IdentityModel.Tokens;
 using Microsoft.OpenApi.Models;
 using ToNinetyOne.Application.Interfaces;
@@ -12,6 +13,7 @@ using ToNinetyOne.Identity.Interfaces;
 using ToNinetyOne.IdentityDomain;
 using ToNinetyOne.IdentityPersistence;
 using ToNinetyOne.Persistence;
+using ToNinetyOne.Utils;
 using ToNinetyOne.WebApi.Middleware;
 
 var builder = WebApplication.CreateBuilder(args);
@@ -122,6 +124,20 @@ if (app.Environment.IsDevelopment())
 app.UseCustomExceptionHandler();
 
 app.UseHttpsRedirection();
+
+app.UseStaticFiles();
+
+if (!Directory.Exists(DownloadFile.FilesDirectory))
+{
+    Directory.CreateDirectory(DownloadFile.FilesDirectory);
+}
+
+app.UseStaticFiles(new StaticFileOptions
+{
+    FileProvider = new PhysicalFileProvider(
+        Path.Combine(Directory.GetCurrentDirectory(), DownloadFile.FilesDirectory)),
+    RequestPath = $"/{DownloadFile.FilesDirectory}"
+});
 
 app.UseAuthentication();
 
