@@ -1,7 +1,6 @@
 using MediatR;
-using ToNinetyOne.Application.Operations.Queries.LabWork.GetLabWorkList;
 
-namespace ToNinetyOne.Application.Operations.Queries.User.GetUsersList;
+namespace ToNinetyOne.Application.Operations.Queries.User.GetUserList;
 
 public class GetUsersListQuery : IRequest<UsersListViewModel>
 {

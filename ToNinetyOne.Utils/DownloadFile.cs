@@ -1,6 +1,4 @@
 using Microsoft.AspNetCore.Http;
-using ToNinetyOne.Config.Static;
-using ToNinetyOne.Domain;
 
 namespace ToNinetyOne.Utils;
 

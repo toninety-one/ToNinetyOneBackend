@@ -3,11 +3,9 @@ using AutoMapper.QueryableExtensions;
 using MediatR;
 using Microsoft.EntityFrameworkCore;
 using ToNinetyOne.Application.Interfaces;
-using ToNinetyOne.Application.Operations.Queries.LabWork.GetLabWorkList;
 using ToNinetyOne.Config.Common.Exceptions;
-using ToNinetyOne.Config.Static;
 
-namespace ToNinetyOne.Application.Operations.Queries.User.GetUsersList;
+namespace ToNinetyOne.Application.Operations.Queries.User.GetUserList;
 
 public class GetUsersListQueryHandler : IRequestHandler<GetUsersListQuery, UsersListViewModel>
 {
@@ -28,7 +26,9 @@ public class GetUsersListQueryHandler : IRequestHandler<GetUsersListQuery, Users
 
         if (user == null) throw new NotFoundException(nameof(User), request.UserId);
 
-        var users = await _dbContext.Users.ToListAsync(cancellationToken);
+        var users = await _dbContext.Users
+            .ProjectTo<UserLookupDto>(_mapper.ConfigurationProvider)
+            .ToListAsync(cancellationToken);
 
         return new UsersListViewModel(users);
     }

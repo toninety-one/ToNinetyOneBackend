@@ -145,6 +145,7 @@ app.UseAuthorization();
 
 app.UseCors(b => b
     .WithOrigins("http://localhost:3000")
+    .WithOrigins("http://192.168.100.116::3000")
     .AllowAnyMethod()
     .AllowAnyHeader()
     .AllowCredentials()

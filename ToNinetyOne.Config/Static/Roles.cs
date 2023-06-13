@@ -4,7 +4,7 @@ namespace ToNinetyOne.Config.Static;
 
 public class Roles
 {
-    public const string User = "User";
+    public const string? User = "User";
     public const string Teacher = "Teacher";
     public const string Administrator = "Administrator";
 

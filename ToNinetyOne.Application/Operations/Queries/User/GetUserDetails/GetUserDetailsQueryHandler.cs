@@ -3,6 +3,7 @@ using MediatR;
 using Microsoft.EntityFrameworkCore;
 using ToNinetyOne.Application.Interfaces;
 using ToNinetyOne.Config.Common.Exceptions;
+using ToNinetyOne.Config.Static;
 
 namespace ToNinetyOne.Application.Operations.Queries.User.GetUserDetails;
 
@@ -21,11 +22,13 @@ public class GetUserDetailsQueryHandler : IRequestHandler<GetUserDetailsQuery, U
     {
         var user = await _dbContext.Users
             .Include(u => u.UserGroup)
-            .FirstOrDefaultAsync(u => u.Id == request.UserId, cancellationToken);
+            .FirstOrDefaultAsync(
+                u => u.Id == request.UserId &&
+                     (request.UserId == request.SelfId || request.UserRole == Roles.Administrator), cancellationToken);
 
-        if (user == null) throw new NotFoundException(nameof(Domain.LabWork), request.UserId);
+        if (user == null) throw new NotFoundException(nameof(Domain.User), request.UserId ?? request.SelfId);
 
-        var entity = _mapper.Map<UserDetailsViewModel>(user);
+        var viewModel = _mapper.Map<UserDetailsViewModel>(user);
 
         var submittedLabs = _dbContext.SubmittedLabs
             // TODO: test this and if it doesnt work,
@@ -34,8 +37,8 @@ public class GetUserDetailsQueryHandler : IRequestHandler<GetUserDetailsQuery, U
             .Where(s => s.SelfUser.Id == user.Id)
             .Take(10);
 
-        entity.LastSubmittedLabs = submittedLabs;
+        viewModel.LastSubmittedLabs = submittedLabs;
 
-        return entity;
+        return viewModel;
     }
 }

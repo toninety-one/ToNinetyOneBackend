@@ -1,9 +1,12 @@
+using System.Text.Json;
 using AutoMapper;
 using Microsoft.AspNetCore.Authorization;
 using Microsoft.AspNetCore.Mvc;
 using ToNinetyOne.Application.Operations.Queries.User.GetUserDetails;
-using ToNinetyOne.Application.Operations.Queries.User.GetUsersList;
+using ToNinetyOne.Application.Operations.Queries.User.GetUserList;
 using ToNinetyOne.Config.Static;
+using ToNinetyOne.Identity.Operations.Commands.UpdateUser;
+using ToNinetyOne.Identity.Operations.Queries.GetUserRoles;
 
 namespace ToNinetyOne.WebApi.Controllers;
 
@@ -38,12 +41,18 @@ public class UserController : BaseController
     [HttpGet]
     [ProducesResponseType(StatusCodes.Status200OK)]
     [ProducesResponseType(StatusCodes.Status401Unauthorized)]
-    public async Task<ActionResult<UserDetailsViewModel>> Get()
+    public async Task<ActionResult<UserDetailsViewModel>> Get([FromQuery] Guid? id)
     {
-        var query = new GetUserDetailsQuery(UserId, UserRole);
+        var query = new GetUserDetailsQuery(UserId, UserId, UserRole);
+
+        if (id != null)
+        {
+            query.UserId = id;
+        }
 
         var viewModel = await Mediator.Send(query);
         viewModel.UserRole = UserRole;
+
         return Ok(viewModel);
     }
 
@@ -66,8 +75,46 @@ public class UserController : BaseController
         var query = new GetUsersListQuery(UserId, UserRole);
 
         var viewModel = await Mediator.Send(query);
+        Console.WriteLine(JsonSerializer.Serialize(viewModel));
+        var idList = viewModel.Users.Select(u => u.Id).ToList();
+        Console.WriteLine(JsonSerializer.Serialize(idList));
+
+        var roles = await Mediator.Send(new GetUserRolesQuery(idList));
+        Console.WriteLine(JsonSerializer.Serialize(roles));
+
+        foreach (var user in viewModel.Users)
+        {
+            user.UserRole = roles.Roles.FirstOrDefault(r => r.Id == user.Id)?.UserRole;
+            Console.WriteLine(JsonSerializer.Serialize(user));
+        }
 
         return Ok(viewModel);
+    }
+
+    #endregion
+
+    #region Put
+
+    /// <summary>
+    ///     Updates the user
+    /// </summary>
+    /// <remarks>
+    ///     Sample request:
+    /// </remarks>
+    /// <param name="updateUserDto">UpdateUserDto object</param>
+    /// <returns>none</returns>
+    /// <response code="204">Success</response>
+    /// <responce code="401">If user not auth</responce>
+    [Authorize(Roles = $"{Roles.Administrator}, {Roles.Teacher}, {Roles.User}")]
+    [HttpPut]
+    [ProducesResponseType(StatusCodes.Status204NoContent)]
+    [ProducesResponseType(StatusCodes.Status401Unauthorized)]
+    public async Task<ActionResult> Update([FromBody] UpdateUserDto updateUserDto)
+    {
+        var command = _mapper.Map<UpdateUserCommand>(updateUserDto);
+        command.UserId = UserId;
+        await Mediator.Send(command);
+        return NoContent();
     }
 
     #endregion
