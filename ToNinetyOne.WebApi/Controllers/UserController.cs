@@ -2,11 +2,13 @@ using System.Text.Json;
 using AutoMapper;
 using Microsoft.AspNetCore.Authorization;
 using Microsoft.AspNetCore.Mvc;
-using ToNinetyOne.Application.Operations.Queries.User.GetUserDetails;
 using ToNinetyOne.Application.Operations.Queries.User.GetUserList;
 using ToNinetyOne.Config.Static;
 using ToNinetyOne.Identity.Operations.Commands.UpdateUser;
+using ToNinetyOne.Identity.Operations.Queries.GetUserDetails;
 using ToNinetyOne.Identity.Operations.Queries.GetUserRoles;
+using GetUserDetailsQuery = ToNinetyOne.Application.Operations.Queries.User.GetUserDetails.GetUserDetailsQuery;
+using UserDetailsViewModel = ToNinetyOne.Application.Operations.Queries.User.GetUserDetails.UserDetailsViewModel;
 
 namespace ToNinetyOne.WebApi.Controllers;
 
@@ -51,7 +53,15 @@ public class UserController : BaseController
         }
 
         var viewModel = await Mediator.Send(query);
-        viewModel.UserRole = UserRole;
+
+        var identity =
+            await Mediator.Send(
+                new Identity.Operations.Queries.GetUserDetails.GetUserDetailsQuery(id ?? UserId, UserId, UserRole));
+
+        Console.WriteLine(JsonSerializer.Serialize(identity));
+
+        viewModel.UserRole = identity.UserRole;
+        viewModel.UserName = identity.UserName;
 
         return Ok(viewModel);
     }
