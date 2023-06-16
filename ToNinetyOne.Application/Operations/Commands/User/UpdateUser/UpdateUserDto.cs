@@ -1,4 +1,5 @@
 using System.ComponentModel.DataAnnotations;
+using System.Diagnostics.CodeAnalysis;
 using AutoMapper;
 using ToNinetyOne.Config.Common.Mappings;
 
@@ -10,7 +11,7 @@ public class UpdateUserDto : IMapWith<UpdateUserCommand>
     public string FirstName { get; set; }
     public string LastName { get; set; }
     public string? MiddleName { get; set; }
-    public Guid? GroupId { get; set; }
+    [AllowNull] public Guid? GroupId { get; set; }
     public void Mapping(Profile profile)
     {
         profile.CreateMap<UpdateUserDto, UpdateUserCommand>()

@@ -59,8 +59,6 @@ public class UserController : BaseController
             await Mediator.Send(
                 new GetIdentityUserDetailsQuery(id ?? UserId, UserId, UserRole));
 
-        Console.WriteLine(JsonSerializer.Serialize(identity));
-
         viewModel.UserRole = identity.UserRole;
         viewModel.UserName = identity.UserName;
 
@@ -86,17 +84,12 @@ public class UserController : BaseController
         var query = new GetUsersListQuery(UserId, UserRole);
 
         var viewModel = await Mediator.Send(query);
-        Console.WriteLine(JsonSerializer.Serialize(viewModel));
         var idList = viewModel.Users.Select(u => u.Id).ToList();
-        Console.WriteLine(JsonSerializer.Serialize(idList));
-
         var roles = await Mediator.Send(new GetIdentityUserRolesQuery(idList));
-        Console.WriteLine(JsonSerializer.Serialize(roles));
 
         foreach (var user in viewModel.Users)
         {
             user.UserRole = roles.Roles.FirstOrDefault(r => r.Id == user.Id)?.UserRole;
-            Console.WriteLine(JsonSerializer.Serialize(user));
         }
 
         return Ok(viewModel);
@@ -116,7 +109,7 @@ public class UserController : BaseController
     /// <returns>none</returns>
     /// <response code="204">Success</response>
     /// <responce code="401">If user not auth</responce>
-    [Authorize(Roles = $"{Roles.Administrator}, {Roles.Teacher}, {Roles.User}")]
+    [Authorize(Roles = Roles.Administrator)]
     [HttpPut]
     [ProducesResponseType(StatusCodes.Status204NoContent)]
     [ProducesResponseType(StatusCodes.Status401Unauthorized)]

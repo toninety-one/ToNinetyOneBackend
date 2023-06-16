@@ -68,9 +68,7 @@ public class DisciplineController : BaseController
     public async Task<ActionResult<DisciplineDetailsViewModel>> Get(Guid id)
     {
         var query = new GetDisciplineDetailsQuery(UserId, id, UserRole);
-        Console.WriteLine(JsonSerializer.Serialize(query));
         var viewModel = await Mediator.Send(query);
-
         return Ok(viewModel);
     }
 

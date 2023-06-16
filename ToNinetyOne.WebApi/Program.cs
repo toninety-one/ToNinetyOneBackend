@@ -31,7 +31,7 @@ builder.Services.AddPersistence(builder.Configuration, builder.Environment.IsDev
 
 builder.Services.AddUserPersistence(builder.Configuration, builder.Environment.IsDevelopment());
 
-builder.Services.AddControllers();
+builder.Services.AddControllers().AddNewtonsoftJson();
 
 var jwtSetting = builder.Configuration.GetSection("JwtSettings");
 
