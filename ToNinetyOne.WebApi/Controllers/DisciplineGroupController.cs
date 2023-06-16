@@ -29,7 +29,7 @@ public class DisciplineGroupController : BaseController
     /// </summary>
     /// <remarks>
     ///     Sample request:
-    ///     POST /api/Group/AddDisciplineGroup
+    ///     POST /api/Group
     ///     {
     ///     "groupId": "3fa85f64-5717-4562-b3fc-2c963f66afa6",
     ///     "disciplineId": "3fa85f64-5717-4562-b3fc-2c963f66afa6"
@@ -40,14 +40,43 @@ public class DisciplineGroupController : BaseController
     /// <response code="201">Success</response>
     /// <responce code="401">If user not auth</responce>
     [HttpPost]
-    [Route("[action]")]
     [ProducesResponseType(StatusCodes.Status201Created)]
     [ProducesResponseType(StatusCodes.Status401Unauthorized)]
-    public async Task<ActionResult<Guid>> AddDisciplineGroup([FromBody] AddDisciplineGroupDto addDisciplineGroupDto)
+    public async Task<ActionResult<Guid>> Create([FromBody] AddDisciplineGroupDto addDisciplineGroupDto)
     {
         var command = _mapper.Map<AddDisciplineGroupCommand>(addDisciplineGroupDto);
-        var groupId = await Mediator.Send(command);
-        return Ok(groupId);
+        await Mediator.Send(command);
+        return NoContent();
+    }
+
+    #endregion
+
+    #region Delete
+
+    /// <summary>
+    ///     remove discipline from group
+    /// </summary>
+    /// <remarks>
+    ///     Sample request:
+    ///     DELETE /api/Group
+    ///     {
+    ///     "groupId": "3fa85f64-5717-4562-b3fc-2c963f66afa6",
+    ///     "disciplineId": "3fa85f64-5717-4562-b3fc-2c963f66afa6"
+    ///     }
+    /// </remarks>
+    /// <param name="deleteDisciplineGroupDto">DeleteDisciplineGroupDto object</param>
+    /// <returns>Returns group id (guid)</returns>
+    /// <response code="201">Success</response>
+    /// <responce code="401">If user not auth</responce>
+    [HttpDelete]
+    [ProducesResponseType(StatusCodes.Status201Created)]
+    [ProducesResponseType(StatusCodes.Status401Unauthorized)]
+    public async Task<ActionResult<Guid>> Delete(
+        [FromBody] DeleteDisciplineGroupDto deleteDisciplineGroupDto)
+    {
+        var command = _mapper.Map<DeleteDisciplineGroupCommand>(deleteDisciplineGroupDto);
+        await Mediator.Send(command);
+        return NoContent();
     }
 
     #endregion

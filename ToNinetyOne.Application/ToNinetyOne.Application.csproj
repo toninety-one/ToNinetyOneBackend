@@ -21,7 +21,6 @@
     </ItemGroup>
 
     <ItemGroup>
-        <Folder Include="Operations\Commands\DisciplineGroup\" />
         <Folder Include="Operations\Commands\File\" />
     </ItemGroup>
 

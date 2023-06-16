@@ -5,16 +5,16 @@ using ToNinetyOne.Config.Common.Exceptions;
 
 namespace ToNinetyOne.Application.Operations.Commands.DisciplineGroup.AddDisciplineGroup;
 
-public class AddDisciplineGroupCommandHandler : IRequestHandler<AddDisciplineGroupCommand>
+public class DeleteDisciplineGroupCommandHandler : IRequestHandler<DeleteDisciplineGroupCommand>
 {
     private readonly IToNinetyOneDbContext _dbContext;
 
-    public AddDisciplineGroupCommandHandler(IToNinetyOneDbContext dbContext)
+    public DeleteDisciplineGroupCommandHandler(IToNinetyOneDbContext dbContext)
     {
         _dbContext = dbContext;
     }
 
-    public async Task<Unit> Handle(AddDisciplineGroupCommand request, CancellationToken cancellationToken)
+    public async Task<Unit> Handle(DeleteDisciplineGroupCommand request, CancellationToken cancellationToken)
     {
         var group = await _dbContext.Groups.Include(g => g.Disciplines)
             .FirstOrDefaultAsync(g => g.Id == request.GroupId, cancellationToken);
@@ -26,7 +26,7 @@ public class AddDisciplineGroupCommandHandler : IRequestHandler<AddDisciplineGro
 
         if (discipline == null) throw new NotFoundException(nameof(Domain.Discipline), request.DisciplineId);
 
-        group.Disciplines?.Add(discipline);
+        group.Disciplines?.Remove(discipline);
 
         await _dbContext.SaveChangesAsync(cancellationToken);
 

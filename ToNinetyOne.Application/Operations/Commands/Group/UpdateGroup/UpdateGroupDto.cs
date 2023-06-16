@@ -15,7 +15,7 @@ public class UpdateGroupDto : IMapWith<UpdateGroupCommand>
         Title = title;
     }
 
-    public Guid GroupId { get; set; }
+    public Guid Id { get; set; }
     public string Title { get; set; }
 
     public void Mapping(Profile profile)
@@ -26,7 +26,7 @@ public class UpdateGroupDto : IMapWith<UpdateGroupCommand>
                 opt => opt.MapFrom(dto => dto.Title)
             ).ForMember(
                 command => command.Id,
-                opt => opt.MapFrom(dto => dto.GroupId)
+                opt => opt.MapFrom(dto => dto.Id)
             );
     }
 }

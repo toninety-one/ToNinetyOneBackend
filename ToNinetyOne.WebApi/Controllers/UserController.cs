@@ -116,12 +116,34 @@ public class UserController : BaseController
     /// <response code="204">Success</response>
     /// <responce code="401">If user not auth</responce>
     [Authorize(Roles = $"{Roles.Administrator}, {Roles.Teacher}, {Roles.User}")]
+    [HttpPut("[action]")]
+    [ProducesResponseType(StatusCodes.Status204NoContent)]
+    [ProducesResponseType(StatusCodes.Status401Unauthorized)]
+    public async Task<ActionResult> UpdateIdentity([FromBody] UpdateUserDto updateUserDto)
+    {
+        var command = _mapper.Map<UpdateUserCommand>(updateUserDto);
+        command.UserId = UserId;
+        await Mediator.Send(command);
+        return NoContent();
+    }
+
+    /// <summary>
+    ///     Updates the user
+    /// </summary>
+    /// <remarks>
+    ///     Sample request:
+    /// </remarks>
+    /// <param name="updateUserDto">UpdateUserDto object</param>
+    /// <returns>none</returns>
+    /// <response code="204">Success</response>
+    /// <responce code="401">If user not auth</responce>
+    [Authorize(Roles = $"{Roles.Administrator}, {Roles.Teacher}, {Roles.User}")]
     [HttpPut]
     [ProducesResponseType(StatusCodes.Status204NoContent)]
     [ProducesResponseType(StatusCodes.Status401Unauthorized)]
-    public async Task<ActionResult> Update([FromBody] UpdateUserDto updateUserDto)
+    public async Task<ActionResult> Update([FromBody] Application.Operations.Commands.User.UpdateUser.UpdateUserDto updateUserDto)
     {
-        var command = _mapper.Map<UpdateUserCommand>(updateUserDto);
+        var command = _mapper.Map<Application.Operations.Commands.User.UpdateUser.UpdateUserCommand>(updateUserDto);
         command.UserId = UserId;
         await Mediator.Send(command);
         return NoContent();
