@@ -2,13 +2,12 @@ using System.Text.Json;
 using AutoMapper;
 using Microsoft.AspNetCore.Authorization;
 using Microsoft.AspNetCore.Mvc;
+using ToNinetyOne.Application.Operations.Commands.User.UpdateUser;
 using ToNinetyOne.Application.Operations.Queries.User.GetUserList;
 using ToNinetyOne.Config.Static;
-using ToNinetyOne.Identity.Operations.Commands.UpdateUser;
-using ToNinetyOne.Identity.Operations.Queries.GetUserDetails;
-using ToNinetyOne.Identity.Operations.Queries.GetUserRoles;
-using GetUserDetailsQuery = ToNinetyOne.Application.Operations.Queries.User.GetUserDetails.GetUserDetailsQuery;
-using UserDetailsViewModel = ToNinetyOne.Application.Operations.Queries.User.GetUserDetails.UserDetailsViewModel;
+using ToNinetyOne.Identity.Operations.Commands.UpdateIdentityUser;
+using ToNinetyOne.Identity.Operations.Queries.GetIdentityUserDetails;
+using ToNinetyOne.Identity.Operations.Queries.GetIdentityUserRoles;
 
 namespace ToNinetyOne.WebApi.Controllers;
 
@@ -43,9 +42,11 @@ public class UserController : BaseController
     [HttpGet]
     [ProducesResponseType(StatusCodes.Status200OK)]
     [ProducesResponseType(StatusCodes.Status401Unauthorized)]
-    public async Task<ActionResult<UserDetailsViewModel>> Get([FromQuery] Guid? id)
+    public async Task<ActionResult<Application.Operations.Queries.User.GetUserDetails.UserDetailsViewModel>>
+        Get([FromQuery] Guid? id)
     {
-        var query = new GetUserDetailsQuery(UserId, UserId, UserRole);
+        var query =
+            new Application.Operations.Queries.User.GetUserDetails.GetUserDetailsQuery(UserId, UserId, UserRole);
 
         if (id != null)
         {
@@ -56,7 +57,7 @@ public class UserController : BaseController
 
         var identity =
             await Mediator.Send(
-                new Identity.Operations.Queries.GetUserDetails.GetUserDetailsQuery(id ?? UserId, UserId, UserRole));
+                new GetIdentityUserDetailsQuery(id ?? UserId, UserId, UserRole));
 
         Console.WriteLine(JsonSerializer.Serialize(identity));
 
@@ -89,7 +90,7 @@ public class UserController : BaseController
         var idList = viewModel.Users.Select(u => u.Id).ToList();
         Console.WriteLine(JsonSerializer.Serialize(idList));
 
-        var roles = await Mediator.Send(new GetUserRolesQuery(idList));
+        var roles = await Mediator.Send(new GetIdentityUserRolesQuery(idList));
         Console.WriteLine(JsonSerializer.Serialize(roles));
 
         foreach (var user in viewModel.Users)
@@ -116,10 +117,10 @@ public class UserController : BaseController
     /// <response code="204">Success</response>
     /// <responce code="401">If user not auth</responce>
     [Authorize(Roles = $"{Roles.Administrator}, {Roles.Teacher}, {Roles.User}")]
-    [HttpPut("[action]")]
+    [HttpPut]
     [ProducesResponseType(StatusCodes.Status204NoContent)]
     [ProducesResponseType(StatusCodes.Status401Unauthorized)]
-    public async Task<ActionResult> UpdateIdentity([FromBody] UpdateUserDto updateUserDto)
+    public async Task<ActionResult> Update([FromBody] UpdateUserDto updateUserDto)
     {
         var command = _mapper.Map<UpdateUserCommand>(updateUserDto);
         command.UserId = UserId;
@@ -133,17 +134,17 @@ public class UserController : BaseController
     /// <remarks>
     ///     Sample request:
     /// </remarks>
-    /// <param name="updateUserDto">UpdateUserDto object</param>
+    /// <param name="updateIdentityUserDto">UpdateUserDto object</param>
     /// <returns>none</returns>
     /// <response code="204">Success</response>
     /// <responce code="401">If user not auth</responce>
     [Authorize(Roles = $"{Roles.Administrator}, {Roles.Teacher}, {Roles.User}")]
-    [HttpPut]
+    [HttpPut("i")]
     [ProducesResponseType(StatusCodes.Status204NoContent)]
     [ProducesResponseType(StatusCodes.Status401Unauthorized)]
-    public async Task<ActionResult> Update([FromBody] Application.Operations.Commands.User.UpdateUser.UpdateUserDto updateUserDto)
+    public async Task<ActionResult> Update([FromBody] UpdateIdentityUserDto updateIdentityUserDto)
     {
-        var command = _mapper.Map<Application.Operations.Commands.User.UpdateUser.UpdateUserCommand>(updateUserDto);
+        var command = _mapper.Map<UpdateIdentityUserCommand>(updateIdentityUserDto);
         command.UserId = UserId;
         await Mediator.Send(command);
         return NoContent();

@@ -1,16 +1,16 @@
 using AutoMapper;
 using ToNinetyOne.Config.Common.Mappings;
 
-namespace ToNinetyOne.Identity.Operations.Queries.GetUserDetails;
+namespace ToNinetyOne.Identity.Operations.Queries.GetIdentityUserDetails;
 
-public class UserDetailsViewModel : IMapWith<Domain.User>
+public class IdentityUserDetailsViewModel : IMapWith<Domain.User>
 {
     public Guid Id { get; set; }
     public string UserName { get; set; }
     public string UserRole { get; set; }
     public void Mapping(Profile profile)
     {
-        profile.CreateMap<IdentityDomain.User, UserDetailsViewModel>()
+        profile.CreateMap<IdentityDomain.User, IdentityUserDetailsViewModel>()
             .ForMember(
                 dto => dto.Id,
                 opt => opt.MapFrom(obj => obj.Id)

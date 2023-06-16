@@ -5,20 +5,20 @@ using ToNinetyOne.Config.Common.Exceptions;
 using ToNinetyOne.Config.Static;
 using ToNinetyOne.Identity.Interfaces;
 
-namespace ToNinetyOne.Identity.Operations.Queries.GetUserDetails;
+namespace ToNinetyOne.Identity.Operations.Queries.GetIdentityUserDetails;
 
-public class GetUserDetailsQueryHandler : IRequestHandler<GetUserDetailsQuery, UserDetailsViewModel>
+public class GetIdentityUserDetailsQueryHandler : IRequestHandler<GetIdentityUserDetailsQuery, IdentityUserDetailsViewModel>
 {
     private readonly IToNinetyOneUserDbContext _dbContext;
     private readonly IMapper _mapper;
 
-    public GetUserDetailsQueryHandler(IToNinetyOneUserDbContext dbContext, IMapper mapper)
+    public GetIdentityUserDetailsQueryHandler(IToNinetyOneUserDbContext dbContext, IMapper mapper)
     {
         _dbContext = dbContext;
         _mapper = mapper;
     }
 
-    public async Task<UserDetailsViewModel> Handle(GetUserDetailsQuery request, CancellationToken cancellationToken)
+    public async Task<IdentityUserDetailsViewModel> Handle(GetIdentityUserDetailsQuery request, CancellationToken cancellationToken)
     {
         var user = await _dbContext.Users
             .FirstOrDefaultAsync(
@@ -27,6 +27,6 @@ public class GetUserDetailsQueryHandler : IRequestHandler<GetUserDetailsQuery, U
 
         if (user == null) throw new NotFoundException(nameof(Domain.User), (request.UserId ?? request.SelfId)!);
 
-        return _mapper.Map<UserDetailsViewModel>(user);
+        return _mapper.Map<IdentityUserDetailsViewModel>(user);
     }
 }

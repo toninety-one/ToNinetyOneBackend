@@ -5,18 +5,18 @@ using ToNinetyOne.Config.Static;
 using ToNinetyOne.Identity.Interfaces;
 using ToNinetyOne.IdentityDomain;
 
-namespace ToNinetyOne.Identity.Operations.Commands.UpdateUser;
+namespace ToNinetyOne.Identity.Operations.Commands.UpdateIdentityUser;
 
-public class UpdateUserCommandHandler : IRequestHandler<UpdateUserCommand>
+public class UpdateIdentityUserCommandHandler : IRequestHandler<UpdateIdentityUserCommand>
 {
     private readonly IToNinetyOneUserDbContext _dbContext;
 
-    public UpdateUserCommandHandler(IToNinetyOneUserDbContext dbContext)
+    public UpdateIdentityUserCommandHandler(IToNinetyOneUserDbContext dbContext)
     {
         _dbContext = dbContext;
     }
 
-    public async Task<Unit> Handle(UpdateUserCommand request, CancellationToken cancellationToken)
+    public async Task<Unit> Handle(UpdateIdentityUserCommand request, CancellationToken cancellationToken)
     {
         var user = await _dbContext.Users
             .FirstOrDefaultAsync(u => u.Id == request.UserId, cancellationToken);

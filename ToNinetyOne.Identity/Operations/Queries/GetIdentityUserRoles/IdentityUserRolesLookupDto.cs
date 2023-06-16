@@ -1,11 +1,11 @@
 using AutoMapper;
 using ToNinetyOne.Config.Common.Mappings;
 
-namespace ToNinetyOne.Identity.Operations.Queries.GetUserRoles;
+namespace ToNinetyOne.Identity.Operations.Queries.GetIdentityUserRoles;
 
-public class UserRolesLookupDto : IMapWith<IdentityDomain.User>
+public class IdentityUserRolesLookupDto : IMapWith<IdentityDomain.User>
 {
-    public UserRolesLookupDto()
+    public IdentityUserRolesLookupDto()
     {
     }
 
@@ -14,7 +14,7 @@ public class UserRolesLookupDto : IMapWith<IdentityDomain.User>
 
     public void Mapping(Profile profile)
     {
-        profile.CreateMap<IdentityDomain.User, UserRolesLookupDto>()
+        profile.CreateMap<IdentityDomain.User, IdentityUserRolesLookupDto>()
             .ForMember(
                 dto => dto.Id,
                 opt => opt.MapFrom(obj => obj.Id)

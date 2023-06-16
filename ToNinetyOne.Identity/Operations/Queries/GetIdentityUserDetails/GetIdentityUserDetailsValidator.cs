@@ -1,8 +1,8 @@
 using FluentValidation;
 
-namespace ToNinetyOne.Identity.Operations.Queries.GetUserDetails;
+namespace ToNinetyOne.Identity.Operations.Queries.GetIdentityUserDetails;
 
-public class GetUserValidator : AbstractValidator<GetUserDetailsQuery>
+public class GetUserValidator : AbstractValidator<GetIdentityUserDetailsQuery>
 {
     public GetUserValidator()
     {

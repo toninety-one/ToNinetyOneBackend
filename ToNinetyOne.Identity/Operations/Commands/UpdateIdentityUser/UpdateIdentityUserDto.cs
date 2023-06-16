@@ -1,9 +1,9 @@
 using AutoMapper;
 using ToNinetyOne.Config.Common.Mappings;
 
-namespace ToNinetyOne.Identity.Operations.Commands.UpdateUser;
+namespace ToNinetyOne.Identity.Operations.Commands.UpdateIdentityUser;
 
-public class UpdateUserDto : IMapWith<UpdateUserCommand>
+public class UpdateIdentityUserDto : IMapWith<UpdateIdentityUserCommand>
 {
     public Guid Id { get; set; }
     public string UserName { get; set; }
@@ -11,7 +11,7 @@ public class UpdateUserDto : IMapWith<UpdateUserCommand>
 
     public void Mapping(Profile profile)
     {
-        profile.CreateMap<UpdateUserDto, UpdateUserCommand>()
+        profile.CreateMap<UpdateIdentityUserDto, UpdateIdentityUserCommand>()
             .ForMember(
                 command => command.Id,
                 opt => opt.MapFrom(dto => dto.Id)
