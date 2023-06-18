@@ -1,5 +1,6 @@
 using System.Text.Json;
 using System.Text.Json.Nodes;
+using System.Text.Json.Serialization;
 using AutoMapper;
 using MediatR;
 using Microsoft.EntityFrameworkCore;
@@ -26,8 +27,12 @@ public class GetGroupDetailsHandler : IRequestHandler<GetGroupDetailsQuery, Grou
             .Include(g => g.Disciplines)
             .FirstOrDefaultAsync(discipline => discipline.Id == request.Id, cancellationToken);
 
+        Console.WriteLine(JsonSerializer.Serialize(entity));
+        Console.WriteLine(JsonSerializer.Serialize(entity.Disciplines));
+        Console.WriteLine(JsonSerializer.Serialize(entity.Users));
+
         if (entity == null) throw new NotFoundException(nameof(Domain.Group), request.Id);
-        
+
         return _mapper.Map<GroupDetailsViewModel>(entity);
     }
 }

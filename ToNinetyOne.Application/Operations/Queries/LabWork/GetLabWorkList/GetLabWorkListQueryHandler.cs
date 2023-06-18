@@ -41,6 +41,7 @@ public class GetLabWorkListQueryHandler : IRequestHandler<GetLabWorkListQuery, L
                      .Any(g => g.Users != null && g.Users
                          .Any(u => u.Id == request.UserId))))
             .AsQueryable()
+            .Include(l=>l.SelfDiscipline)
             .ProjectTo<LabWorkLookupDto>(_mapper.ConfigurationProvider)
             .ToList();
         

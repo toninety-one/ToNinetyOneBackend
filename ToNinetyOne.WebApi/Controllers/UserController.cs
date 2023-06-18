@@ -1,8 +1,8 @@
-using System.Text.Json;
 using AutoMapper;
 using Microsoft.AspNetCore.Authorization;
 using Microsoft.AspNetCore.Mvc;
 using ToNinetyOne.Application.Operations.Commands.User.UpdateUser;
+using ToNinetyOne.Application.Operations.Queries.User.GetUserDetails;
 using ToNinetyOne.Application.Operations.Queries.User.GetUserList;
 using ToNinetyOne.Config.Static;
 using ToNinetyOne.Identity.Operations.Commands.UpdateIdentityUser;
@@ -42,11 +42,9 @@ public class UserController : BaseController
     [HttpGet]
     [ProducesResponseType(StatusCodes.Status200OK)]
     [ProducesResponseType(StatusCodes.Status401Unauthorized)]
-    public async Task<ActionResult<Application.Operations.Queries.User.GetUserDetails.UserDetailsViewModel>>
-        Get([FromQuery] Guid? id)
+    public async Task<ActionResult<UserDetailsViewModel>> Get([FromQuery] Guid? id)
     {
-        var query =
-            new Application.Operations.Queries.User.GetUserDetails.GetUserDetailsQuery(UserId, UserId, UserRole);
+        var query = new GetUserDetailsQuery(UserId, UserId, UserRole);
 
         if (id != null)
         {
@@ -116,7 +114,6 @@ public class UserController : BaseController
     public async Task<ActionResult> Update([FromBody] UpdateUserDto updateUserDto)
     {
         var command = _mapper.Map<UpdateUserCommand>(updateUserDto);
-        command.UserId = UserId;
         await Mediator.Send(command);
         return NoContent();
     }

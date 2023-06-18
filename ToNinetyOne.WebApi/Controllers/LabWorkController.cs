@@ -1,3 +1,4 @@
+using System.Text.Json;
 using AutoMapper;
 using Microsoft.AspNetCore.Authorization;
 using Microsoft.AspNetCore.Mvc;
@@ -128,6 +129,7 @@ public class LabWorkController : BaseController
     [ProducesResponseType(StatusCodes.Status401Unauthorized)]
     public async Task<ActionResult<Guid>> Create([FromForm] CreateLabWorkDto createLabWorkDto)
     {
+        Console.WriteLine(JsonSerializer.Serialize(createLabWorkDto));
         var command = _mapper.Map<CreateLabWorkCommand>(createLabWorkDto);
         command.UserId = UserId;
         command.UserRole = UserRole;

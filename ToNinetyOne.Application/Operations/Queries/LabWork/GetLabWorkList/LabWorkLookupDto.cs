@@ -17,6 +17,7 @@ public class LabWorkLookupDto : IMapWith<Domain.LabWork>
 
     public Guid Id { get; set; }
     public string Title { get; set; }
+    public string DisciplineTitle { get; set; }
     public string? Mark { get; set; }
 
     public void Mapping(Profile profile)
@@ -28,6 +29,9 @@ public class LabWorkLookupDto : IMapWith<Domain.LabWork>
             ).ForMember(
                 labWorkDto => labWorkDto.Title,
                 opt => opt.MapFrom(labWork => labWork.Title)
+            ).ForMember(
+                labWorkDto => labWorkDto.DisciplineTitle,
+                opt => opt.MapFrom(labWork => labWork.SelfDiscipline.Title)
             );
     }
 }

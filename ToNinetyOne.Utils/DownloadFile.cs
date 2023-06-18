@@ -15,15 +15,19 @@ public static class DownloadFile
 
     public static async Task<Domain.File> Download(IFormFile formFile, Guid userId, Guid selfId, string? fileType)
     {
+        var id = Guid.NewGuid();
+
         var path = Path.Combine(FilesDirectory,
-            $"{DateTime.Now.Ticks}.{_counter}.{formFile.FileName}");
+            $"{id}.{_counter}.{formFile.FileName}");
 
         _counter++;
 
         await using var stream = new FileStream(path, FileMode.Create);
+
         await formFile.CopyToAsync(stream);
+
         var file = new Domain.File()
-            { Id = Guid.NewGuid(), Path = path, FileType = fileType, UserId = userId, SelfId = selfId };
+            { Id = id, Path = path, FileType = fileType, UserId = userId, SelfId = selfId, FileName = formFile.FileName};
         return file;
     }
 }

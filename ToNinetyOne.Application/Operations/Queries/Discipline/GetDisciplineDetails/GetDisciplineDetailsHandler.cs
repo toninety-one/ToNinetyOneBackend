@@ -29,14 +29,15 @@ public class GetDisciplineDetailsHandler : IRequestHandler<GetDisciplineDetailsQ
 
         if (user == null) throw new NotFoundException(nameof(User), request.UserId);
 
-        var entity = await _dbContext.Disciplines
+        var entity = _dbContext.Disciplines
             .Include(d => d.Groups)
             .Include(d => d.LabWorks)
-            .FirstOrDefaultAsync(
-                discipline =>
-                    discipline.Id == request.Id &&
-                    (discipline.UserId == request.UserId || request.UserRole == Roles.Administrator),
-                cancellationToken);
+            .ToList()
+            .FirstOrDefault(
+                discipline => discipline.Groups != null &&
+                              discipline.Id == request.Id &&
+                              (discipline.UserId == request.UserId || request.UserRole == Roles.Administrator ||
+                               discipline.Groups.Any(g => g.Id == user.GroupId)));
 
         if (entity == null) throw new NotFoundException(nameof(Domain.Discipline), request.Id);
 

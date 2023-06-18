@@ -27,10 +27,14 @@ public class User
         MiddleName = middleName;
     }
 
-    [Key] [Required] public Guid Id { get; set; }
-    public string FirstName { get; set; }
-    public string LastName { get; set; }
-    public string? MiddleName { get; set; }
-    [ForeignKey(nameof(UserGroup))] public Guid? GroupId { get; set; }
+    [Key] [Required] [JsonInclude] public Guid Id { get; set; }
+    [JsonInclude] public string FirstName { get; set; }
+    [JsonInclude] public string LastName { get; set; }
+    [JsonInclude] public string? MiddleName { get; set; }
+
+    [JsonInclude]
+    [ForeignKey(nameof(UserGroup))]
+    public Guid? GroupId { get; set; }
+
     [JsonIgnore] public Group? UserGroup { get; set; }
 }
