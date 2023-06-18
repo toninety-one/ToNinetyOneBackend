@@ -29,9 +29,9 @@ public class GetLabWorkDetailsHandler : IRequestHandler<GetLabWorkDetailsQuery, 
         if (user == null) throw new NotFoundException(nameof(User), request.UserId);
 
         var entity = await _dbContext.LabWorks
-            .Include(l => l.SubmittedLabs.Where(s =>
-                s.SelfUser.Id == request.UserId || s.SelfLabWork.SelfDiscipline.UserId == user.Id ||
-                request.UserRole == Roles.Administrator))
+            .Include(l => l.SubmittedLabs!
+                .Where(s => s.SelfUser.Id == request.UserId || s.SelfLabWork.SelfDiscipline.UserId == user.Id ||
+                            request.UserRole == Roles.Administrator))
             .FirstOrDefaultAsync(labWork => labWork.Id == request.Id, cancellationToken);
 
         if (entity == null) throw new NotFoundException(nameof(Domain.LabWork), request.Id);
@@ -44,14 +44,11 @@ public class GetLabWorkDetailsHandler : IRequestHandler<GetLabWorkDetailsQuery, 
 
         view.Mark = submittedLab?.Mark;
 
-        view.SubmittedLabs = _dbContext.SubmittedLabs.Include(s=>s.SelfUser)
-            .Where(s => request.UserRole == Roles.User && s.SelfUser.Id == user.Id);
-
         var files = await _dbContext.Files.Where(f => f.FileType == FileTypes.LabWork && f.SelfId == entity.Id)
             .ToListAsync(cancellationToken);
 
         view.Files = files;
-        
+
         return view;
     }
 }
