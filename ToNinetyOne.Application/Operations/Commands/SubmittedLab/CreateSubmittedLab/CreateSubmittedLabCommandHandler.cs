@@ -25,6 +25,14 @@ public class CreateSubmittedLabCommandHandler : IRequestHandler<CreateSubmittedL
 
         if (user == null) throw new NotFoundException(nameof(User), request.UserId);
 
+        var submitted = _dbContext.SubmittedLabs
+            .FirstOrDefault(s => s.SelfUser.Id == request.UserId && s.SelfLabWork.Id == request.LabWorkId);
+
+        if (submitted != null)
+        {
+            throw new ObjectCountLimitException(nameof(Domain.SubmittedLab), submitted.Id);
+        }
+
         var selfLabWork = _dbContext.LabWorks
             .Include(l => l.SelfDiscipline.Groups)
             .ToList()
@@ -43,7 +51,7 @@ public class CreateSubmittedLabCommandHandler : IRequestHandler<CreateSubmittedL
             SelfLabWork = selfLabWork,
             SelfUser = user
         };
-        
+
         var files = await Task.WhenAll(request.Files.Select(async f =>
             await DownloadFile.Download(f, user.Id, submittedLab.Id, FileTypes.SubmittedLab)));
 
