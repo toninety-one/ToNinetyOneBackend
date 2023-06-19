@@ -38,6 +38,7 @@ public class CreateSubmittedLabCommandHandler : IRequestHandler<CreateSubmittedL
         var submittedLab = new Domain.SubmittedLab()
         {
             Id = Guid.NewGuid(),
+            Title = request.Title,
             Details = request.Details,
             SelfLabWork = selfLabWork,
             SelfUser = user

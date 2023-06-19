@@ -1,4 +1,5 @@
 using AutoMapper;
+using AutoMapper.QueryableExtensions;
 using MediatR;
 using Microsoft.EntityFrameworkCore;
 using ToNinetyOne.Application.Interfaces;
@@ -28,11 +29,8 @@ public class GetLabWorkDetailsHandler : IRequestHandler<GetLabWorkDetailsQuery, 
 
         if (user == null) throw new NotFoundException(nameof(User), request.UserId);
 
-        var entity = await _dbContext.LabWorks
-            .Include(l => l.SubmittedLabs!
-                .Where(s => s.SelfUser.Id == request.UserId || s.SelfLabWork.SelfDiscipline.UserId == user.Id ||
-                            request.UserRole == Roles.Administrator))
-            .FirstOrDefaultAsync(labWork => labWork.Id == request.Id, cancellationToken);
+        var entity =
+            await _dbContext.LabWorks.FirstOrDefaultAsync(labWork => labWork.Id == request.Id, cancellationToken);
 
         if (entity == null) throw new NotFoundException(nameof(Domain.LabWork), request.Id);
 
@@ -48,6 +46,17 @@ public class GetLabWorkDetailsHandler : IRequestHandler<GetLabWorkDetailsQuery, 
             .ToListAsync(cancellationToken);
 
         view.Files = files;
+
+        if (entity.SubmittedLabs != null)
+        {
+            view.SubmittedLabs = _dbContext.SubmittedLabs
+                .Include(s => s.SelfUser)
+                .Include(s => s.SelfLabWork)
+                .Where(s => s.SelfUser.Id == request.UserId || s.SelfLabWork.SelfDiscipline.UserId == user.Id ||
+                            request.UserRole == Roles.Administrator)
+                .AsQueryable()
+                .ProjectTo<SubmittedLabDetailsLookupDto>(_mapper.ConfigurationProvider);
+        }
 
         return view;
     }

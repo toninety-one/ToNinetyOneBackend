@@ -29,7 +29,7 @@ public class LabWorkDetailsViewModel : IMapWith<Domain.LabWork>
     public string? Mark { get; set; }
     public DateTime CreationDate { get; set; }
     public DateTime EditDate { get; set; }
-    public IEnumerable<Domain.SubmittedLab> SubmittedLabs { get; set; }
+    public IEnumerable<SubmittedLabDetailsLookupDto> SubmittedLabs { get; set; }
     public ICollection<File> Files { get; set; }
 
     public void Mapping(Profile profile)
@@ -53,9 +53,6 @@ public class LabWorkDetailsViewModel : IMapWith<Domain.LabWork>
             ).ForMember(
                 labWorkVm => labWorkVm.EditDate,
                 opt => opt.MapFrom(labWork => labWork.EditDate)
-            ).ForMember(
-                labWorkVm => labWorkVm.SubmittedLabs,
-                opt => opt.MapFrom(labWork => labWork.SubmittedLabs)
             );
     }
 }

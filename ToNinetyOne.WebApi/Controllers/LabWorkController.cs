@@ -7,6 +7,7 @@ using ToNinetyOne.Application.Operations.Commands.LabWork.DeleteLabWork;
 using ToNinetyOne.Application.Operations.Commands.LabWork.UpdateLabWork;
 using ToNinetyOne.Application.Operations.Commands.SubmittedLab.CreateSubmittedLab;
 using ToNinetyOne.Application.Operations.Commands.SubmittedLab.DeleteSubmittedLab;
+using ToNinetyOne.Application.Operations.Commands.SubmittedLab.MarkSubmittedLab;
 using ToNinetyOne.Application.Operations.Commands.SubmittedLab.UpdateSubmittedLab;
 using ToNinetyOne.Application.Operations.Queries.LabWork.GetLabWorkDetails;
 using ToNinetyOne.Application.Operations.Queries.LabWork.GetLabWorkList;
@@ -230,6 +231,43 @@ public class LabWorkController : BaseController
         command.Id = id;
         command.UserId = UserId;
         command.UserRole = UserRole;
+        await Mediator.Send(command);
+        return NoContent();
+    }
+
+    /// <summary>
+    ///     Updates the submitted lab
+    /// </summary>
+    /// <remarks>
+    ///     Sample request:
+    ///     PUT /api/labwork/3fa85f64-5717-4562-b3fc-2c963f66afa6
+    ///     {
+    ///     "id": "3fa85f64-5717-4562-b3fc-2c963f66afa6",
+    ///     "title": "string",
+    ///     "details": "string",
+    ///     "filePath": "string",
+    ///     }
+    /// </remarks>
+    /// <param name="id"></param>
+    /// <param name="subId"></param>
+    /// <param name="markSubmittedLabDto">MarkSubmittedLabDto object</param>
+    /// <returns>none</returns>
+    /// <response code="204">Success</response>
+    /// <responce code="401">If user not auth</responce>
+    [Authorize(Roles = $"{Roles.Administrator}, {Roles.Teacher}")]
+    [HttpPut("{id}/{subId}")]
+    [ProducesResponseType(StatusCodes.Status204NoContent)]
+    [ProducesResponseType(StatusCodes.Status401Unauthorized)]
+    public async Task<ActionResult> Update(Guid id, Guid subId, [FromBody] MarkSubmittedLabDto markSubmittedLabDto)
+    {
+        Console.WriteLine(JsonSerializer.Serialize(markSubmittedLabDto));
+        var command = _mapper.Map<MarkSubmittedLabCommand>(markSubmittedLabDto);
+        command.Id = id;
+        command.SubId = subId;
+        command.UserId = UserId;
+        command.UserRole = UserRole;
+        Console.WriteLine(JsonSerializer.Serialize(command));
+
         await Mediator.Send(command);
         return NoContent();
     }
