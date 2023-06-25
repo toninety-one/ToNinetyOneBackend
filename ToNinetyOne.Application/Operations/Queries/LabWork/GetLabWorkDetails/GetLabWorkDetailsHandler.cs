@@ -1,3 +1,4 @@
+using System.Text.Json;
 using AutoMapper;
 using AutoMapper.QueryableExtensions;
 using MediatR;
@@ -52,8 +53,8 @@ public class GetLabWorkDetailsHandler : IRequestHandler<GetLabWorkDetailsQuery, 
             view.SubmittedLabs = _dbContext.SubmittedLabs
                 .Include(s => s.SelfUser)
                 .Include(s => s.SelfLabWork)
-                .Where(s => s.SelfUser.Id == request.UserId || s.SelfLabWork.SelfDiscipline.UserId == user.Id ||
-                            request.UserRole == Roles.Administrator)
+                .Where(s => (s.SelfUser.Id == request.UserId || s.SelfLabWork.SelfDiscipline.UserId == user.Id ||
+                             request.UserRole == Roles.Administrator)&& s.SelfLabWork.Id == request.Id)
                 .AsQueryable()
                 .ProjectTo<SubmittedLabDetailsLookupDto>(_mapper.ConfigurationProvider);
         }

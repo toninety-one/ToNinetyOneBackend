@@ -6,7 +6,7 @@ namespace ToNinetyOne.Application.Operations.Queries.User.GetUserDetails;
 public class SubmittedLabLookupDto : IMapWith<Domain.SubmittedLab>
 {
     public Guid Id { get; set; }
-    public Guid DisciplineId { get; set; }
+    public Guid LabWorkId { get; set; }
     public string Title { get; set; }
     public string Details { get; set; }
     public DateTime CreationDate { get; set; }
@@ -35,8 +35,8 @@ public class SubmittedLabLookupDto : IMapWith<Domain.SubmittedLab>
                 dto => dto.Title,
                 opt => opt.MapFrom(obj => obj.Title)
             ).ForMember(
-                dto => dto.DisciplineId,
-                opt => opt.MapFrom(obj => obj.SelfLabWork.SelfDiscipline.Id)
+                dto => dto.LabWorkId,
+                opt => opt.MapFrom(obj => obj.SelfLabWork.Id)
             );
     }
 }
