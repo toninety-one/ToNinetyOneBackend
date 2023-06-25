@@ -1,4 +1,5 @@
 using AutoMapper;
+using AutoMapper.QueryableExtensions;
 using MediatR;
 using Microsoft.EntityFrameworkCore;
 using ToNinetyOne.Application.Interfaces;
@@ -34,10 +35,12 @@ public class GetUserDetailsQueryHandler : IRequestHandler<GetUserDetailsQuery, U
             // TODO: test this and if it doesnt work,
             // remove the user from the submitted lab    
             // .Include(s => s.SelfUser)
+            .Include(s=>s.SelfLabWork.SelfDiscipline)
             .Where(s => s.SelfUser.Id == user.Id)
             .Take(10);
 
-        viewModel.LastSubmittedLabs = submittedLabs;
+        viewModel.LastSubmittedLabs =
+            submittedLabs.AsQueryable().ProjectTo<SubmittedLabLookupDto>(_mapper.ConfigurationProvider);
 
         return viewModel;
     }

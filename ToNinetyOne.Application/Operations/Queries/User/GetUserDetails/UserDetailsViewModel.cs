@@ -12,7 +12,7 @@ public class UserDetailsViewModel : IMapWith<Domain.User>
     public string MiddleName { get; set; }
     public string UserRole { get; set; }
     public Domain.Group UserGroup { get; set; }
-    public IEnumerable<Domain.SubmittedLab> LastSubmittedLabs { get; set; }
+    public IEnumerable<SubmittedLabLookupDto> LastSubmittedLabs { get; set; }
 
     public void Mapping(Profile profile)
     {
