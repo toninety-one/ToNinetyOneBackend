@@ -20,7 +20,7 @@ using ToNinetyOne.IdentityDomain;
 namespace ToNinetyOne.WebApi.Controllers;
 
 /// <inheritdoc />
-[AllowAnonymous]
+[Authorize]
 [ApiController]
 public class IdentityController : BaseController
 {
@@ -72,6 +72,7 @@ public class IdentityController : BaseController
     /// <returns>Returns jwt and refresh tokens</returns>
     /// <response code="200">Success token refreshed</response>
     /// <response code="401">If user not auth</response>
+    [AllowAnonymous]
     [Route("[action]")]
     [HttpPost]
     [ProducesResponseType(StatusCodes.Status200OK)]
@@ -127,6 +128,7 @@ public class IdentityController : BaseController
     /// <returns>Returns jwt and refresh tokens</returns>
     /// <response code="200">Success token refreshed</response>
     /// <response code="401">If user not auth</response>
+    [AllowAnonymous]
     [HttpPost]
     [Route("[action]")]
     [ProducesResponseType(StatusCodes.Status200OK)]
