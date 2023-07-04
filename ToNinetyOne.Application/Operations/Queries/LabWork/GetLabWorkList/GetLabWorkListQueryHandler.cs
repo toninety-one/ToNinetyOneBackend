@@ -49,7 +49,9 @@ public class GetLabWorkListQueryHandler : IRequestHandler<GetLabWorkListQuery, L
         {
             var submitted = await _dbContext.SubmittedLabs
                 .Include(l => l.SelfLabWork)
-                .FirstOrDefaultAsync(l => l.SelfLabWork.Id == query.Id, cancellationToken);
+                .Include(l => l.SelfUser)
+                .FirstOrDefaultAsync(l => l.SelfLabWork.Id == query.Id && l.SelfUser.Id == request.UserId,
+                    cancellationToken);
 
             query.Mark = submitted?.Mark;
         }

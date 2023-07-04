@@ -159,13 +159,13 @@ using (var scope = app.Services.CreateScope())
 
     try
     {
-        var context = serviceProvider.GetService<ToNinetyOneDbContext>();
-
-        DbInitializer.Initialize(context ?? throw new NullReferenceException(nameof(context)));
-
         var userContext = serviceProvider.GetService<ToNinetyOneUserDbContext>();
 
-        UserDbInitializer.Initialize(userContext ?? throw new NullReferenceException(nameof(userContext)));
+        var adminId = UserDbInitializer.Initialize(userContext ?? throw new NullReferenceException(nameof(userContext)), authKey);
+        
+        var context = serviceProvider.GetService<ToNinetyOneDbContext>();
+
+        DbInitializer.Initialize(context ?? throw new NullReferenceException(nameof(context)), adminId);
     }
     catch (Exception ex)
     {
