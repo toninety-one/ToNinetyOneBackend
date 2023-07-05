@@ -12,10 +12,10 @@ public static class DependencyInjection
     {
         services.AddDbContext<ToNinetyOneDbContext>(options =>
         {
-            if (isDevelopment)
-                options.UseSqlite(configuration.GetConnectionString("SqliteConnectionString"));
-            else
-                options.UseNpgsql(configuration.GetConnectionString("PostgresqlConnectionString"));
+            // if (isDevelopment)
+            options.UseSqlite(configuration.GetConnectionString("SqliteConnectionString"));
+            // else
+            //     options.UseNpgsql(configuration.GetConnectionString("PostgresqlConnectionString"));
         });
 
         services.AddScoped<IToNinetyOneDbContext>(provider => provider.GetService<ToNinetyOneDbContext>() ?? throw new

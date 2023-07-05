@@ -109,8 +109,8 @@ builder.Services.AddSwaggerGen(option =>
 
 var app = builder.Build();
 
-if (app.Environment.IsDevelopment())
-{
+// if (app.Environment.IsDevelopment())
+// {
     app.UseSwagger();
 
     app.UseSwaggerUI(config =>
@@ -119,7 +119,7 @@ if (app.Environment.IsDevelopment())
         config.DocumentTitle = "ToNinetyOne Web Api";
         config.SwaggerEndpoint("swagger/v1/swagger.json", "ToNinetyOne API");
     });
-}
+// }
 
 app.UseCustomExceptionHandler();
 
@@ -144,8 +144,7 @@ app.UseAuthentication();
 app.UseAuthorization();
 
 app.UseCors(b => b
-    .WithOrigins("http://localhost:3000")
-    .WithOrigins("http://192.168.100.116::3000")
+    .WithOrigins("http://localhost:80")
     .AllowAnyMethod()
     .AllowAnyHeader()
     .AllowCredentials()
